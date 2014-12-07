@@ -3,7 +3,7 @@ require 'octokit'
 
 module Github
   module Nippou
-    def list
+    def self.list
       client = Octokit::Client.new(login: 'kitak', access_token: 'githubの/settings/applicationsで発行したトークン')
       events = client.user_events('kitak')
 
