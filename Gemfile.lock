@@ -38,4 +38,4 @@ DEPENDENCIES
   bundler (~> 1.7)
   github-nippou!
   rake (~> 10.0)
-  rspec
+  rspec (~> 3.1)
