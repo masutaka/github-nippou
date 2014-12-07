@@ -14,20 +14,27 @@ module Github
         break unless _.created_at.getlocal.to_date == Time.now.to_date
         case _.type
         when "IssuesEvent"
-          url_to_detail[_.payload.issue.html_url] ||= {title: _.payload.issue.title, comments: []}
+          title = _.payload.issue.title.gsub('`', '\\\`')
+          repo_basename = _.repo.name.sub('feedforce/', '')
+          merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
+          url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.issue.user.login, merged: merged}
         when "IssueCommentEvent"
-          url_to_detail[_.payload.issue.html_url] ||= {title: _.payload.issue.title, comments: []}
-          url_to_detail[_.payload.issue.html_url][:comments] << _.payload.comment.html_url
+          title = _.payload.issue.title.gsub('`', '\\\`')
+          repo_basename = _.repo.name.sub('feedforce/', '')
+          merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
+          url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.issue.user.login, merged: merged}
         when "PullRequestEvent"
-          url_to_detail[_.payload.pull_request.html_url] ||= {title: _.payload.pull_request.title, comments: []}
+          title = _.payload.pull_request.title.gsub('`', '\\\`')
+          repo_basename = _.repo.name.sub('feedforce/', '')
+          merged = client.pull_merged?(_.repo.name, _.payload.pull_request.number)
+          url_to_detail[_.payload.pull_request.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.pull_request.user.login, merged: merged}
         end
       end
 
       url_to_detail.each do |url, detail|
-        puts "- #{detail[:title]} #{url}"
-        detail[:comments].reverse.each do |comment|
-          puts "  * #{comment}"
-        end
+        line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
+        line << ' **merged!**' if detail[:merged]
+        puts line
       end
     end
 
