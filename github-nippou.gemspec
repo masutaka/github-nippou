@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Github::Nippou::VERSION
   spec.authors       = ['Takashi Masuda']
   spec.email         = ['masutaka.net@gmail.com']
-  spec.summary       = %q{Outputs today's your GitHub action.}
+  spec.summary       = %q{Print today's your GitHub action.}
   spec.description   = <<-EOS
     This is a helpful tool when you write a daily report in reference to
     GitHub. nippou is a japanese word which means a daily report.
