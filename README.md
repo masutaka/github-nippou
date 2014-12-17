@@ -1,4 +1,4 @@
-# Github::Nippou
+# Github::Nippou [![Gem Version](https://badge.fury.io/rb/github-nippou.svg)](http://badge.fury.io/rb/github-nippou)
 
 Outputs today's your GitHub action.
 
