@@ -1,4 +1,4 @@
-require "github/nippou/version"
+require 'github/nippou/version'
 require 'octokit'
 
 module Github
@@ -13,12 +13,12 @@ module Github
       events.each do |_|
         break unless _.created_at.getlocal.to_date == Time.now.to_date
         case _.type
-        when "IssuesEvent", "IssueCommentEvent"
+        when 'IssuesEvent', 'IssueCommentEvent'
           title = _.payload.issue.title.gsub('`', '\\\`')
           repo_basename = _.repo.name.sub('feedforce/', '')
           merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
           url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.issue.user.login, merged: merged}
-        when "PullRequestEvent", "PullRequestReviewCommentEvent"
+        when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
           title = _.payload.pull_request.title.gsub('`', '\\\`')
           repo_basename = _.repo.name.sub('feedforce/', '')
           merged = client.pull_merged?(_.repo.name, _.payload.pull_request.number)
