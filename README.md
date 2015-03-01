@@ -1,4 +1,4 @@
-# Github::Nippou [![Gem Version](https://badge.fury.io/rb/github-nippou.svg)](http://badge.fury.io/rb/github-nippou)
+# Github::Nippou [![Gem Version][gem-badge]][gem-link]
 
 Print today's your GitHub action.
 
@@ -37,3 +37,6 @@ Or install it yourself as:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+[gem-badge]: https://badge.fury.io/rb/github-nippou.svg
+[gem-link]: http://badge.fury.io/rb/github-nippou
