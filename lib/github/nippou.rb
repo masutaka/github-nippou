@@ -15,14 +15,12 @@ module Github
         case _.type
         when 'IssuesEvent', 'IssueCommentEvent'
           title = _.payload.issue.title.gsub('`', '\\\`')
-          repo_basename = _.repo.name.sub('feedforce/', '')
           merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
-          url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.issue.user.login, merged: merged}
+          url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.issue.user.login, merged: merged}
         when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
           title = _.payload.pull_request.title.gsub('`', '\\\`')
-          repo_basename = _.repo.name.sub('feedforce/', '')
           merged = client.pull_merged?(_.repo.name, _.payload.pull_request.number)
-          url_to_detail[_.payload.pull_request.html_url] ||= {title: title, repo_basename: repo_basename, username: _.payload.pull_request.user.login, merged: merged}
+          url_to_detail[_.payload.pull_request.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.pull_request.user.login, merged: merged}
         end
       end
 
