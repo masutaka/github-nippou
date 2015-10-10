@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    github-nippou (1.0.1)
+    github-nippou (1.0.2)
       octokit (~> 3.7)
 
 GEM
