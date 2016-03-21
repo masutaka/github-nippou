@@ -10,17 +10,17 @@ module Github
 
         url_to_detail = {}
 
-        events.each do |_|
-          break unless _.created_at.getlocal.to_date == Time.now.to_date
-          case _.type
+        events.each do |e|
+          break unless e.created_at.getlocal.to_date == Time.now.to_date
+          case e.type
           when 'IssuesEvent', 'IssueCommentEvent'
-            title = _.payload.issue.title.gsub('`', '\\\`')
-            merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
-            url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.issue.user.login, merged: merged}
+            title = e.payload.issue.title.gsub('`', '\\\`')
+            merged = client.pull_merged?(e.repo.name, e.payload.issue.number)
+            url_to_detail[e.payload.issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: e.payload.issue.user.login, merged: merged}
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-            title = _.payload.pull_request.title.gsub('`', '\\\`')
-            merged = client.pull_merged?(_.repo.name, _.payload.pull_request.number)
-            url_to_detail[_.payload.pull_request.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.pull_request.user.login, merged: merged}
+            title = e.payload.pull_request.title.gsub('`', '\\\`')
+            merged = client.pull_merged?(e.repo.name, e.payload.pull_request.number)
+            url_to_detail[e.payload.pull_request.html_url] ||= {title: title, repo_basename: e.repo.name, username: e.payload.pull_request.user.login, merged: merged}
           end
         end
 
