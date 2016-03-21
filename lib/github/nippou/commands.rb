@@ -15,21 +15,6 @@ module Github
         using StringExMarkdown
 
         def list
-          nippous = {}
-          now = Time.now
-
-          client.user_events(user).each do |event|
-            break unless event.created_at.getlocal.to_date == now.to_date
-            case event.type
-            when 'IssuesEvent', 'IssueCommentEvent'
-              issue = event.payload.issue
-              nippous[issue.html_url] ||= hash_for_issue(event.repo, issue)
-            when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-              pr = event.payload.pull_request
-              nippous[pr.html_url] ||= hash_for_pr(event.repo, pr)
-            end
-          end
-
           nippous.each do |url, detail|
             line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
             line << ' **merged!**' if detail[:merged]
@@ -38,6 +23,25 @@ module Github
         end
 
         private
+
+        def nippous
+          result = {}
+          now = Time.now
+
+          client.user_events(user).each do |event|
+            break unless event.created_at.getlocal.to_date == now.to_date
+            case event.type
+            when 'IssuesEvent', 'IssueCommentEvent'
+              issue = event.payload.issue
+              result[issue.html_url] ||= hash_for_issue(event.repo, issue)
+            when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
+              pr = event.payload.pull_request
+              result[pr.html_url] ||= hash_for_pr(event.repo, pr)
+            end
+          end
+
+          result
+        end
 
         def client
           @client ||= Octokit::Client.new(login: user, access_token: access_token)
