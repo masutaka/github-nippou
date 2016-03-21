@@ -17,6 +17,7 @@ module Github
       default_task :list
 
       desc 'list', "[default] Print Today's GitHub events for Nippou"
+      option :all, type: :boolean, aliases: :a, desc: 'Print all events that can retrieve from GitHub'
       def list
         nippous.each do |url, detail|
           line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
@@ -32,7 +33,8 @@ module Github
         now = Time.now
 
         client.user_events(user).each do |event|
-          break unless event.created_at.getlocal.to_date == now.to_date
+          break if skip?(event, now)
+
           case event.type
           when 'IssuesEvent', 'IssueCommentEvent'
             issue = event.payload.issue
@@ -44,6 +46,14 @@ module Github
         end
 
         result
+      end
+
+      def skip?(event, now)
+        if options[:all]
+          false
+        else
+          event.created_at.getlocal.to_date != now.to_date
+        end
       end
 
       def client
