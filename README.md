@@ -1,9 +1,9 @@
 # Github::Nippou [![Gem Version][gem-badge]][gem-link]
 
-Print today's your GitHub action.
+Displays today's your GitHub action.
 
 This is a helpful tool when you write a daily report in reference to
-GitHub. nippou is a japanese word which means a daily report.
+GitHub. Nippou is a japanese word which means a daily report.
 
 ## Installation
 
@@ -28,7 +28,17 @@ Or install it yourself as:
 
 ## Usage
 
-    $ github-nippou
+```
+$ github-nippou help
+Commands:
+  github-nippou help [COMMAND]  # Describe available commands or one specific command
+  github-nippou list            # Displays today's GitHub events formatted for Nippou
+
+Options:
+  a, [--all], [--no-all]  # Displays all events that can retrieve from GitHub
+```
+
+You can omit the sub command `list`.
 
 ## Contributing
 

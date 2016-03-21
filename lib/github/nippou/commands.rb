@@ -17,7 +17,7 @@ module Github
       default_task :list
       class_option :all, type: :boolean, aliases: :a, desc: 'Displays all events that can retrieve from GitHub'
 
-      desc 'list', "[default] Print Today's GitHub events for Nippou"
+      desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
         nippous.each do |url, detail|
           line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
