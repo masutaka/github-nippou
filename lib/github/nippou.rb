@@ -34,7 +34,7 @@ module Github
       private
 
       def user
-        case
+        @user ||= case
         when ENV['GITHUB_NIPPOU_USER']
           ENV['GITHUB_NIPPOU_USER']
         when !`git config github-nippou.user`.chomp.empty?
@@ -51,7 +51,7 @@ MESSAGE
       end
 
       def access_token
-        case
+        @access_token ||= case
         when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
           ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
         when !`git config github-nippou.token`.chomp.empty?
