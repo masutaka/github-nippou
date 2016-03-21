@@ -1,9 +1,19 @@
 require 'github/nippou/version'
 require 'octokit'
 
+module StringExMarkdown
+  refine String do
+    def markdown_escape
+      self.gsub('`', '\\\`')
+    end
+  end
+end
+
 module Github
   module Nippou
     class << self
+      using StringExMarkdown
+
       def list
         client = Octokit::Client.new(login: user, access_token: access_token)
         events = client.user_events(user)
@@ -16,12 +26,12 @@ module Github
           case e.type
           when 'IssuesEvent', 'IssueCommentEvent'
             issue = e.payload.issue
-            title = issue.title.gsub('`', '\\\`')
+            title = issue.title.markdown_escape
             merged = client.pull_merged?(e.repo.name, issue.number)
             url_to_detail[issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: issue.user.login, merged: merged}
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
             pr = e.payload.pull_request
-            title = pr.title.gsub('`', '\\\`')
+            title = pr.title.markdown_escape
             merged = client.pull_merged?(e.repo.name, pr.number)
             url_to_detail[pr.html_url] ||= {title: title, repo_basename: e.repo.name, username: pr.user.login, merged: merged}
           end
