@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     github-nippou (1.0.2)
-      octokit (~> 3.7)
+      octokit
       thor
 
 GEM
@@ -24,9 +24,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.7)
+  bundler
   github-nippou!
-  rake (~> 10.0)
+  rake
 
 BUNDLED WITH
    1.11.2
