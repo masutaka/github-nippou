@@ -35,7 +35,9 @@ Commands:
   github-nippou list            # Displays today's GitHub events formatted for Nippou
 
 Options:
-  a, [--all], [--no-all]  # Displays all events that can retrieve from GitHub
+  a, [--all], [--no-all]  # Also displays GitHub events before today
+  n, [--num=N]            # GitHub event numbers that retrieve from GitHub
+                          # Default: 50
 ```
 
 You can omit the sub command `list`.
