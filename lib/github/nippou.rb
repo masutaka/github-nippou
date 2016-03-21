@@ -9,9 +9,10 @@ module Github
         events = client.user_events(user)
 
         url_to_detail = {}
+        now = Time.now
 
         events.each do |e|
-          break unless e.created_at.getlocal.to_date == Time.now.to_date
+          break unless e.created_at.getlocal.to_date == now.to_date
           case e.type
           when 'IssuesEvent', 'IssueCommentEvent'
             title = e.payload.issue.title.gsub('`', '\\\`')
