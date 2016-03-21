@@ -23,14 +23,10 @@ module Github
           case event.type
           when 'IssuesEvent', 'IssueCommentEvent'
             issue = event.payload.issue
-            title = issue.title.markdown_escape
-            merged = client.pull_merged?(event.repo.name, issue.number)
-            nippous[issue.html_url] ||= {title: title, repo_basename: event.repo.name, username: issue.user.login, merged: merged}
+            nippous[issue.html_url] ||= hash_for_issue(event.repo, issue)
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
             pr = event.payload.pull_request
-            title = pr.title.markdown_escape
-            merged = client.pull_merged?(event.repo.name, pr.number)
-            nippous[pr.html_url] ||= {title: title, repo_basename: event.repo.name, username: pr.user.login, merged: merged}
+            nippous[pr.html_url] ||= hash_for_pr(event.repo, pr)
           end
         end
 
@@ -83,6 +79,18 @@ https://github.com/settings/tokens/new
 MESSAGE
           exit!
         end
+      end
+
+      def hash_for_issue(repo, issue)
+        title = issue.title.markdown_escape
+        merged = client.pull_merged?(repo.name, issue.number)
+        {title: title, repo_basename: repo.name, username: issue.user.login, merged: merged}
+      end
+
+      def hash_for_pr(repo, pr)
+        title = pr.title.markdown_escape
+        merged = client.pull_merged?(repo.name, pr.number)
+        {title: title, repo_basename: repo.name, username: pr.user.login, merged: merged}
       end
     end
   end
