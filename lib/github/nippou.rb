@@ -18,7 +18,7 @@ module Github
         client = Octokit::Client.new(login: user, access_token: access_token)
         events = client.user_events(user)
 
-        url_to_detail = {}
+        nippous = {}
         now = Time.now
 
         events.each do |e|
@@ -28,16 +28,16 @@ module Github
             issue = e.payload.issue
             title = issue.title.markdown_escape
             merged = client.pull_merged?(e.repo.name, issue.number)
-            url_to_detail[issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: issue.user.login, merged: merged}
+            nippous[issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: issue.user.login, merged: merged}
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
             pr = e.payload.pull_request
             title = pr.title.markdown_escape
             merged = client.pull_merged?(e.repo.name, pr.number)
-            url_to_detail[pr.html_url] ||= {title: title, repo_basename: e.repo.name, username: pr.user.login, merged: merged}
+            nippous[pr.html_url] ||= {title: title, repo_basename: e.repo.name, username: pr.user.login, merged: merged}
           end
         end
 
-        url_to_detail.each do |url, detail|
+        nippous.each do |url, detail|
           line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
           line << ' **merged!**' if detail[:merged]
           puts line
