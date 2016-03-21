@@ -15,13 +15,15 @@ module Github
           break unless e.created_at.getlocal.to_date == now.to_date
           case e.type
           when 'IssuesEvent', 'IssueCommentEvent'
-            title = e.payload.issue.title.gsub('`', '\\\`')
-            merged = client.pull_merged?(e.repo.name, e.payload.issue.number)
-            url_to_detail[e.payload.issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: e.payload.issue.user.login, merged: merged}
+            issue = e.payload.issue
+            title = issue.title.gsub('`', '\\\`')
+            merged = client.pull_merged?(e.repo.name, issue.number)
+            url_to_detail[issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: issue.user.login, merged: merged}
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-            title = e.payload.pull_request.title.gsub('`', '\\\`')
-            merged = client.pull_merged?(e.repo.name, e.payload.pull_request.number)
-            url_to_detail[e.payload.pull_request.html_url] ||= {title: title, repo_basename: e.repo.name, username: e.payload.pull_request.user.login, merged: merged}
+            pr = e.payload.pull_request
+            title = pr.title.gsub('`', '\\\`')
+            merged = client.pull_merged?(e.repo.name, pr.number)
+            url_to_detail[pr.html_url] ||= {title: title, repo_basename: e.repo.name, username: pr.user.login, merged: merged}
           end
         end
 
