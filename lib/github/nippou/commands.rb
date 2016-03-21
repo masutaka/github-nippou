@@ -15,7 +15,7 @@ module Github
       using StringExMarkdown
 
       default_task :list
-      class_option :all, type: :boolean, aliases: :a, desc: 'Displays all events that can retrieve from GitHub'
+      class_option :all, type: :boolean, aliases: :a, desc: 'Also displays GitHub events before today'
       class_option :num, type: :numeric, default: 50, aliases: :n, desc: 'GitHub event numbers that retrieve from GitHub'
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
