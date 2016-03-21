@@ -4,7 +4,7 @@ require 'octokit'
 module StringExMarkdown
   refine String do
     def markdown_escape
-      self.gsub('`', '\\\`')
+      self.gsub('`', '\\\`').gsub('<', '\\\<').gsub('>', '\\\>')
     end
   end
 end
