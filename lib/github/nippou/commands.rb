@@ -16,6 +16,7 @@ module Github
 
       default_task :list
       class_option :all, type: :boolean, aliases: :a, desc: 'Displays all events that can retrieve from GitHub'
+      class_option :num, type: :numeric, default: 50, aliases: :n, desc: 'GitHub event numbers that retrieve from GitHub'
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
@@ -32,7 +33,7 @@ module Github
         result = {}
         now = Time.now
 
-        client.user_events(user).each do |event|
+        client.user_events(user, per_page: options[:num]).each do |event|
           break if skip?(event, now)
 
           case event.type
