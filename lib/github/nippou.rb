@@ -15,13 +15,10 @@ module Github
       using StringExMarkdown
 
       def list
-        client = Octokit::Client.new(login: user, access_token: access_token)
-        events = client.user_events(user)
-
         nippous = {}
         now = Time.now
 
-        events.each do |e|
+        client.user_events(user).each do |e|
           break unless e.created_at.getlocal.to_date == now.to_date
           case e.type
           when 'IssuesEvent', 'IssueCommentEvent'
@@ -45,6 +42,10 @@ module Github
       end
 
       private
+
+      def client
+        @client ||= Octokit::Client.new(login: user, access_token: access_token)
+      end
 
       def user
         @user ||= case
