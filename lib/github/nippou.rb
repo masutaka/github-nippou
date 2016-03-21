@@ -18,19 +18,19 @@ module Github
         nippous = {}
         now = Time.now
 
-        client.user_events(user).each do |e|
-          break unless e.created_at.getlocal.to_date == now.to_date
-          case e.type
+        client.user_events(user).each do |event|
+          break unless event.created_at.getlocal.to_date == now.to_date
+          case event.type
           when 'IssuesEvent', 'IssueCommentEvent'
-            issue = e.payload.issue
+            issue = event.payload.issue
             title = issue.title.markdown_escape
-            merged = client.pull_merged?(e.repo.name, issue.number)
-            nippous[issue.html_url] ||= {title: title, repo_basename: e.repo.name, username: issue.user.login, merged: merged}
+            merged = client.pull_merged?(event.repo.name, issue.number)
+            nippous[issue.html_url] ||= {title: title, repo_basename: event.repo.name, username: issue.user.login, merged: merged}
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-            pr = e.payload.pull_request
+            pr = event.payload.pull_request
             title = pr.title.markdown_escape
-            merged = client.pull_merged?(e.repo.name, pr.number)
-            nippous[pr.html_url] ||= {title: title, repo_basename: e.repo.name, username: pr.user.login, merged: merged}
+            merged = client.pull_merged?(event.repo.name, pr.number)
+            nippous[pr.html_url] ||= {title: title, repo_basename: event.repo.name, username: pr.user.login, merged: merged}
           end
         end
 
