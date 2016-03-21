@@ -2,4 +2,4 @@
 
 require 'github/nippou'
 
-Github::Nippou.list
+Github::Nippou::Commands.list
