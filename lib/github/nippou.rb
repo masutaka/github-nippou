@@ -1,63 +1,73 @@
 require 'github/nippou/version'
 require 'octokit'
 
+module StringExMarkdown
+  refine String do
+    def markdown_escape
+      self.gsub('`', '\\\`')
+    end
+  end
+end
+
 module Github
   module Nippou
-    def self.list
-      user = self.user
-      client = Octokit::Client.new(login: user, access_token: self.access_token)
-      events = client.user_events(user)
+    class << self
+      using StringExMarkdown
 
-      url_to_detail = {}
+      def list
+        nippous = {}
+        now = Time.now
 
-      events.each do |_|
-        break unless _.created_at.getlocal.to_date == Time.now.to_date
-        case _.type
-        when 'IssuesEvent', 'IssueCommentEvent'
-          title = _.payload.issue.title.gsub('`', '\\\`')
-          merged = client.pull_merged?(_.repo.name, _.payload.issue.number)
-          url_to_detail[_.payload.issue.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.issue.user.login, merged: merged}
-        when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-          title = _.payload.pull_request.title.gsub('`', '\\\`')
-          merged = client.pull_merged?(_.repo.name, _.payload.pull_request.number)
-          url_to_detail[_.payload.pull_request.html_url] ||= {title: title, repo_basename: _.repo.name, username: _.payload.pull_request.user.login, merged: merged}
+        client.user_events(user).each do |event|
+          break unless event.created_at.getlocal.to_date == now.to_date
+          case event.type
+          when 'IssuesEvent', 'IssueCommentEvent'
+            issue = event.payload.issue
+            nippous[issue.html_url] ||= hash_for_issue(event.repo, issue)
+          when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
+            pr = event.payload.pull_request
+            nippous[pr.html_url] ||= hash_for_pr(event.repo, pr)
+          end
+        end
+
+        nippous.each do |url, detail|
+          line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
+          line << ' **merged!**' if detail[:merged]
+          puts line
         end
       end
 
-      url_to_detail.each do |url, detail|
-        line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
-        line << ' **merged!**' if detail[:merged]
-        puts line
+      private
+
+      def client
+        @client ||= Octokit::Client.new(login: user, access_token: access_token)
       end
-    end
 
-    private
-
-    def self.user
-      case
-      when ENV['GITHUB_NIPPOU_USER']
-        ENV['GITHUB_NIPPOU_USER']
-      when !`git config github-nippou.user`.chomp.empty?
-        `git config github-nippou.user`.chomp
-      else
-        puts <<MESSAGE
+      def user
+        @user ||= case
+        when ENV['GITHUB_NIPPOU_USER']
+          ENV['GITHUB_NIPPOU_USER']
+        when !`git config github-nippou.user`.chomp.empty?
+          `git config github-nippou.user`.chomp
+        else
+          puts <<MESSAGE
 ** User required.
 
 Please set github-nippou.user to your .gitconfig.
     $ git config --global github-nippou.user [Your GitHub account]
 MESSAGE
-        exit!
+          exit!
+        end
       end
-    end
 
-    def self.access_token
-      case
-      when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
-        ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
-      when !`git config github-nippou.token`.chomp.empty?
-        `git config github-nippou.token`.chomp
-      else
-        puts <<MESSAGE
+      def access_token
+        @access_token ||= case
+        when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+          ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+        when !`git config github-nippou.token`.chomp.empty?
+          `git config github-nippou.token`.chomp
+        else
+          puts <<MESSAGE
 ** Authorization required.
 
 Please set github-nippou.token to your .gitconfig.
@@ -67,7 +77,20 @@ To get new token, visit
 https://github.com/settings/tokens/new
 
 MESSAGE
-        exit!
+          exit!
+        end
+      end
+
+      def hash_for_issue(repo, issue)
+        title = issue.title.markdown_escape
+        merged = client.pull_merged?(repo.name, issue.number)
+        {title: title, repo_basename: repo.name, username: issue.user.login, merged: merged}
+      end
+
+      def hash_for_pr(repo, pr)
+        title = pr.title.markdown_escape
+        merged = client.pull_merged?(repo.name, pr.number)
+        {title: title, repo_basename: repo.name, username: pr.user.login, merged: merged}
       end
     end
   end
