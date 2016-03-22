@@ -1,4 +1,3 @@
-require 'octokit'
 require 'thor'
 
 module StringExMarkdown
@@ -15,8 +14,9 @@ module Github
       using StringExMarkdown
 
       default_task :list
-      class_option :all, type: :boolean, aliases: :a, desc: 'Also displays GitHub events before today'
-      class_option :num, type: :numeric, default: 50, aliases: :n, desc: 'GitHub event numbers that retrieve from GitHub'
+      class_option :since_date, type: :string,
+                   default: Time.now.strftime('%Y%m%d'),
+                   aliases: :s, desc: 'Retrieves GitHub user_events since the date'
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
@@ -35,30 +35,25 @@ module Github
 
       def nippous
         result = {}
-        now = Time.now
 
-        client.user_events(user, per_page: options[:num]).each do |event|
-          break if skip?(event, now)
-
-          case event.type
+        user_events.each do |user_event|
+          case user_event.type
           when 'IssuesEvent', 'IssueCommentEvent'
-            issue = event.payload.issue
-            result[issue.html_url] ||= hash_for_issue(event.repo, issue)
+            issue = user_event.payload.issue
+            result[issue.html_url] ||= hash_for_issue(user_event.repo, issue)
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-            pr = event.payload.pull_request
-            result[pr.html_url] ||= hash_for_pr(event.repo, pr)
+            pr = user_event.payload.pull_request
+            result[pr.html_url] ||= hash_for_pr(user_event.repo, pr)
           end
         end
 
         result.sort
       end
 
-      def skip?(event, now)
-        if options[:all]
-          false
-        else
-          event.created_at.getlocal.to_date != now.to_date
-        end
+      def user_events
+        @user_events ||= UserEvents.new(
+          client, user, options[:since_date]
+        ).retrieve
       end
 
       def client
