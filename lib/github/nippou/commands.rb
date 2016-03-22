@@ -22,7 +22,11 @@ module Github
       def list
         nippous.each do |url, detail|
           line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
-          line << ' **merged!**' if detail[:merged]
+          if detail[:merged]
+            line << ' **merged!**'
+          elsif detail[:state] == 'closed'
+            line << ' **closed!**'
+          end
           puts line
         end
       end
@@ -103,13 +107,15 @@ MESSAGE
       def hash_for_issue(repo, issue)
         title = issue.title.markdown_escape
         merged = client.pull_merged?(repo.name, issue.number)
-        {title: title, repo_basename: repo.name, username: issue.user.login, merged: merged}
+        state = client.issue(repo.name, issue.number).state
+        {title: title, repo_basename: repo.name, username: issue.user.login, merged: merged, state: state}
       end
 
       def hash_for_pr(repo, pr)
         title = pr.title.markdown_escape
         merged = client.pull_merged?(repo.name, pr.number)
-        {title: title, repo_basename: repo.name, username: pr.user.login, merged: merged}
+        state = client.pull_request(repo.name, pr.number).state
+        {title: title, repo_basename: repo.name, username: pr.user.login, merged: merged, state: state}
       end
     end
   end
