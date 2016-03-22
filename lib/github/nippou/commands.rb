@@ -46,7 +46,7 @@ module Github
           end
         end
 
-        result
+        result.sort
       end
 
       def skip?(event, now)
