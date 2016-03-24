@@ -40,10 +40,10 @@ module Github
           case user_event.type
           when 'IssuesEvent', 'IssueCommentEvent'
             issue = user_event.payload.issue
-            result[issue.html_url] ||= hash_for_issue(user_event.repo, issue)
+            result[issue.html_url] ||= hash_for_issue(user_event.repo.name, issue.number)
           when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
             pr = user_event.payload.pull_request
-            result[pr.html_url] ||= hash_for_pr(user_event.repo, pr)
+            result[pr.html_url] ||= hash_for_pr(user_event.repo.name, pr.number)
           end
         end
 
@@ -99,18 +99,28 @@ MESSAGE
           end
       end
 
-      def hash_for_issue(repo, issue)
-        title = issue.title.markdown_escape
-        merged = client.pull_merged?(repo.name, issue.number)
-        state = client.issue(repo.name, issue.number).state
-        {title: title, repo_basename: repo.name, username: issue.user.login, merged: merged, state: state}
+      def hash_for_issue(repo_name, issue_number)
+        issue = client.issue(repo_name, issue_number)
+
+        {
+          title: issue.title.markdown_escape,
+          repo_basename: repo_name,
+          username: issue.user.login,
+          merged: client.pull_merged?(repo_name, issue.number),
+          state: issue.state,
+        }
       end
 
-      def hash_for_pr(repo, pr)
-        title = pr.title.markdown_escape
-        merged = client.pull_merged?(repo.name, pr.number)
-        state = client.pull_request(repo.name, pr.number).state
-        {title: title, repo_basename: repo.name, username: pr.user.login, merged: merged, state: state}
+      def hash_for_pr(repo_name, pr_number)
+        pr = client.pull_request(repo_name, pr_number)
+
+        {
+          title: pr.title.markdown_escape,
+          repo_basename: repo_name,
+          username: pr.user.login,
+          merged: client.pull_merged?(repo_name, pr.number),
+          state: pr.state,
+        }
       end
     end
   end
