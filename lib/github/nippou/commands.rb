@@ -106,7 +106,7 @@ MESSAGE
           title: issue.title.markdown_escape,
           repo_basename: repo_name,
           username: issue.user.login,
-          merged: client.pull_merged?(repo_name, issue.number),
+          merged: issue.merged,
           state: issue.state,
         }
       end
@@ -118,7 +118,7 @@ MESSAGE
           title: pr.title.markdown_escape,
           repo_basename: repo_name,
           username: pr.user.login,
-          merged: client.pull_merged?(repo_name, pr.number),
+          merged: pr.merged,
           state: pr.state,
         }
       end

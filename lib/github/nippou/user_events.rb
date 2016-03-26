@@ -11,7 +11,7 @@ module Github
       end
 
       def retrieve
-        user_events = @client.user_events(@user)
+        user_events = @client.user_events(@user, per_page: 100)
         last_response = @client.last_response
 
         while last_response.rels[:next] && in_range?(user_events.last)
