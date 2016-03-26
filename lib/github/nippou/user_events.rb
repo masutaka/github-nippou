@@ -15,7 +15,7 @@ module Github
         user_events = @client.user_events(@user, per_page: 100)
         last_response = @client.last_response
 
-        while last_response.rels[:next] && continue?(user_events.last)
+        while continue?(last_response, user_events)
           last_response = last_response.rels[:next].get
           user_events.concat(last_response.data)
         end
@@ -25,8 +25,9 @@ module Github
 
       private
 
-      def continue?(user_event)
-        user_event.created_at.getlocal >= @since_date
+      def continue?(last_response, user_events)
+        last_response.rels[:next] &&
+          user_events.last.created_at.getlocal >= @since_date
       end
 
       def in_range?(user_event)
