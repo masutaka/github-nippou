@@ -9,6 +9,7 @@ module Github
         @user = user
         @since_date = Time.parse(since_date).beginning_of_day
         @until_date = Time.parse(until_date).end_of_day
+        @range = @since_date..@until_date
       end
 
       def retrieve
@@ -31,7 +32,7 @@ module Github
       end
 
       def in_range?(user_event)
-        (@since_date..@until_date).include?(user_event.created_at.getlocal)
+        @range.include?(user_event.created_at.getlocal)
       end
     end
   end
