@@ -4,17 +4,18 @@ require 'octokit'
 module Github
   module Nippou
     class UserEvents
-      def initialize(client, user, since_date)
+      def initialize(client, user, since_date, until_date)
         @client = client
         @user = user
-        @range = Time.parse(since_date)..Time.now.end_of_day
+        @since_date = Time.parse(since_date).beginning_of_day
+        @until_date = Time.parse(until_date).end_of_day
       end
 
       def retrieve
         user_events = @client.user_events(@user, per_page: 100)
         last_response = @client.last_response
 
-        while last_response.rels[:next] && in_range?(user_events.last)
+        while last_response.rels[:next] && continue?(user_events.last)
           last_response = last_response.rels[:next].get
           user_events.concat(last_response.data)
         end
@@ -24,8 +25,12 @@ module Github
 
       private
 
+      def continue?(user_event)
+        user_event.created_at.getlocal >= @since_date
+      end
+
       def in_range?(user_event)
-        @range.include?(user_event.created_at.getlocal)
+        (@since_date..@until_date).include?(user_event.created_at.getlocal)
       end
     end
   end
