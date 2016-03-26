@@ -34,6 +34,11 @@ module Github
         end
       end
 
+      desc 'version', 'Displays version'
+      def version
+        puts VERSION
+      end
+
       private
 
       def nippous
