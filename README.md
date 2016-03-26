@@ -35,9 +35,22 @@ Commands:
   github-nippou list            # Displays today's GitHub events formatted for Nippou
 
 Options:
-  a, [--all], [--no-all]  # Also displays GitHub events before today
-  n, [--num=N]            # GitHub event numbers that retrieve from GitHub
-                          # Default: 50
+  s, [--since-date=SINCE_DATE]  # Retrieves GitHub user_events since the date
+                                # Default: 20160326
+  u, [--until-date=UNTIL_DATE]  # Retrieves GitHub user_events until the date
+                                # Default: 20160326
+```
+
+You can get your GitHub Nippou on today.
+
+```
+$ github-nippou list
+* [Bundle Update on 2016-03-24 - masutaka/awesome-github-feed](https://github.com/masutaka/awesome-github-feed/pull/38) by deppbot **merged!**
+* [Fix performance - masutaka/github-nippou](https://github.com/masutaka/github-nippou/pull/44) by masutaka **merged!**
+* [Bundle Update on 2016-03-24 - masutaka/masutaka-29hours](https://github.com/masutaka/masutaka-29hours/pull/19) by deppbot **merged!**
+* [Bundle Update on 2016-03-24 - masutaka/masutaka-metrics](https://github.com/masutaka/masutaka-metrics/pull/34) by deppbot **merged!**
+* [bundle update at 2016-03-25 18:32:43 JST - masutaka/masutaka.net](https://github.com/masutaka/masutaka.net/pull/52) by masutaka **merged!**
+* [bundle update at 2016-03-25 10:02:02 UTC - masutaka/server-masutaka.net](https://github.com/masutaka/server-masutaka.net/pull/211) by masutaka **merged!**
 ```
 
 You can omit the sub command `list`.
