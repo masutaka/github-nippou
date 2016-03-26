@@ -17,6 +17,9 @@ module Github
       class_option :since_date, type: :string,
                    default: Time.now.strftime('%Y%m%d'),
                    aliases: :s, desc: 'Retrieves GitHub user_events since the date'
+      class_option :until_date, type: :string,
+                   default: Time.now.strftime('%Y%m%d'),
+                   aliases: :u, desc: 'Retrieves GitHub user_events until the date'
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
@@ -52,7 +55,7 @@ module Github
 
       def user_events
         @user_events ||= UserEvents.new(
-          client, user, options[:since_date]
+          client, user, options[:since_date], options[:until_date]
         ).retrieve
       end
 
