@@ -20,7 +20,6 @@ module Github
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
-$t_before = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
         nippous.each do |url, detail|
           line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
           if detail[:merged]
@@ -28,7 +27,7 @@ $t_before = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
           elsif detail[:state] == 'closed'
             line << ' **closed!**'
           end
-          # puts line
+          puts line
         end
       end
 
@@ -101,9 +100,6 @@ MESSAGE
       end
 
       def hash_for_issue(repo_name, issue_number)
-$t_after = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
-puts "xxx: #{$t_after - $t_before}";
-$t_before = $t_after
         issue = client.issue(repo_name, issue_number)
 
         {
@@ -116,9 +112,6 @@ $t_before = $t_after
       end
 
       def hash_for_pr(repo_name, pr_number)
-$t_after = Time.now.instance_eval { self.to_i * 1000 + (usec/1000) }
-puts "yyy: #{$t_after - $t_before}";
-$t_before = $t_after
         pr = client.pull_request(repo_name, pr_number)
 
         {
