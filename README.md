@@ -33,6 +33,7 @@ $ github-nippou help
 Commands:
   github-nippou help [COMMAND]  # Describe available commands or one specific command
   github-nippou list            # Displays today's GitHub events formatted for Nippou
+  github-nippou version         # Displays version
 
 Options:
   s, [--since-date=SINCE_DATE]  # Retrieves GitHub user_events since the date
