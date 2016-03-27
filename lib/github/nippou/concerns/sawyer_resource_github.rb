@@ -22,8 +22,12 @@ module SawyerResourceGithub
     end
 
     def html_url
-      type = self.issue? ? :issue : :pull_request
-      self.payload.try!(type).html_url
+      case
+      when self.issue?
+        self.payload.issue.html_url
+      when self.pull_request?
+        self.payload.pull_request.html_url
+      end
     end
   end
 end
