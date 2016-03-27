@@ -1,18 +1,10 @@
 require 'thor'
 
-module StringExMarkdown
-  refine String do
-    def markdown_escape
-      self.gsub(/([`<>])/, '\\\\\1')
-    end
-  end
-end
-
 module Github
   module Nippou
     class Commands < Thor
       using SawyerResourceGithub
-      using StringExMarkdown
+      using StringMarkdown
 
       default_task :list
       class_option :since_date, type: :string,
