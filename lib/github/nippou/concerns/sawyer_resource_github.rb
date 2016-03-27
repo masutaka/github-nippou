@@ -11,6 +11,15 @@ module SawyerResourceGithub
       end
     end
 
+    def html_url
+      case
+      when self.issue?
+        self.payload.issue.html_url
+      when self.pull_request?
+        self.payload.pull_request.html_url
+      end
+    end
+
     def issue?
       self.type == 'IssuesEvent' ||
         self.type == 'IssueCommentEvent'
@@ -19,15 +28,6 @@ module SawyerResourceGithub
     def pull_request?
       self.type == 'PullRequestEvent' ||
         self.type == 'PullRequestReviewCommentEvent'
-    end
-
-    def html_url
-      case
-      when self.issue?
-        self.payload.issue.html_url
-      when self.pull_request?
-        self.payload.pull_request.html_url
-      end
     end
   end
 end
