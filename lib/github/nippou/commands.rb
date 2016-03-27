@@ -1,17 +1,10 @@
 require 'thor'
 
-module StringExMarkdown
-  refine String do
-    def markdown_escape
-      self.gsub(/([`<>])/, '\\\\\1')
-    end
-  end
-end
-
 module Github
   module Nippou
     class Commands < Thor
-      using StringExMarkdown
+      using SawyerResourceGithub
+      using StringMarkdown
 
       default_task :list
       class_option :since_date, type: :string,
@@ -23,11 +16,13 @@ module Github
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
-        nippous.each do |url, detail|
-          line = "* [#{detail[:title]} - #{detail[:repo_basename]}](#{url}) by #{detail[:username]}"
-          if detail[:merged]
+        user_events.each do |user_event|
+          issue = user_event.issue(client)
+          line = "* [%s - %s](%s) by %s" %
+                 [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
+          if issue.merged
             line << ' **merged!**'
-          elsif detail[:state] == 'closed'
+          elsif issue.state == 'closed'
             line << ' **closed!**'
           end
           puts line
@@ -41,27 +36,10 @@ module Github
 
       private
 
-      def nippous
-        result = {}
-
-        user_events.each do |user_event|
-          case user_event.type
-          when 'IssuesEvent', 'IssueCommentEvent'
-            issue = user_event.payload.issue
-            result[issue.html_url] ||= hash_for_issue(user_event.repo.name, issue.number)
-          when 'PullRequestEvent', 'PullRequestReviewCommentEvent'
-            pr = user_event.payload.pull_request
-            result[pr.html_url] ||= hash_for_pr(user_event.repo.name, pr.number)
-          end
-        end
-
-        result.sort
-      end
-
       def user_events
         @user_events ||= UserEvents.new(
           client, user, options[:since_date], options[:until_date]
-        ).retrieve
+        ).collect
       end
 
       def client
@@ -105,30 +83,6 @@ https://github.com/settings/tokens/new
 MESSAGE
             exit!
           end
-      end
-
-      def hash_for_issue(repo_name, issue_number)
-        issue = client.issue(repo_name, issue_number)
-
-        {
-          title: issue.title.markdown_escape,
-          repo_basename: repo_name,
-          username: issue.user.login,
-          merged: issue.merged,
-          state: issue.state,
-        }
-      end
-
-      def hash_for_pr(repo_name, pr_number)
-        pr = client.pull_request(repo_name, pr_number)
-
-        {
-          title: pr.title.markdown_escape,
-          repo_basename: repo_name,
-          username: pr.user.login,
-          merged: pr.merged,
-          state: pr.state,
-        }
       end
     end
   end
