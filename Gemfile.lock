@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    github-nippou (2.0.0.beta3)
+    github-nippou (2.0.0.beta4)
       activesupport
       octokit
       thor
