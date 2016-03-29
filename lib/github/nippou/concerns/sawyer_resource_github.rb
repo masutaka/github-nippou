@@ -2,15 +2,6 @@ require 'octokit'
 
 module SawyerResourceGithub
   refine Sawyer::Resource do
-    def issue(client)
-      case
-      when self.issue?
-        client.issue(self.repo.name, self.payload.issue.number)
-      when self.pull_request?
-        client.pull_request(self.repo.name, self.payload.pull_request.number)
-      end
-    end
-
     def html_url
       case
       when self.issue?
