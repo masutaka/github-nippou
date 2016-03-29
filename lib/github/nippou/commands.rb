@@ -16,17 +16,22 @@ module Github
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
-        user_events.each do |user_event|
-          issue = issue(user_event)
-          line = "* [%s - %s](%s) by %s" %
-                 [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
-          if issue.merged
-            line << ' **merged!**'
-          elsif issue.state == 'closed'
-            line << ' **closed!**'
+        lines = []
+        threads = []
+        mutex1 = Mutex::new
+        mutex2 = Mutex::new
+
+        thread_num.times do |i|
+          threads << Thread.start do
+            while user_event = mutex1.synchronize { user_events.pop } do
+              line = format_line(user_event, i)
+              mutex2.synchronize { lines << line }
+            end
           end
-          puts line
         end
+        threads.each(&:join)
+
+        puts sort(lines)
       end
 
       desc 'version', 'Displays version'
@@ -42,11 +47,32 @@ module Github
         ).collect
       end
 
+      def format_line(user_event, i)
+        puts "#{i} : #{user_event.html_url}" if ENV['GITHUB_NIPPOU_DEBUG']
+        issue = issue(user_event)
+        line = "* [%s - %s](%s) by %s" %
+               [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
+
+        if issue.merged
+          line << ' **merged!**'
+        elsif issue.state == 'closed'
+          line << ' **closed!**'
+        end
+
+        line
+      end
+
       def issue(user_event)
         if user_event.issue?
           client.issue(user_event.repo.name, user_event.payload.issue.number)
         else
           client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
+        end
+      end
+
+      def sort(lines)
+        lines.sort do |a, b|
+          a.html_url_as_nippou <=> b.html_url_as_nippou
         end
       end
 
@@ -91,6 +117,18 @@ https://github.com/settings/tokens/new
 MESSAGE
             exit!
           end
+      end
+
+      def thread_num
+        @thread_num ||=
+          case
+          when ENV['GITHUB_NIPPOU_THREAD_NUM']
+            ENV['GITHUB_NIPPOU_THREAD_NUM']
+          when !`git config github-nippou.thread-num`.chomp.empty?
+            `git config github-nippou.thread-num`.chomp
+          else
+            5
+          end.to_i
       end
     end
   end
