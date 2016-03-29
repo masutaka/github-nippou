@@ -15,7 +15,7 @@ module Github
       end
 
       def collect
-        uniq(sort(filter(retrieve)))
+        uniq(filter(retrieve))
       end
 
       private
@@ -44,12 +44,6 @@ module Github
       def filter(user_events)
         user_events.select do |user_event|
           user_event.issue? || user_event.pull_request?
-        end
-      end
-
-      def sort(user_events)
-        user_events.sort do |a, b|
-          a.html_url <=> b.html_url
         end
       end
 
