@@ -17,7 +17,7 @@ module Github
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
         user_events.each do |user_event|
-          issue = user_event.issue(client)
+          issue = issue(user_event)
           line = "* [%s - %s](%s) by %s" %
                  [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
           if issue.merged
@@ -40,6 +40,14 @@ module Github
         @user_events ||= UserEvents.new(
           client, user, options[:since_date], options[:until_date]
         ).collect
+      end
+
+      def issue(user_event)
+        if user_event.issue?
+          client.issue(user_event.repo.name, user_event.payload.issue.number)
+        else
+          client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
+        end
       end
 
       def client
