@@ -29,14 +29,9 @@ module Github
             end
           end
         end
-
         threads.each(&:join)
 
-        lines.sort do |a, b|
-          a.html_url_as_nippou <=> b.html_url_as_nippou
-        end.each do |line|
-          puts line
-        end
+        puts sort(lines)
       end
 
       desc 'version', 'Displays version'
@@ -64,7 +59,7 @@ module Github
           line << ' **closed!**'
         end
 
-        line + "\n"
+        line
       end
 
       def issue(user_event)
@@ -72,6 +67,12 @@ module Github
           client.issue(user_event.repo.name, user_event.payload.issue.number)
         else
           client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
+        end
+      end
+
+      def sort(lines)
+        lines.sort do |a, b|
+          a.html_url_as_nippou <=> b.html_url_as_nippou
         end
       end
 
