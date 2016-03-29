@@ -16,15 +16,35 @@ module Github
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
-        user_events.each do |user_event|
-          issue = issue(user_event)
-          line = "* [%s - %s](%s) by %s" %
-                 [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
-          if issue.merged
-            line << ' **merged!**'
-          elsif issue.state == 'closed'
-            line << ' **closed!**'
+        lines = []
+        thread_num = 5
+        threads = []
+        mutex1 = Mutex::new
+        mutex2 = Mutex::new
+
+        thread_num.times do |i|
+          threads << Thread.start do
+            while user_event = mutex1.synchronize { user_events.pop } do
+              issue = issue(user_event)
+              line = "* [%s - %s](%s) by %s" %
+                     [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
+
+              if issue.merged
+                line << ' **merged!**'
+              elsif issue.state == 'closed'
+                line << ' **closed!**'
+              end
+
+              mutex2.synchronize { lines << line + "\n" }
+            end
           end
+        end
+
+        threads.each(&:join)
+
+        lines.sort do |a, b|
+          a.html_url_as_nippou <=> b.html_url_as_nippou
+        end.each do |line|
           puts line
         end
       end
