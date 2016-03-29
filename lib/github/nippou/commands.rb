@@ -24,17 +24,8 @@ module Github
         thread_num.times do |i|
           threads << Thread.start do
             while user_event = mutex1.synchronize { user_events.pop } do
-              issue = issue(user_event)
-              line = "* [%s - %s](%s) by %s" %
-                     [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
-
-              if issue.merged
-                line << ' **merged!**'
-              elsif issue.state == 'closed'
-                line << ' **closed!**'
-              end
-
-              mutex2.synchronize { lines << line + "\n" }
+              line = format_line(user_event, i)
+              mutex2.synchronize { lines << line }
             end
           end
         end
@@ -59,6 +50,21 @@ module Github
         @user_events ||= UserEvents.new(
           client, user, options[:since_date], options[:until_date]
         ).collect
+      end
+
+      def format_line(user_event, i)
+        puts "#{i} : #{user_event.html_url}" if ENV['GITHUB_NIPPOU_DEBUG']
+        issue = issue(user_event)
+        line = "* [%s - %s](%s) by %s" %
+               [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
+
+        if issue.merged
+          line << ' **merged!**'
+        elsif issue.state == 'closed'
+          line << ' **closed!**'
+        end
+
+        line + "\n"
       end
 
       def issue(user_event)
