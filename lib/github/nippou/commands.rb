@@ -17,7 +17,6 @@ module Github
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
         lines = []
-        thread_num = 5
         threads = []
         mutex1 = Mutex::new
         mutex2 = Mutex::new
@@ -111,6 +110,18 @@ https://github.com/settings/tokens/new
 MESSAGE
             exit!
           end
+      end
+
+      def thread_num
+        @thread_num ||=
+          case
+          when ENV['GITHUB_NIPPOU_THREAD_NUM']
+            ENV['GITHUB_NIPPOU_THREAD_NUM']
+          when !`git config github-nippou.thread-num`.chomp.empty?
+            `git config github-nippou.thread-num`.chomp
+          else
+            5
+          end.to_i
       end
     end
   end
