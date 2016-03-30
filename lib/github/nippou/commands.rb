@@ -1,3 +1,4 @@
+require 'parallel'
 require 'thor'
 
 module Github
@@ -17,19 +18,12 @@ module Github
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
         lines = []
-        threads = []
-        mutex1 = Mutex::new
-        mutex2 = Mutex::new
+        mutex = Mutex::new
 
-        thread_num.times do |i|
-          threads << Thread.start do
-            while user_event = mutex1.synchronize { user_events.pop } do
-              line = format_line(user_event, i)
-              mutex2.synchronize { lines << line }
-            end
-          end
+        Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
+          line = format_line(user_event, i)
+          mutex.synchronize { lines << line }
         end
-        threads.each(&:join)
 
         puts sort(lines)
       end
