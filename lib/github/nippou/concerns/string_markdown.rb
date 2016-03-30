@@ -4,7 +4,7 @@ module StringMarkdown
       self.gsub(/([`<>])/, '\\\\\1')
     end
 
-    def html_url_as_nippou
+    def markdown_html_url
       self =~ /^\* \[.+\]\((.+)\)/
       $1
     end

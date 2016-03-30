@@ -76,7 +76,7 @@ module Github
 
       def sort(lines)
         lines.sort do |a, b|
-          a.html_url_as_nippou <=> b.html_url_as_nippou
+          a.markdown_html_url <=> b.markdown_html_url
         end
       end
 
