@@ -63,10 +63,14 @@ module Github
       end
 
       def issue(user_event)
-        if user_event.issue?
-          client.issue(user_event.repo.name, user_event.payload.issue.number)
-        else
+        case
+        when user_event.payload.pull_request
           client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
+        when user_event.payload.issue.pull_request
+          # a pull_request like an issue
+          client.pull_request(user_event.repo.name, user_event.payload.issue.number)
+        else
+          client.issue(user_event.repo.name, user_event.payload.issue.number)
         end
       end
 
