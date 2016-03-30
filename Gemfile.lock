@@ -4,6 +4,7 @@ PATH
     github-nippou (2.0.0.beta5)
       activesupport
       octokit
+      parallel
       thor
 
 GEM
@@ -24,6 +25,7 @@ GEM
     multipart-post (2.0.0)
     octokit (4.3.0)
       sawyer (~> 0.7.0, >= 0.5.3)
+    parallel (1.8.0)
     rake (11.1.1)
     sawyer (0.7.0)
       addressable (>= 2.3.5, < 2.5)
