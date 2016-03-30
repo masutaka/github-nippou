@@ -42,8 +42,11 @@ module Github
       end
 
       def filter(user_events)
+        elements = %w(IssuesEvent IssueCommentEvent
+                      PullRequestEvent PullRequestReviewCommentEvent)
+
         user_events.select do |user_event|
-          user_event.issue? || user_event.pull_request?
+          elements.include?(user_event.type)
         end
       end
 
