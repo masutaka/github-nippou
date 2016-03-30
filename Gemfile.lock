@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    github-nippou (2.0.0.beta5)
+    github-nippou (2.0.0.beta6)
       activesupport
       octokit
       parallel
