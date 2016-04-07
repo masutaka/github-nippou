@@ -43,7 +43,7 @@ module Github
       end
 
       def format_line(user_event, i)
-        puts "#{i % thread_num} : #{user_event.html_url}" if debug
+        STDERR.puts "#{i % thread_num} : #{user_event.html_url}\n" if debug
         issue = issue(user_event)
         line = "* [%s - %s](%s) by %s" %
                [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
