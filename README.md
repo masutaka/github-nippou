@@ -40,6 +40,7 @@ Options:
                                 # Default: 20160326
   u, [--until-date=UNTIL_DATE]  # Retrieves GitHub user_events until the date
                                 # Default: 20160326
+  d, [--debug], [--no-debug]    # Debug mode
 ```
 
 You can get your GitHub Nippou on today.

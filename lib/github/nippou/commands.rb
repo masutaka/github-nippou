@@ -14,6 +14,7 @@ module Github
       class_option :until_date, type: :string,
                    default: Time.now.strftime('%Y%m%d'),
                    aliases: :u, desc: 'Retrieves GitHub user_events until the date'
+      class_option :debug, type: :boolean, default: false, aliases: :d, desc: 'Debug mode'
 
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
@@ -42,7 +43,7 @@ module Github
       end
 
       def format_line(user_event, i)
-        puts "#{i % thread_num} : #{user_event.html_url}" if ENV['GITHUB_NIPPOU_DEBUG']
+        STDERR.puts "#{i % thread_num} : #{user_event.html_url}\n" if debug
         issue = issue(user_event)
         line = "* [%s - %s](%s) by %s" %
                [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
@@ -127,6 +128,10 @@ MESSAGE
           else
             5
           end.to_i
+      end
+
+      def debug
+        @debug ||= options[:debug]
       end
     end
   end
