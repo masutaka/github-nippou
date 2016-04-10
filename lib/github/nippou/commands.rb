@@ -111,7 +111,7 @@ MESSAGE
 Please set github-nippou.token to your .gitconfig.
     $ git config --global github-nippou.token [Your GitHub access token]
 
-To get new token, visit
+To get new token with `repo` scope, visit
 https://github.com/settings/tokens/new
 MESSAGE
             exit!
