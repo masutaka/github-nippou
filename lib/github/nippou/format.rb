@@ -13,16 +13,42 @@ module Github
       def line(user_event, i)
         STDERR.puts "#{i % @thread_num} : #{user_event.html_url}\n" if @debug
         issue = issue(user_event)
-        line = "* [%s - %s](%s) by %s" %
-               [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
 
-        if issue.merged
-          line << ' **merged!**'
-        elsif issue.state == 'closed'
-          line << ' **closed!**'
-        end
+        line = {
+          title: issue.title,
+          repo_name: user_event.repo.name,
+          url: user_event.html_url,
+          user: issue.user.login,
+        }
+
+        line[:status] =
+          if issue.merged
+            :merged
+          elsif issue.state == 'closed'
+            :closed
+          end
 
         line
+      end
+
+      def all(lines)
+        result = ""
+        prev_repo_name = nil
+        curr_repo_name = nil
+
+        sort(lines).each do |line|
+          current_repo_name = line[:repo_name]
+
+          unless current_repo_name == prev_repo_name
+            prev_repo_name = current_repo_name
+            result << "\n# #{current_repo_name}\n\n"
+          end
+
+          result << "* [%s](%s) by %s%s\n" %
+            [line[:title].markdown_escape, line[:url], line[:user], format_status(line[:status])]
+        end
+
+        result
       end
 
       private
@@ -36,6 +62,21 @@ module Github
           @client.pull_request(user_event.repo.name, user_event.payload.issue.number)
         else
           @client.issue(user_event.repo.name, user_event.payload.issue.number)
+        end
+      end
+
+      def sort(lines)
+        lines.sort { |a, b| a[:url] <=> b[:url] }
+      end
+
+      def format_status(status)
+        case status
+        when :merged
+          ' **merged!**'
+        when :closed
+          ' **closed!**'
+        else
+          ''
         end
       end
     end

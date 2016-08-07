@@ -4,8 +4,6 @@ require 'thor'
 module Github
   module Nippou
     class Commands < Thor
-      using StringMarkdown
-
       default_task :list
       class_option :since_date, type: :string,
                    default: Time.now.strftime('%Y%m%d'),
@@ -26,7 +24,7 @@ module Github
           mutex.synchronize { lines << line }
         end
 
-        puts sort(lines)
+        puts format.all(lines)
       end
 
       desc 'version', 'Displays version'
@@ -40,12 +38,6 @@ module Github
         @user_events ||= UserEvents.new(
           client, user, options[:since_date], options[:until_date]
         ).collect
-      end
-
-      def sort(lines)
-        lines.sort do |a, b|
-          a.markdown_html_url <=> b.markdown_html_url
-        end
       end
 
       def client
