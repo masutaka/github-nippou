@@ -4,9 +4,6 @@ require 'thor'
 module Github
   module Nippou
     class Commands < Thor
-      using SawyerResourceGithub
-      using StringMarkdown
-
       default_task :list
       class_option :since_date, type: :string,
                    default: Time.now.strftime('%Y%m%d'),
@@ -20,13 +17,16 @@ module Github
       def list
         lines = []
         mutex = Mutex::new
+        format = Format.new(client, thread_num, debug)
 
         Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
-          line = format_line(user_event, i)
+          # Contain GitHub access.
+          # So should not put into the mutex block.
+          line = format.line(user_event, i)
           mutex.synchronize { lines << line }
         end
 
-        puts sort(lines)
+        puts format.all(lines)
       end
 
       desc 'version', 'Displays version'
@@ -40,39 +40,6 @@ module Github
         @user_events ||= UserEvents.new(
           client, user, options[:since_date], options[:until_date]
         ).collect
-      end
-
-      def format_line(user_event, i)
-        STDERR.puts "#{i % thread_num} : #{user_event.html_url}\n" if debug
-        issue = issue(user_event)
-        line = "* [%s - %s](%s) by %s" %
-               [issue.title.markdown_escape, user_event.repo.name, user_event.html_url, issue.user.login]
-
-        if issue.merged
-          line << ' **merged!**'
-        elsif issue.state == 'closed'
-          line << ' **closed!**'
-        end
-
-        line
-      end
-
-      def issue(user_event)
-        case
-        when user_event.payload.pull_request
-          client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
-        when user_event.payload.issue.pull_request
-          # a pull_request like an issue
-          client.pull_request(user_event.repo.name, user_event.payload.issue.number)
-        else
-          client.issue(user_event.repo.name, user_event.payload.issue.number)
-        end
-      end
-
-      def sort(lines)
-        lines.sort do |a, b|
-          a.markdown_html_url <=> b.markdown_html_url
-        end
       end
 
       def client
