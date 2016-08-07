@@ -41,7 +41,7 @@ module Github
 
           unless current_repo_name == prev_repo_name
             prev_repo_name = current_repo_name
-            result << "\n# #{current_repo_name}\n\n"
+            result << "\n### #{current_repo_name}\n\n"
           end
 
           result << "* [%s](%s) by %s%s\n" %
