@@ -20,6 +20,8 @@ module Github
         format = Format.new(client, thread_num, debug)
 
         Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
+          # Contain GitHub access.
+          # So should not put into the mutex block.
           line = format.line(user_event, i)
           mutex.synchronize { lines << line }
         end
