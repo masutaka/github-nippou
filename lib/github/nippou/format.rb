@@ -4,10 +4,13 @@ module Github
       using SawyerResourceGithub
       using StringMarkdown
 
+      attr_reader :dictionary
+
       def initialize(client, thread_num, debug)
         @client = client
         @thread_num = thread_num
         @debug = debug
+        @dictionary = YAML.load_file('../config/dictionary.yml')
       end
 
       def line(user_event, i)
@@ -70,14 +73,7 @@ module Github
       end
 
       def format_status(status)
-        case status
-        when :merged
-          ' **merged!**'
-        when :closed
-          ' **closed!**'
-        else
-          ''
-        end
+        dictionary[:dictionary][:status][status]
       end
     end
   end
