@@ -54,12 +54,12 @@ module Github
           when !`git config github-nippou.user`.chomp.empty?
             `git config github-nippou.user`.chomp
           else
-            puts <<MESSAGE
-** User required.
+            puts <<~MESSAGE
+              ** User required.
 
-Please set github-nippou.user to your .gitconfig.
-    $ git config --global github-nippou.user [Your GitHub account]
-MESSAGE
+              Please set github-nippou.user to your .gitconfig.
+                  $ git config --global github-nippou.user [Your GitHub account]
+            MESSAGE
             exit!
           end
       end
@@ -72,15 +72,15 @@ MESSAGE
           when !`git config github-nippou.token`.chomp.empty?
             `git config github-nippou.token`.chomp
           else
-            puts <<MESSAGE
-** Authorization required.
+            puts <<~MESSAGE
+              ** Authorization required.
 
-Please set github-nippou.token to your .gitconfig.
-    $ git config --global github-nippou.token [Your GitHub access token]
+              Please set github-nippou.token to your .gitconfig.
+                  $ git config --global github-nippou.token [Your GitHub access token]
 
-To get new token with `repo` scope, visit
-https://github.com/settings/tokens/new
-MESSAGE
+              To get new token with `repo` scope, visit
+              https://github.com/settings/tokens/new
+            MESSAGE
             exit!
           end
       end
