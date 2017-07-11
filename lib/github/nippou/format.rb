@@ -47,8 +47,7 @@ module Github
             result << "\n### #{current_repo_name}\n\n"
           end
 
-          result << "* [%s](%s) by %s%s\n" %
-            [line[:title].markdown_escape, line[:url], line[:user], format_status(line[:status])]
+          result << "#{format_line(line)}\n"
         end
 
         result
@@ -74,6 +73,16 @@ module Github
 
       def format_status(status)
         dictionary[:dictionary][:status][status]
+      end
+
+      def format_line(line)
+        sprintf(
+          "* [%{title}](%{url}) by %{user} %{status}",
+          title: line[:title].markdown_escape,
+          url: line[:url],
+          user: line[:user],
+          status: format_status(line[:status])
+        ).strip
       end
     end
   end
