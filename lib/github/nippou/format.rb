@@ -76,12 +76,12 @@ module Github
       end
 
       def format_subject(subject)
-        sprintf('### %{subject}', subject: subject)
+        sprintf(dictionary[:format][:subject], subject: subject)
       end
 
       def format_line(line)
         sprintf(
-          "* [%{title}](%{url}) by %{user} %{status}",
+          dictionary[:format][:line],
           title: line[:title].markdown_escape,
           url: line[:url],
           user: line[:user],
