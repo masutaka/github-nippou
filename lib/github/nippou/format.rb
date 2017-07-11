@@ -34,7 +34,7 @@ module Github
       def all(lines)
         result = ""
         prev_repo_name = nil
-        curr_repo_name = nil
+        current_repo_name = nil
 
         sort(lines).each do |line|
           current_repo_name = line[:repo_name]
