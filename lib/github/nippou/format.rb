@@ -44,7 +44,7 @@ module Github
 
           unless current_repo_name == prev_repo_name
             prev_repo_name = current_repo_name
-            result << "\n### #{current_repo_name}\n\n"
+            result << "\n#{format_subject(current_repo_name)}\n\n"
           end
 
           result << "#{format_line(line)}\n"
@@ -73,6 +73,10 @@ module Github
 
       def format_status(status)
         dictionary[:dictionary][:status][status]
+      end
+
+      def format_subject(subject)
+        sprintf('### %{subject}', subject: subject)
       end
 
       def format_line(line)
