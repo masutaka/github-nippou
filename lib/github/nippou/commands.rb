@@ -86,7 +86,15 @@ module Github
       end
 
       def settings
-        @settings ||= YAML.load_file('../config/settings.yml')
+        @settings ||=
+          case
+          when ENV['GITHUB_NIPPOU_SETTINGS']
+            ENV['GITHUB_NIPPOU_SETTINGS']
+          when !`git config github-nippou.settings`.chomp.empty?
+            `git config github-nippou.settings`.chomp
+          else
+            YAML.load_file('../config/settings.yml')
+          end
       end
 
       def thread_num
