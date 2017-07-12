@@ -17,7 +17,7 @@ module Github
       def list
         lines = []
         mutex = Mutex::new
-        format = Format.new(client, thread_num, debug)
+        format = Format.new(client, thread_num, settings, debug)
 
         Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
           # Contain GitHub access.
@@ -83,6 +83,10 @@ module Github
             MESSAGE
             exit!
           end
+      end
+
+      def settings
+        @settings ||= YAML.load_file('../config/settings.yml')
       end
 
       def thread_num

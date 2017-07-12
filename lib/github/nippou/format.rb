@@ -6,11 +6,11 @@ module Github
 
       attr_reader :settings
 
-      def initialize(client, thread_num, debug)
+      def initialize(client, thread_num, settings, debug)
         @client = client
         @thread_num = thread_num
+        @settings = settings
         @debug = debug
-        @settings = YAML.load_file('../config/settings.yml')
       end
 
       def line(user_event, i)
