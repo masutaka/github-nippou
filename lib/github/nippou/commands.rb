@@ -29,6 +29,37 @@ module Github
         puts format.all(lines)
       end
 
+      desc 'init-sync-settings', 'Synchronize github-nippou settings on your gist'
+      def init_sync_settings
+        unless client.scopes.include? 'gist'
+          puts <<~MESSAGE
+            ** Gist scope required.
+
+            You need personal access token which has gist scope.
+            Please add gist scope on your personal access token if you use this command.
+          MESSAGE
+          exit!
+        end
+        unless `git config github-nippou.settings-gist-id`.chomp.empty?
+          puts <<~MESSAGE
+            ** Initialized already.
+
+            It already have gist id that github-nippou.settings-gist-id on your .gitconfig.
+          MESSAGE
+          exit!
+        end
+
+        result = client.create_gist(
+          description: 'github-nippou settings',
+          public: true,
+          files: { 'settings.yml' => { content: settings }}
+        ).to_h
+
+        puts 'github-nippou settings was created on following url'
+        puts result[:url]
+        `git config --global github-nippou.settings-gist-id #{result[:id]}`
+      end
+
       desc 'version', 'Displays version'
       def version
         puts VERSION
@@ -92,6 +123,9 @@ module Github
             ENV['GITHUB_NIPPOU_SETTINGS']
           when !`git config github-nippou.settings`.chomp.empty?
             `git config github-nippou.settings`.chomp
+          when !`git config github-nippou.settings-gist-id`.chomp.empty?
+            gist_id = `git config github-nippou.settings-gist-id`
+            client.gist(gist_id)[:files]['settings.yml']
           else
             YAML.load_file('../config/settings.yml')
           end
