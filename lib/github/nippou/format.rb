@@ -4,13 +4,13 @@ module Github
       using SawyerResourceGithub
       using StringMarkdown
 
-      attr_reader :dictionary
+      attr_reader :settings
 
       def initialize(client, thread_num, debug)
         @client = client
         @thread_num = thread_num
         @debug = debug
-        @dictionary = YAML.load_file('../config/dictionary.yml')
+        @settings = YAML.load_file('../config/settings.yml')
       end
 
       def line(user_event, i)
@@ -72,16 +72,16 @@ module Github
       end
 
       def format_status(status)
-        dictionary[:dictionary][:status][status]
+        settings[:dictionary][:status][status]
       end
 
       def format_subject(subject)
-        sprintf(dictionary[:format][:subject], subject: subject)
+        sprintf(settings[:format][:subject], subject: subject)
       end
 
       def format_line(line)
         sprintf(
-          dictionary[:format][:line],
+          settings[:format][:line],
           title: line[:title].markdown_escape,
           url: line[:url],
           user: line[:user],
