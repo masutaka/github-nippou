@@ -3,5 +3,5 @@ format:
   line: '* [%{title}](%{url}) by %{user} %{status}'
 dictionary:
   status:
-    merged: **merged!**
-    closed: **closed!**
+    merged: '**merged!**'
+    closed: '**closed!**'

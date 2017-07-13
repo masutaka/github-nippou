@@ -120,12 +120,14 @@ module Github
         @settings ||=
           case
           when ENV['GITHUB_NIPPOU_SETTINGS']
-            YAML.load(ENV['GITHUB_NIPPOU_SETTINGS'])
+            YAML.load(ENV['GITHUB_NIPPOU_SETTINGS']).deep_symbolize_keys
           when !`git config github-nippou.settings`.chomp.empty?
-            YAML.load(`git config github-nippou.settings`.chomp)
+            YAML.load(`git config github-nippou.settings`.chomp).deep_symbolize_keys
           when !`git config github-nippou.settings-gist-id`.chomp.empty?
             gist_id = `git config github-nippou.settings-gist-id`.chomp
-            YAML.load(client.gist(gist_id)[:files]['settings.yml'])
+            gist = client.gist(gist_id)
+            content = gist[:files][:'settings.yml'][:content]
+            YAML.load(content).deep_symbolize_keys
           else
             YAML.load_file('../config/settings.yml')
           end
