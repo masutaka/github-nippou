@@ -55,8 +55,7 @@ module Github
           files: { 'settings.yml' => { content: settings }}
         ).to_h
 
-        puts 'github-nippou settings was created on following url'
-        puts result[:url]
+        puts "github-nippou settings was created on following url: #{result[:url]}"
         `git config --global github-nippou.settings-gist-id #{result[:id]}`
       end
 
@@ -120,12 +119,12 @@ module Github
         @settings ||=
           case
           when ENV['GITHUB_NIPPOU_SETTINGS']
-            ENV['GITHUB_NIPPOU_SETTINGS']
+            YAML.load(ENV['GITHUB_NIPPOU_SETTINGS'])
           when !`git config github-nippou.settings`.chomp.empty?
-            `git config github-nippou.settings`.chomp
+            YAML.load(`git config github-nippou.settings`.chomp)
           when !`git config github-nippou.settings-gist-id`.chomp.empty?
             gist_id = `git config github-nippou.settings-gist-id`
-            client.gist(gist_id)[:files]['settings.yml']
+            YAML.load(client.gist(gist_id)[:files]['settings.yml'])
           else
             YAML.load_file('../config/settings.yml')
           end
