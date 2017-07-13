@@ -1,5 +1,6 @@
 require 'parallel'
 require 'thor'
+require 'yaml'
 
 module Github
   module Nippou
