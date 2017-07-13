@@ -124,7 +124,7 @@ module Github
           when !`git config github-nippou.settings`.chomp.empty?
             YAML.load(`git config github-nippou.settings`.chomp)
           when !`git config github-nippou.settings-gist-id`.chomp.empty?
-            gist_id = `git config github-nippou.settings-gist-id`
+            gist_id = `git config github-nippou.settings-gist-id`.chomp
             YAML.load(client.gist(gist_id)[:files]['settings.yml'])
           else
             YAML.load_file('../config/settings.yml')
