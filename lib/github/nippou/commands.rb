@@ -43,7 +43,7 @@ module Github
         end
         unless `git config github-nippou.settings-gist-id`.chomp.empty?
           puts <<~MESSAGE
-            ** Initialized already.
+            ** Already initialized.
 
             It already have gist id that github-nippou.settings-gist-id on your .gitconfig.
           MESSAGE
@@ -117,20 +117,34 @@ module Github
       end
 
       def settings
-        @settings ||=
+        return @settings if @settings.present?
+
+        yaml_data =
           case
           when ENV['GITHUB_NIPPOU_SETTINGS']
-            YAML.load(ENV['GITHUB_NIPPOU_SETTINGS']).deep_symbolize_keys
+            ENV['GITHUB_NIPPOU_SETTINGS'].chomp
           when !`git config github-nippou.settings`.chomp.empty?
-            YAML.load(`git config github-nippou.settings`.chomp).deep_symbolize_keys
+            `git config github-nippou.settings`.chomp
           when !`git config github-nippou.settings-gist-id`.chomp.empty?
             gist_id = `git config github-nippou.settings-gist-id`.chomp
             gist = client.gist(gist_id)
-            content = gist[:files][:'settings.yml'][:content]
-            YAML.load(content).deep_symbolize_keys
+            gist[:files][:'settings.yml'][:content]
+          end
+
+        @settings =
+          if yaml_data
+            YAML.load(yaml_data).deep_symbolize_keys
           else
             YAML.load_file('../config/settings.yml')
           end
+      rescue Psych::SyntaxError => e
+        puts <<~MESSAGE
+          ** YAML syntax error.
+
+          #{e.message}
+          #{yaml_data}
+        MESSAGE
+        exit
       end
 
       def thread_num
