@@ -55,9 +55,14 @@ module Github
           public: true,
           files: { 'settings.yml' => { content: settings.to_yaml }}
         ).to_h
-
-        puts "github-nippou settings was created on following url: #{result[:url]}"
         `git config --global github-nippou.settings-gist-id #{result[:id]}`
+
+        puts <<~MESSAGE
+          The github-nippou settings was created on following url: #{result[:html_url]}
+          And the gist id was set your .gitconfig
+          You can check the gist id with following command
+              $ git config --global github-nippou.settings-gist-id
+        MESSAGE
       end
 
       desc 'version', 'Displays version'
