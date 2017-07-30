@@ -1,5 +1,6 @@
 require 'parallel'
 require 'thor'
+require 'yaml'
 
 module Github
   module Nippou
@@ -17,7 +18,7 @@ module Github
       def list
         lines = []
         mutex = Mutex.new
-        format = Format.new(client, thread_num, debug)
+        format = Format.new(client, thread_num, settings, debug)
 
         Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
           # Contain GitHub access.
@@ -27,6 +28,41 @@ module Github
         end
 
         puts format.all(lines)
+      end
+
+      desc 'init', 'Synchronize github-nippou settings on your gist'
+      def init
+        unless client.scopes.include? 'gist'
+          puts <<~MESSAGE
+            ** Gist scope required.
+
+            You need personal access token which has gist scope.
+            Please add gist scope on your personal access token if you use this command.
+          MESSAGE
+          exit!
+        end
+        unless `git config github-nippou.settings-gist-id`.chomp.empty?
+          puts <<~MESSAGE
+            ** Already initialized.
+
+            It already have gist id that github-nippou.settings-gist-id on your .gitconfig.
+          MESSAGE
+          exit!
+        end
+
+        result = client.create_gist(
+          description: 'github-nippou settings',
+          public: true,
+          files: { 'settings.yml' => { content: settings.to_yaml }}
+        ).to_h
+        `git config --global github-nippou.settings-gist-id #{result[:id]}`
+
+        puts <<~MESSAGE
+          The github-nippou settings was created on following url: #{result[:html_url]}
+          And the gist id was set your .gitconfig
+          You can check the gist id with following command
+              $ git config --global github-nippou.settings-gist-id
+        MESSAGE
       end
 
       desc 'version', 'Displays version'
@@ -54,12 +90,12 @@ module Github
           when !`git config github-nippou.user`.chomp.empty?
             `git config github-nippou.user`.chomp
           else
-            puts <<MESSAGE
-** User required.
+            puts <<~MESSAGE
+              ** User required.
 
-Please set github-nippou.user to your .gitconfig.
-    $ git config --global github-nippou.user [Your GitHub account]
-MESSAGE
+              Please set github-nippou.user to your .gitconfig.
+                  $ git config --global github-nippou.user [Your GitHub account]
+            MESSAGE
             exit!
           end
       end
@@ -72,17 +108,48 @@ MESSAGE
           when !`git config github-nippou.token`.chomp.empty?
             `git config github-nippou.token`.chomp
           else
-            puts <<MESSAGE
-** Authorization required.
+            puts <<~MESSAGE
+              ** Authorization required.
 
-Please set github-nippou.token to your .gitconfig.
-    $ git config --global github-nippou.token [Your GitHub access token]
+              Please set github-nippou.token to your .gitconfig.
+                  $ git config --global github-nippou.token [Your GitHub access token]
 
-To get new token with `repo` scope, visit
-https://github.com/settings/tokens/new
-MESSAGE
+              To get new token with `repo` scope, visit
+              https://github.com/settings/tokens/new
+            MESSAGE
             exit!
           end
+      end
+
+      def settings
+        return @settings if @settings.present?
+
+        yaml_data =
+          case
+          when ENV['GITHUB_NIPPOU_SETTINGS']
+            ENV['GITHUB_NIPPOU_SETTINGS'].chomp
+          when !`git config github-nippou.settings`.chomp.empty?
+            `git config github-nippou.settings`.chomp
+          when !`git config github-nippou.settings-gist-id`.chomp.empty?
+            gist_id = `git config github-nippou.settings-gist-id`.chomp
+            gist = client.gist(gist_id)
+            gist[:files][:'settings.yml'][:content]
+          end
+
+        @settings =
+          if yaml_data
+            YAML.load(yaml_data).deep_symbolize_keys
+          else
+            YAML.load_file(File.expand_path('../../../config/settings.yml', __dir__)).deep_symbolize_keys
+          end
+      rescue Psych::SyntaxError => e
+        puts <<~MESSAGE
+          ** YAML syntax error.
+
+          #{e.message}
+          #{yaml_data}
+        MESSAGE
+        exit
       end
 
       def thread_num

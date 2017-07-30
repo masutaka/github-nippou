@@ -4,9 +4,12 @@ module Github
       using SawyerResourceGithub
       using StringMarkdown
 
-      def initialize(client, thread_num, debug)
+      attr_reader :settings
+
+      def initialize(client, thread_num, settings, debug)
         @client = client
         @thread_num = thread_num
+        @settings = settings
         @debug = debug
       end
 
@@ -34,18 +37,17 @@ module Github
       def all(lines)
         result = ""
         prev_repo_name = nil
-        curr_repo_name = nil
+        current_repo_name = nil
 
         sort(lines).each do |line|
           current_repo_name = line[:repo_name]
 
           unless current_repo_name == prev_repo_name
             prev_repo_name = current_repo_name
-            result << "\n### #{current_repo_name}\n\n"
+            result << "\n#{format_subject(current_repo_name)}\n\n"
           end
 
-          result << "* [%s](%s) by %s%s\n" %
-            [line[:title].markdown_escape, line[:url], line[:user], format_status(line[:status])]
+          result << "#{format_line(line)}\n"
         end
 
         result
@@ -70,14 +72,21 @@ module Github
       end
 
       def format_status(status)
-        case status
-        when :merged
-          ' **merged!**'
-        when :closed
-          ' **closed!**'
-        else
-          ''
-        end
+        settings[:dictionary][:status][status]
+      end
+
+      def format_subject(subject)
+        sprintf(settings[:format][:subject], subject: subject)
+      end
+
+      def format_line(line)
+        sprintf(
+          settings[:format][:line],
+          title: line[:title].markdown_escape,
+          url: line[:url],
+          user: line[:user],
+          status: format_status(line[:status])
+        ).strip
       end
     end
   end
