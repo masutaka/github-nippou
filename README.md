@@ -1,4 +1,12 @@
-# Github::Nippou [![Gem Version][gem-badge]][gem-link]
+# Github::Nippou
+
+[![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?style=flat-square)][travisci]
+[![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
+[![Gem](https://img.shields.io/gem/v/github-nippou.svg?style=flat-square)][gem-link]
+
+[travisci]: https://travis-ci.org/masutaka/github-nippou
+[license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
+[gem-link]: http://badge.fury.io/rb/github-nippou
 
 Displays today's your GitHub action.
 
@@ -70,6 +78,3 @@ You can omit the sub command `list`.
 In Japanese
 
 [github-nippou - GitHubから日報を作成 MOONGIFT](http://www.moongift.jp/2016/06/github-nippou-github%E3%81%8B%E3%82%89%E6%97%A5%E5%A0%B1%E3%82%92%E4%BD%9C%E6%88%90/)
-
-[gem-badge]: https://badge.fury.io/rb/github-nippou.svg
-[gem-link]: http://badge.fury.io/rb/github-nippou
