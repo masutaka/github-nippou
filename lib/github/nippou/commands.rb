@@ -30,8 +30,8 @@ module Github
         puts format.all(lines)
       end
 
-      desc 'init-sync-settings', 'Synchronize github-nippou settings on your gist'
-      def init_sync_settings
+      desc 'init', 'Synchronize github-nippou settings on your gist'
+      def init
         unless client.scopes.include? 'gist'
           puts <<~MESSAGE
             ** Gist scope required.
