@@ -16,7 +16,7 @@ module Github
       desc 'list', "Displays today's GitHub events formatted for Nippou"
       def list
         lines = []
-        mutex = Mutex::new
+        mutex = Mutex.new
         format = Format.new(client, thread_num, debug)
 
         Parallel.each_with_index(user_events, in_threads: thread_num) do |user_event, i|
