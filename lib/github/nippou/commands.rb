@@ -140,7 +140,7 @@ module Github
           if yaml_data
             YAML.load(yaml_data).deep_symbolize_keys
           else
-            YAML.load_file(File.expand_path('../../../config/settings.yml', __dir__))
+            YAML.load_file(File.expand_path('../../../config/settings.yml', __dir__)).deep_symbolize_keys
           end
       rescue Psych::SyntaxError => e
         puts <<~MESSAGE
