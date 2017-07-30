@@ -53,7 +53,7 @@ module Github
         result = client.create_gist(
           description: 'github-nippou settings',
           public: true,
-          files: { 'settings.yml' => { content: settings }}
+          files: { 'settings.yml' => { content: settings.to_yaml }}
         ).to_h
 
         puts "github-nippou settings was created on following url: #{result[:url]}"
