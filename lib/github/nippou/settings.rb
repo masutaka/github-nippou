@@ -39,22 +39,13 @@ module Github
       def data
         @data ||=
           begin
-            yaml_data =
-              case
-              when ENV['GITHUB_NIPPOU_SETTINGS']
-                ENV['GITHUB_NIPPOU_SETTINGS'].chomp
-              when !`git config github-nippou.settings`.chomp.empty?
-                `git config github-nippou.settings`.chomp
-              when !`git config github-nippou.settings-gist-id`.chomp.empty?
-                gist_id = `git config github-nippou.settings-gist-id`.chomp
-                gist = client.gist(gist_id)
-                gist[:files][:'settings.yml'][:content]
-              end
-
-            if yaml_data
+            if gist_id.present?
+              gist = client.gist(gist_id)
+              yaml_data = gist[:files][:'settings.yml'][:content]
               YAML.load(yaml_data).deep_symbolize_keys
             else
-              YAML.load_file(File.expand_path('../../../config/settings.yml', __dir__)).deep_symbolize_keys
+              default_yml = File.expand_path('../../../config/settings.yml', __dir__)
+              YAML.load_file(default_yml).deep_symbolize_keys
             end
           rescue Psych::SyntaxError
             puts <<~MESSAGE
@@ -64,6 +55,20 @@ module Github
               #{yaml_data}
             MESSAGE
             raise $!
+          end
+      end
+
+      # Getting gist id which has settings.yml
+      #
+      # @return [String] gist id
+      def gist_id
+        @gist_id ||=
+          begin
+            ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] ||
+              begin
+                git_config = `git config github-nippou.settings-gist-id`.chomp
+                git_config.present? ? git_config : nil
+              end
           end
       end
 

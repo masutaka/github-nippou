@@ -3,17 +3,13 @@ describe Github::Nippou::Settings do
   let(:settings) { described_class.new(client: client) }
 
   describe '#format' do
-    context 'given valid settings' do
-      let(:settings_format) do
-        {
-          format: {
-            subject: '### %{subject}',
-            line: '* [%{title}](%{url}) by %{user} %{status}',
-          },
-        }
-      end
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
 
-      before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_format.to_yaml }
+    context 'given valid settings' do
+      let(:settings_yaml) { load_fixture('settings-valid.yml') }
 
       it 'is valid `subject`' do
         expect(settings.format.subject).to eq '### %{subject}'
@@ -25,15 +21,7 @@ describe Github::Nippou::Settings do
     end
 
     context 'given invalid settings' do
-      let(:settings_format_yaml) do
-        <<~INVALID_YAML
-        format:
-          **!!invalid!!**
-          line: '* [%{title}](%{url}) by %{user} %{status}'
-        INVALID_YAML
-      end
-
-      before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_format_yaml }
+      let(:settings_yaml) { load_fixture('settings-invalid.yml') }
 
       it 'outputs YAML syntax error message' do
         expect { settings.format }.to raise_error Psych::SyntaxError
@@ -42,19 +30,13 @@ describe Github::Nippou::Settings do
   end
 
   describe '#dictionary' do
-    context 'given valid settings' do
-      let(:settings_dictionary) do
-        {
-          dictionary: {
-            status: {
-              merged: '**merged!**',
-              closed: '**closed!**',
-            },
-          },
-        }
-      end
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
 
-      before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_dictionary.to_yaml }
+    context 'given valid settings' do
+      let(:settings_yaml) { load_fixture('settings-valid.yml') }
 
       it 'is valid `status.merged`' do
         expect(settings.dictionary.status.merged).to eq '**merged!**'
@@ -64,23 +46,24 @@ describe Github::Nippou::Settings do
         expect(settings.dictionary.status.closed).to eq '**closed!**'
       end
     end
+
+    context 'given invalid settings' do
+      let(:settings_yaml) { load_fixture('settings-invalid.yml') }
+
+      it 'outputs YAML syntax error message' do
+        expect { settings.dictionary }.to raise_error Psych::SyntaxError
+      end
+    end
   end
 
   describe '#yaml' do
-    context 'given valid settings' do
-      let(:settings_yaml) do
-        <<~VALID_YAML
-        format:
-          subject: "### %{subject}"
-          line: "* [%{title}](%{url}) by %{user} %{status}"
-        dictionary:
-          status:
-            merged: "**merged!**"
-            closed: "**closed!**"
-        VALID_YAML
-      end
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
 
-      before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_yaml }
+    context 'given valid settings' do
+      let(:settings_yaml) { load_fixture('settings-valid.yml') }
 
       it 'is valid yaml' do
         expect(settings.yaml).to eq <<~VALID_YAML
@@ -93,6 +76,14 @@ describe Github::Nippou::Settings do
               :merged: "**merged!**"
               :closed: "**closed!**"
         VALID_YAML
+      end
+    end
+
+    context 'given invalid settings' do
+      let(:settings_yaml) { load_fixture('settings-invalid.yml') }
+
+      it 'outputs YAML syntax error message' do
+        expect { settings.yaml }.to raise_error Psych::SyntaxError
       end
     end
   end
