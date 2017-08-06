@@ -8,6 +8,31 @@ module Github
         @client = client
       end
 
+      # Getting gist id which has settings.yml
+      #
+      # @return [String] gist id
+      def gist_id
+        @gist_id ||=
+          begin
+            ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] ||
+              begin
+                git_config = `git config github-nippou.settings-gist-id`.chomp
+                git_config.present? ? git_config : nil
+              end
+          end
+      end
+
+      # Create gist with config/settings.yml
+      #
+      # @return [Sawyer::Resource]
+      def create_gist
+        client.create_gist(
+          description: 'github-nippou settings',
+          public: true,
+          files: { 'settings.yml' => { content: default_settings.to_yaml }}
+        )
+      end
+
       # Getting format settings
       #
       # @return [OpenStruct]
@@ -22,16 +47,19 @@ module Github
         open_struct(data[:dictionary])
       end
 
-      # Getting settings as YAML format
-      #
-      # return [String]
-      def yaml
-        data.to_yaml
-      end
-
       private
 
       attr_reader :client
+
+      # Getting default settings.yml as Hash
+      #
+      # return [Hash]
+      def default_settings
+        @default_settings ||=
+          YAML.load_file(
+            File.expand_path('../../../config/settings.yml', __dir__)
+          )
+      end
 
       # Getting settings data as Hash
       #
@@ -44,8 +72,7 @@ module Github
               yaml_data = gist[:files][:'settings.yml'][:content]
               YAML.load(yaml_data).deep_symbolize_keys
             else
-              default_yml = File.expand_path('../../../config/settings.yml', __dir__)
-              YAML.load_file(default_yml).deep_symbolize_keys
+              default_settings.deep_symbolize_keys
             end
           rescue Psych::SyntaxError
             puts <<~MESSAGE
@@ -55,20 +82,6 @@ module Github
               #{yaml_data}
             MESSAGE
             raise $!
-          end
-      end
-
-      # Getting gist id which has settings.yml
-      #
-      # @return [String] gist id
-      def gist_id
-        @gist_id ||=
-          begin
-            ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] ||
-              begin
-                git_config = `git config github-nippou.settings-gist-id`.chomp
-                git_config.present? ? git_config : nil
-              end
           end
       end
 

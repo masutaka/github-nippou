@@ -1,3 +1,4 @@
+require 'highline/import'
 require 'parallel'
 require 'thor'
 require 'yaml'
@@ -36,31 +37,38 @@ module Github
           puts <<~MESSAGE
             ** Gist scope required.
 
-            You need personal access token which has gist scope.
-            Please add gist scope on your personal access token if you use this command.
+            You need personal access token which has `gist` scope.
+            Please add `gist` scope to your personal access token, visit
+            https://github.com/settings/tokens
           MESSAGE
           exit!
         end
-        unless `git config github-nippou.settings-gist-id`.chomp.empty?
+
+        if settings.gist_id.present?
           puts <<~MESSAGE
             ** Already initialized.
 
-            It already have gist id that github-nippou.settings-gist-id on your .gitconfig.
+            Your `~/.gitconfig` already has gist_id as `github-nippou.settings-gist-id`.
           MESSAGE
-          exit!
+          exit
         end
 
-        result = client.create_gist(
-          description: 'github-nippou settings',
-          public: true,
-          files: { 'settings.yml' => { content: settings.yaml }}
-        ).to_h
-        `git config --global github-nippou.settings-gist-id #{result[:id]}`
+        puts 'This command will create a gist and update your `~/.gitconfig`.'
+
+        unless HighLine.agree('Are you sure? [y/n] ')
+          puts 'Canceled.'
+          abort
+        end
+
+        gist = settings.create_gist
+        `git config --global github-nippou.settings-gist-id #{gist[:id]}`
 
         puts <<~MESSAGE
-          The github-nippou settings was created on following url: #{result[:html_url]}
-          And the gist id was set your .gitconfig
-          You can check the gist id with following command
+          The github-nippou settings was created on #{gist[:html_url]}
+
+          And the gist_id was appended to your `~/.gitconfig`. You can
+          check the gist_id with following command.
+
               $ git config --global github-nippou.settings-gist-id
         MESSAGE
       end
@@ -93,7 +101,7 @@ module Github
             puts <<~MESSAGE
               ** User required.
 
-              Please set github-nippou.user to your .gitconfig.
+              Please set github-nippou.user to your `~/.gitconfig`.
                   $ git config --global github-nippou.user [Your GitHub account]
             MESSAGE
             exit!
@@ -111,10 +119,10 @@ module Github
             puts <<~MESSAGE
               ** Authorization required.
 
-              Please set github-nippou.token to your .gitconfig.
+              Please set github-nippou.token to your `~/.gitconfig`.
                   $ git config --global github-nippou.token [Your GitHub access token]
 
-              To get new token with `repo` scope, visit
+              To get new token with `repo` and `gist` scope, visit
               https://github.com/settings/tokens/new
             MESSAGE
             exit!
