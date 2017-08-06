@@ -2,6 +2,8 @@ describe Github::Nippou::Settings do
   let(:client) { Octokit::Client.new(login: 'taro', access_token: '1234abcd') }
   let(:settings) { described_class.new(client: client) }
 
+  after { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = nil }
+
   describe '#gist_id' do
     before { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789' }
 
