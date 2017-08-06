@@ -3,9 +3,7 @@ describe Github::Nippou::Settings do
   let(:settings) { described_class.new(client: client) }
 
   describe '#gist_id' do
-    before do
-      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789'
-    end
+    before { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789' }
 
     it 'is valid' do
       expect(settings.gist_id).to eq '0123456789'
