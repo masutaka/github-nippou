@@ -29,7 +29,7 @@ module Github
         client.create_gist(
           description: 'github-nippou settings',
           public: true,
-          files: { 'settings.yml' => { content: default_yaml }}
+          files: { 'settings.yml' => { content: default_settings.to_yaml }}
         )
       end
 
@@ -51,11 +51,11 @@ module Github
 
       attr_reader :client
 
-      # Getting default settings.yml
+      # Getting default settings.yml as Hash
       #
-      # return [String]
-      def default_yaml
-        @default_yaml ||=
+      # return [Hash]
+      def default_settings
+        @default_settings ||=
           YAML.load_file(
             File.expand_path('../../../config/settings.yml', __dir__)
           )
@@ -72,7 +72,7 @@ module Github
               yaml_data = gist[:files][:'settings.yml'][:content]
               YAML.load(yaml_data).deep_symbolize_keys
             else
-              default_yaml.deep_symbolize_keys
+              default_settings.deep_symbolize_keys
             end
           rescue Psych::SyntaxError
             puts <<~MESSAGE
