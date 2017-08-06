@@ -14,7 +14,7 @@ describe Github::Nippou::Settings do
 
   describe '#create_gist' do
     it 'responds to #create_gist' do
-      expect(client).to respond_to :create_gist
+      expect(settings).to respond_to :create_gist
     end
   end
 
