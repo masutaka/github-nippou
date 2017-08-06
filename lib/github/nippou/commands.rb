@@ -62,10 +62,10 @@ module Github
         end
 
         gist = settings.create_gist
-        `git config --global github-nippou.settings-gist-id #{gist[:id]}`
+        `git config --global github-nippou.settings-gist-id #{gist.id}`
 
         puts <<~MESSAGE
-          The github-nippou settings was created on #{gist[:html_url]}
+          The github-nippou settings was created on #{gist.html_url}
 
           And the gist_id was appended to your `~/.gitconfig`. You can
           check the gist_id with following command.
