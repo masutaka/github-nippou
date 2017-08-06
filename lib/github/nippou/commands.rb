@@ -1,3 +1,4 @@
+require 'highline/import'
 require 'parallel'
 require 'thor'
 require 'yaml'
@@ -50,6 +51,13 @@ module Github
             It already have gist id that github-nippou.settings-gist-id on your .gitconfig.
           MESSAGE
           exit
+        end
+
+        puts 'This command will create a gist and update your `~/.gitconfig`.'
+
+        unless HighLine.agree('Are you sure? [y/n] ')
+          puts 'Canceled.'
+          abort
         end
 
         gist = settings.create_gist
