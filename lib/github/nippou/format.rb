@@ -4,8 +4,10 @@ module Github
       using SawyerResourceGithub
       using StringMarkdown
 
-      attr_reader :settings
-
+      # @param client [Octokit::Client]
+      # @param thread_num [Integer]
+      # @param settings [Settings]
+      # @param debug [Boolean]
       def initialize(client, thread_num, settings, debug)
         @client = client
         @thread_num = thread_num
@@ -55,6 +57,8 @@ module Github
 
       private
 
+      attr_reader :settings
+
       def issue(user_event)
         case
         when user_event.payload.pull_request
@@ -71,22 +75,23 @@ module Github
         lines.sort { |a, b| a[:url] <=> b[:url] }
       end
 
-      def format_status(status)
-        settings[:dictionary][:status][status]
-      end
-
       def format_subject(subject)
-        sprintf(settings[:format][:subject], subject: subject)
+        sprintf(settings.format.subject, subject: subject)
       end
 
       def format_line(line)
         sprintf(
-          settings[:format][:line],
+          settings.format.line,
           title: line[:title].markdown_escape,
           url: line[:url],
           user: line[:user],
           status: format_status(line[:status])
         ).strip
+      end
+
+      def format_status(status)
+        return nil if status.nil?
+        settings.dictionary.status.send(status)
       end
     end
   end
