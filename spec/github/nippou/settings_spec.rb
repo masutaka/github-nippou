@@ -2,12 +2,28 @@ describe Github::Nippou::Settings do
   let(:client) { Octokit::Client.new(login: 'taro', access_token: '1234abcd') }
   let(:settings) { described_class.new(client: client) }
 
-  before do
-    ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
-    allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+  describe '#gist_id' do
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789'
+    end
+
+    it 'is valid' do
+      expect(settings.gist_id).to eq '0123456789'
+    end
+  end
+
+  describe '#create_gist' do
+    it 'responds to #create_gist' do
+      expect(client).to respond_to :create_gist
+    end
   end
 
   describe '#format' do
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
+
     context 'given valid settings' do
       let(:settings_yaml) { load_fixture('settings-valid.yml') }
 
@@ -30,6 +46,11 @@ describe Github::Nippou::Settings do
   end
 
   describe '#dictionary' do
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
+
     context 'given valid settings' do
       let(:settings_yaml) { load_fixture('settings-valid.yml') }
 
@@ -52,6 +73,11 @@ describe Github::Nippou::Settings do
   end
 
   describe '#yaml' do
+    before do
+      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
+      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+    end
+
     context 'given valid settings' do
       let(:settings_yaml) { load_fixture('settings-valid.yml') }
 

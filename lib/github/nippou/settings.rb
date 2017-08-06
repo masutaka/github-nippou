@@ -8,6 +8,31 @@ module Github
         @client = client
       end
 
+      # Getting gist id which has settings.yml
+      #
+      # @return [String] gist id
+      def gist_id
+        @gist_id ||=
+          begin
+            ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] ||
+              begin
+                git_config = `git config github-nippou.settings-gist-id`.chomp
+                git_config.present? ? git_config : nil
+              end
+          end
+      end
+
+      # Create gist with config/settings.yml
+      #
+      # @return [Sawyer::Resource]
+      def create_gist
+        client.create_gist(
+          description: 'github-nippou settings',
+          public: true,
+          files: { 'settings.yml' => { content: yaml }}
+        )
+      end
+
       # Getting format settings
       #
       # @return [OpenStruct]
@@ -55,20 +80,6 @@ module Github
               #{yaml_data}
             MESSAGE
             raise $!
-          end
-      end
-
-      # Getting gist id which has settings.yml
-      #
-      # @return [String] gist id
-      def gist_id
-        @gist_id ||=
-          begin
-            ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] ||
-              begin
-                git_config = `git config github-nippou.settings-gist-id`.chomp
-                git_config.present? ? git_config : nil
-              end
           end
       end
 
