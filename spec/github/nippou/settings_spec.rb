@@ -18,6 +18,28 @@ describe Github::Nippou::Settings do
     end
   end
 
+  describe '#url' do
+    context 'given gist_id' do
+      let(:gist_id) { '0123456789' }
+
+      before do
+        ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = gist_id
+        response = OpenStruct.new(html_url: "https://gist.github.com/#{gist_id}")
+        allow(client).to receive(:gist).and_return(response)
+      end
+
+      it 'is gist url' do
+        expect(settings.url).to eq "https://gist.github.com/#{gist_id}"
+      end
+    end
+
+    context 'given no gist_id' do
+      it 'is github url' do
+        expect(settings.url).to eq "https://github.com/masutaka/github-nippou/blob/v#{Github::Nippou::VERSION}/config/settings.yml"
+      end
+    end
+  end
+
   describe '#format' do
     before do
       ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'

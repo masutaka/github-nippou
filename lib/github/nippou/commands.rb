@@ -1,4 +1,5 @@
 require 'highline/import'
+require 'launchy'
 require 'parallel'
 require 'thor'
 require 'yaml'
@@ -71,6 +72,12 @@ module Github
 
               $ git config --global github-nippou.settings-gist-id
         MESSAGE
+      end
+
+      desc 'open-settings', 'Open settings url with web browser'
+      def open_settings
+        puts "Open #{settings.url}"
+        Launchy.open(settings.url)
       end
 
       desc 'version', 'Displays version'
