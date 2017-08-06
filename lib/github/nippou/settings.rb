@@ -4,6 +4,7 @@ require 'ostruct'
 module Github
   module Nippou
     class Settings
+      # @param client [Octokit::Client]
       def initialize(client:)
         @client = client
       end
