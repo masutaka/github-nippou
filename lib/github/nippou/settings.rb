@@ -33,6 +33,18 @@ module Github
         )
       end
 
+      # Getting settings url
+      #
+      # @return [String]
+      def url
+        @url ||=
+          if gist_id
+            client.gist(gist_id).html_url
+          else
+            "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
+          end
+      end
+
       # Getting format settings
       #
       # @return [OpenStruct]
