@@ -1,12 +1,9 @@
-require 'spec_helper'
+describe Github::Nippou::Settings do
+  describe '#data' do
+    let(:client) { Octokit::Client.new(login: 'taro', access_token: '1234abcd') }
+    let(:settings) { described_class.new(client: client) }
 
-describe Github::Nippou::Commands do
-  let(:commands) { described_class.new }
-
-  describe '#settings' do
-    subject(:execute) { commands.send(:settings) }
-
-    let(:settings) do
+    let(:settings_format) do
       {
         format: {
           subject: '### %{subject}',
@@ -15,16 +12,12 @@ describe Github::Nippou::Commands do
       }
     end
 
-    let(:yaml) { settings.to_yaml }
-
     context "when ENV['GITHUB_NIPPOU_SETTINGS'] present" do
-      before { ENV['GITHUB_NIPPOU_SETTINGS'] = yaml }
+      before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_format.to_yaml }
 
       context 'given valid YAML syntax' do
         it 'should set YAML value to @settings' do
-          expect { execute }
-            .to change { commands.instance_variable_get(:@settings) }
-            .to settings
+          expect(settings.data).to eq settings_format
         end
       end
 
@@ -40,7 +33,7 @@ describe Github::Nippou::Commands do
         it 'should output YAML syntax error message' do
           expect {
             begin
-              execute
+              settings.data
             rescue SystemExit
               nil
             end
