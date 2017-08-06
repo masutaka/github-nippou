@@ -16,7 +16,7 @@ module Github
                    aliases: :u, desc: 'Retrieves GitHub user_events until the date'
       class_option :debug, type: :boolean, default: false, aliases: :d, desc: 'Debug mode'
 
-      desc 'list', "Displays today's GitHub events formatted for Nippou"
+      desc 'list', "Displays today's GitHub events formatted for Nippou (Default)"
       def list
         lines = []
         mutex = Mutex.new
