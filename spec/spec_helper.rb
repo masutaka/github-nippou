@@ -22,6 +22,9 @@ end
 RSpec.configure do |config|
   config.include LoadFixtureHelper
 
+  config.before(:all) { silence_stdout }
+  config.after(:all){ enable_stdout }
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -105,4 +108,16 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+end
+
+# Redirects stdout to /dev/null.
+def silence_stdout
+  @orig_stdout = $stdout
+  $stdout = File.new('/dev/null', 'w')
+end
+
+# Replace stdout so anything else is output correctly.
+def enable_stdout
+  $stdout = @orig_stdout
+  @orig_stdout = nil
 end
