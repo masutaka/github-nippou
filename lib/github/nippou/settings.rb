@@ -1,3 +1,6 @@
+require 'json'
+require 'ostruct'
+
 module Github
   module Nippou
     class Settings
@@ -5,7 +8,32 @@ module Github
         @client = client
       end
 
-      # Getting settings data
+      # Getting format settings
+      #
+      # @return [OpenStruct]
+      def format
+        open_struct(data[:format])
+      end
+
+      # Getting dictionary settings
+      #
+      # @return [OpenStruct]
+      def dictionary
+        open_struct(data[:dictionary])
+      end
+
+      # Getting settings as YAML format
+      #
+      # return [String]
+      def yaml
+        data.to_yaml
+      end
+
+      private
+
+      attr_reader :client
+
+      # Getting settings data as Hash
       #
       # return [Hash]
       def data
@@ -39,9 +67,13 @@ module Github
           end
       end
 
-      private
-
-      attr_reader :client
+      # Cast to OpenStruct
+      #
+      # @param hash [Hash]
+      # @return [OpenStruct]
+      def open_struct(hash)
+        JSON.parse(hash.to_json, object_class: OpenStruct)
+      end
     end
   end
 end

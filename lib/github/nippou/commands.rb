@@ -53,7 +53,7 @@ module Github
         result = client.create_gist(
           description: 'github-nippou settings',
           public: true,
-          files: { 'settings.yml' => { content: settings.to_yaml }}
+          files: { 'settings.yml' => { content: settings.yaml }}
         ).to_h
         `git config --global github-nippou.settings-gist-id #{result[:id]}`
 
@@ -122,7 +122,7 @@ module Github
       end
 
       def settings
-        @settings ||= Settings.new(client: client).data
+        @settings ||= Settings.new(client: client)
       end
 
       def thread_num
