@@ -36,20 +36,7 @@ describe Github::Nippou::Settings do
       before { ENV['GITHUB_NIPPOU_SETTINGS'] = settings_format_yaml }
 
       it 'outputs YAML syntax error message' do
-        expect do
-          begin
-            settings.format
-          rescue SystemExit
-            nil
-          end
-        end.to output(<<~ERROR).to_stdout
-            ** YAML syntax error.
-
-            (<unknown>): did not find expected alphabetic or numeric character while scanning an alias at line 2 column 3
-            format:
-              **!!invalid!!**
-              line: '* [%{title}](%{url}) by %{user} %{status}'
-          ERROR
+        expect { settings.format }.to raise_error Psych::SyntaxError
       end
     end
   end

@@ -56,14 +56,14 @@ module Github
             else
               YAML.load_file(File.expand_path('../../../config/settings.yml', __dir__)).deep_symbolize_keys
             end
-          rescue Psych::SyntaxError => e
+          rescue Psych::SyntaxError
             puts <<~MESSAGE
               ** YAML syntax error.
 
-              #{e.message}
+              #{$!.message}
               #{yaml_data}
             MESSAGE
-            exit
+            raise $!
           end
       end
 
