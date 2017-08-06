@@ -75,11 +75,6 @@ module Github
         lines.sort { |a, b| a[:url] <=> b[:url] }
       end
 
-      def format_status(status)
-        return nil if status.nil?
-        settings.dictionary.status.send(status)
-      end
-
       def format_subject(subject)
         sprintf(settings.format.subject, subject: subject)
       end
@@ -92,6 +87,11 @@ module Github
           user: line[:user],
           status: format_status(line[:status])
         ).strip
+      end
+
+      def format_status(status)
+        return nil if status.nil?
+        settings.dictionary.status.send(status)
       end
     end
   end
