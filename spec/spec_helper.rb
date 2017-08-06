@@ -14,8 +14,17 @@
 
 require 'github/nippou'
 
+Dir[File.expand_path('support/**/*.rb', __dir__)].each do |f|
+  require f
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.include LoadFixtureHelper
+
+  config.before(:all) { silence_stdout }
+  config.after(:all){ enable_stdout }
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -45,6 +54,12 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  # Run specs in random order to surface order dependencies. If you find an
+  # order dependency and want to debug it, you can fix the order by providing
+  # the seed, which is printed after each run.
+  #     --seed 1234
+  config.order = :random
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
@@ -87,16 +102,22 @@ RSpec.configure do |config|
   # particularly slow.
   config.profile_examples = 10
 
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
-  config.order = :random
-
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+end
+
+# Redirects stdout to /dev/null.
+def silence_stdout
+  @orig_stdout = $stdout
+  $stdout = File.new('/dev/null', 'w')
+end
+
+# Replace stdout so anything else is output correctly.
+def enable_stdout
+  $stdout = @orig_stdout
+  @orig_stdout = nil
 end

@@ -1,0 +1,7 @@
+format:
+  subject: '### %{subject}'
+  line: '* [%{title}](%{url}) by %{user} %{status}'
+dictionary:
+  status:
+    merged: '**merged!**'
+    closed: '**closed!**'
