@@ -3,10 +3,14 @@
 [![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?style=flat-square)][travisci]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
 [![Gem](https://img.shields.io/gem/v/github-nippou.svg?style=flat-square)][gem-link]
+[![Docker Stars](https://img.shields.io/docker/stars/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
+[![Docker Pulls](https://img.shields.io/docker/pulls/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
+[![Docker Automated buil](https://img.shields.io/docker/automated/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
 
 [travisci]: https://travis-ci.org/masutaka/github-nippou
 [license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
 [gem-link]: http://badge.fury.io/rb/github-nippou
+[dockerhub]: https://hub.docker.com/r/masutaka/github-nippou/
 
 Displays today's your GitHub action.
 
