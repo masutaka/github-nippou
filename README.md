@@ -3,10 +3,14 @@
 [![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?style=flat-square)][travisci]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
 [![Gem](https://img.shields.io/gem/v/github-nippou.svg?style=flat-square)][gem-link]
+[![Docker Stars](https://img.shields.io/docker/stars/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
+[![Docker Pulls](https://img.shields.io/docker/pulls/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
+[![Docker Automated buil](https://img.shields.io/docker/automated/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
 
 [travisci]: https://travis-ci.org/masutaka/github-nippou
 [license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
 [gem-link]: http://badge.fury.io/rb/github-nippou
+[dockerhub]: https://hub.docker.com/r/masutaka/github-nippou/
 
 Displays today's your GitHub action.
 
@@ -40,30 +44,62 @@ Or install it yourself as:
 $ github-nippou help
 Commands:
   github-nippou help [COMMAND]  # Describe available commands or one specific command
-  github-nippou list            # Displays today's GitHub events formatted for Nippou
+  github-nippou init            # Synchronize github-nippou settings on your gist
+  github-nippou list            # Displays today's GitHub events formatted for Nippou (Default)
+  github-nippou open-settings   # Open settings url with web browser
   github-nippou version         # Displays version
 
 Options:
   s, [--since-date=SINCE_DATE]  # Retrieves GitHub user_events since the date
-                                # Default: 20160326
+                                # Default: 20170807
   u, [--until-date=UNTIL_DATE]  # Retrieves GitHub user_events until the date
-                                # Default: 20160326
+                                # Default: 20170807
   d, [--debug], [--no-debug]    # Debug mode
+
 ```
 
 You can get your GitHub Nippou on today.
 
 ```
-$ github-nippou list
-* [Bundle Update on 2016-03-24 - masutaka/awesome-github-feed](https://github.com/masutaka/awesome-github-feed/pull/38) by deppbot **merged!**
-* [Fix performance - masutaka/github-nippou](https://github.com/masutaka/github-nippou/pull/44) by masutaka **merged!**
-* [Bundle Update on 2016-03-24 - masutaka/masutaka-29hours](https://github.com/masutaka/masutaka-29hours/pull/19) by deppbot **merged!**
-* [Bundle Update on 2016-03-24 - masutaka/masutaka-metrics](https://github.com/masutaka/masutaka-metrics/pull/34) by deppbot **merged!**
-* [bundle update at 2016-03-25 18:32:43 JST - masutaka/masutaka.net](https://github.com/masutaka/masutaka.net/pull/52) by masutaka **merged!**
-* [bundle update at 2016-03-25 10:02:02 UTC - masutaka/server-masutaka.net](https://github.com/masutaka/server-masutaka.net/pull/211) by masutaka **merged!**
+$ github-nippou
+
+### masutaka/github-nippou
+
+* [v3.0.0](https://github.com/masutaka/github-nippou/issues/59) by masutaka
+* [Enable to inject settings_gist_id instead of the settings](https://github.com/masutaka/github-nippou/pull/63) by masutaka **merged!**
+* [Add y/n prompt to sub command \`init\`](https://github.com/masutaka/github-nippou/pull/64) by masutaka **merged!**
+* [Add sub command \`open-settings\`](https://github.com/masutaka/github-nippou/pull/65) by masutaka **merged!**
+* [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by masutaka **merged!**
 ```
 
-You can omit the sub command `list`.
+## Customize output format
+
+```
+$ github-nippou init
+This command will create a gist and update your `~/.gitconfig`.
+Are you sure? [y/n] y
+The github-nippou settings was created on https://gist.github.com/ecfa35cb546d8462277d133a91b13be9
+
+And the gist_id was appended to your `~/.gitconfig`. You can
+check the gist_id with following command.
+
+    $ git config --global github-nippou.settings-gist-id
+```
+
+Open the Gist URL with your web browser.
+
+```
+$ github-nippou open-settings
+Open https://gist.github.com/ecfa35cb546d8462277d133a91b13be9
+```
+
+## Docker
+
+You can use the [dockerized github-nippou](https://hub.docker.com/r/masutaka/github-nippou/) via `bin/docker-github-nippou`.
+
+    $ git clone https://github.com/masutaka/github-nippou.git
+    $ cd github-nippou/bin
+    $ ./docker-github-nippou help
 
 ## Contributing
 
@@ -72,14 +108,6 @@ You can omit the sub command `list`.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
-
-## Docker
-
-You can use the dockerized github-nippou via `bin/docker-github-nippou`.
-
-    $ bin/docker-github-nippou help
-
-See also https://hub.docker.com/r/masutaka/github-nippou/
 
 ## External article
 
