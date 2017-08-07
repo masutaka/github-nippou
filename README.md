@@ -101,6 +101,8 @@ You can use the [dockerized github-nippou](https://hub.docker.com/r/masutaka/git
     $ cd github-nippou/bin
     $ ./docker-github-nippou help
 
+However, you cannot use the sub command `open-settings`.
+
 ## Contributing
 
 1. Fork it ( https://github.com/masutaka/github-nippou/fork )
