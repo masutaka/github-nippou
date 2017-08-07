@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    github-nippou (3.0.0.beta2)
+    github-nippou (3.0.0)
       activesupport
       highline
       launchy
