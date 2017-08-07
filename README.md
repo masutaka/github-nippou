@@ -73,6 +73,14 @@ You can omit the sub command `list`.
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+## Docker
+
+You can use the dockerized github-nippou via `bin/docker-github-nippou`.
+
+    $ bin/docker-github-nippou help
+
+See also https://hub.docker.com/r/masutaka/github-nippou/
+
 ## External article
 
 In Japanese
