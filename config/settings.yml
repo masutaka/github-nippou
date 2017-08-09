@@ -1,6 +1,6 @@
 format:
   subject: '### %{subject}'
-  line: '* [%{title}](%{url}) by %{user} %{status}'
+  line: '* [%{title}](%{url}) by @[%{user}](https://github.com/%{user}) %{status}'
 dictionary:
   status:
     merged: '**merged!**'
