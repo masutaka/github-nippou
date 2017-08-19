@@ -4,9 +4,51 @@ require 'ostruct'
 module Github
   module Nippou
     class Settings
-      # @param client [Octokit::Client]
-      def initialize(client:)
-        @client = client
+      class GettingUserError < SystemExit; end
+      class GettingAccessTokenError < SystemExit; end
+
+      # Getting GitHub user
+      #
+      # @param verbose [Boolean] Print error message
+      # @return [String]
+      # @raise [SystemExit] cannot get the user
+      def user(verbose: true)
+        @user ||=
+          case
+          when ENV['GITHUB_NIPPOU_USER']
+            ENV['GITHUB_NIPPOU_USER']
+          when !`git config github-nippou.user`.chomp.empty?
+            `git config github-nippou.user`.chomp
+          else
+            puts <<~MESSAGE if verbose
+              !!!! GitHub User required. Please execute the following command. !!!!
+
+                  $ github-nippou init
+            MESSAGE
+            raise GettingUserError
+          end
+      end
+
+      # Getting GitHub personal access token
+      #
+      # @param verbose [Boolean] Print error message
+      # @return [String]
+      # @raise [SystemExit] cannot get the access token
+      def access_token(verbose: true)
+        @access_token ||=
+          case
+          when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+            ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+          when !`git config github-nippou.token`.chomp.empty?
+            `git config github-nippou.token`.chomp
+          else
+            puts <<~MESSAGE if verbose
+              !!!! GitHub Personal access token required. Please execute the following command. !!!!
+
+                  $ github-nippou init
+            MESSAGE
+            raise GettingAccessTokenError
+          end
       end
 
       # Getting gist id which has settings.yml
@@ -21,6 +63,28 @@ module Github
                 git_config.present? ? git_config : nil
               end
           end
+      end
+
+      # Getting thread number
+      #
+      # @return [Integer]
+      def thread_num
+        @thread_num ||=
+          case
+          when ENV['GITHUB_NIPPOU_THREAD_NUM']
+            ENV['GITHUB_NIPPOU_THREAD_NUM']
+          when !`git config github-nippou.thread-num`.chomp.empty?
+            `git config github-nippou.thread-num`.chomp
+          else
+            5
+          end.to_i
+      end
+
+      # Getting Octokit client
+      #
+      # return [Octokit::Client]
+      def client
+        @client ||= Octokit::Client.new(login: user, access_token: access_token)
       end
 
       # Create gist with config/settings.yml
@@ -42,8 +106,12 @@ module Github
           if gist_id
             client.gist(gist_id).html_url
           else
-            "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
+            default_url
           end
+      end
+
+      def default_url
+        "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
       end
 
       # Getting format settings
@@ -61,8 +129,6 @@ module Github
       end
 
       private
-
-      attr_reader :client
 
       # Getting default settings.yml as Hash
       #
