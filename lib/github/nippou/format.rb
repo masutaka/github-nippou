@@ -5,18 +5,16 @@ module Github
       using StringMarkdown
 
       # @param client [Octokit::Client]
-      # @param thread_num [Integer]
       # @param settings [Settings]
       # @param debug [Boolean]
-      def initialize(client, thread_num, settings, debug)
+      def initialize(client, settings, debug)
         @client = client
-        @thread_num = thread_num
         @settings = settings
         @debug = debug
       end
 
       def line(user_event, i)
-        STDERR.puts "#{i % @thread_num} : #{user_event.html_url}\n" if @debug
+        STDERR.puts "#{i % settings.thread_num} : #{user_event.html_url}\n" if @debug
         issue = issue(user_event)
 
         line = {

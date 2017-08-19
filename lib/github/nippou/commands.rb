@@ -19,7 +19,7 @@ module Github
       def list
         lines = []
         mutex = Mutex.new
-        format = Format.new(client, settings.thread_num, settings, debug)
+        format = Format.new(client, settings, debug)
 
         Parallel.each_with_index(user_events, in_threads: settings.thread_num) do |user_event, i|
           # Contain GitHub access.
