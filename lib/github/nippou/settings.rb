@@ -110,6 +110,9 @@ module Github
           end
       end
 
+      # Getting default settings url
+      #
+      # @return [String]
       def default_url
         "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
       end
