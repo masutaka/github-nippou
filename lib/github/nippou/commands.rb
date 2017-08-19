@@ -15,7 +15,7 @@ module Github
                    aliases: :u, desc: 'Retrieves GitHub user_events until the date'
       class_option :debug, type: :boolean, default: false, aliases: :d, desc: 'Debug mode'
 
-      desc 'list', "Displays today's GitHub events formatted for Nippou (Default)"
+      desc 'list', "Print today's your GitHub action (Default)"
       def list
         lines = []
         mutex = Mutex.new
@@ -31,7 +31,7 @@ module Github
         puts format.all(lines)
       end
 
-      desc 'init', 'Synchronize github-nippou settings on your gist'
+      desc 'init', 'Initialize github-nippou settings'
       def init
         Init.new(settings: settings).run
       end
@@ -42,7 +42,7 @@ module Github
         Launchy.open(settings.url)
       end
 
-      desc 'version', 'Displays version'
+      desc 'version', 'Print version'
       def version
         puts VERSION
       end
