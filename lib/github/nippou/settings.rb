@@ -11,7 +11,7 @@ module Github
       #
       # @param verbose [Boolean] Print error message
       # @return [String]
-      # @raise [SystemExit] cannot get the user
+      # @raise [GettingUserError] cannot get the user
       def user(verbose: true)
         @user ||=
           case
@@ -33,7 +33,7 @@ module Github
       #
       # @param verbose [Boolean] Print error message
       # @return [String]
-      # @raise [SystemExit] cannot get the access token
+      # @raise [GettingAccessTokenError] cannot get the access token
       def access_token(verbose: true)
         @access_token ||=
           case
