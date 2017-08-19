@@ -12,7 +12,7 @@
 [gem-link]: http://badge.fury.io/rb/github-nippou
 [dockerhub]: https://hub.docker.com/r/masutaka/github-nippou/
 
-Displays today's your GitHub action.
+Print today's your GitHub action.
 
 This is a helpful tool when you write a daily report in reference to
 GitHub. Nippou is a japanese word which means a daily report.
@@ -35,8 +35,13 @@ Or install it yourself as:
 
 ## Setup
 
-    $ git config --global github-nippou.user [Your GitHub account]
-    $ git config --global github-nippou.token [Your GitHub access token]
+    $ github-nippou init
+
+The initialization will be update your `~/.gitconfig`.
+
+1. Add `github-nippou.user`
+2. Add `github-nippou.token`
+3. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
 
 ## Usage
 
@@ -44,16 +49,16 @@ Or install it yourself as:
 $ github-nippou help
 Commands:
   github-nippou help [COMMAND]  # Describe available commands or one specific command
-  github-nippou init            # Synchronize github-nippou settings on your gist
-  github-nippou list            # Displays today's GitHub events formatted for Nippou (Default)
+  github-nippou init            # Initialize github-nippou settings
+  github-nippou list            # Print today's your GitHub action (Default)
   github-nippou open-settings   # Open settings url with web browser
-  github-nippou version         # Displays version
+  github-nippou version         # Print version
 
 Options:
   s, [--since-date=SINCE_DATE]  # Retrieves GitHub user_events since the date
-                                # Default: 20170807
+                                # Default: 20170819
   u, [--until-date=UNTIL_DATE]  # Retrieves GitHub user_events until the date
-                                # Default: 20170807
+                                # Default: 20170819
   d, [--debug], [--no-debug]    # Debug mode
 
 ```
@@ -65,32 +70,11 @@ $ github-nippou
 
 ### masutaka/github-nippou
 
-* [v3.0.0](https://github.com/masutaka/github-nippou/issues/59) by masutaka
-* [Enable to inject settings_gist_id instead of the settings](https://github.com/masutaka/github-nippou/pull/63) by masutaka **merged!**
-* [Add y/n prompt to sub command \`init\`](https://github.com/masutaka/github-nippou/pull/64) by masutaka **merged!**
-* [Add sub command \`open-settings\`](https://github.com/masutaka/github-nippou/pull/65) by masutaka **merged!**
-* [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by masutaka **merged!**
-```
-
-## Customize output format
-
-```
-$ github-nippou init
-This command will create a gist and update your `~/.gitconfig`.
-Are you sure? [y/n] y
-The github-nippou settings was created on https://gist.github.com/ecfa35cb546d8462277d133a91b13be9
-
-And the gist_id was appended to your `~/.gitconfig`. You can
-check the gist_id with following command.
-
-    $ git config --global github-nippou.settings-gist-id
-```
-
-Open the Gist URL with your web browser.
-
-```
-$ github-nippou open-settings
-Open https://gist.github.com/ecfa35cb546d8462277d133a91b13be9
+* [v3.0.0](https://github.com/masutaka/github-nippou/issues/59) by @[masutaka](https://github.com/masutaka)
+* [Enable to inject settings_gist_id instead of the settings](https://github.com/masutaka/github-nippou/pull/63) by @[masutaka](https://github.com/masutaka) **merged!**
+* [Add y/n prompt to sub command \`init\`](https://github.com/masutaka/github-nippou/pull/64) by @[masutaka](https://github.com/masutaka) **merged!**
+* [Add sub command \`open-settings\`](https://github.com/masutaka/github-nippou/pull/65) by @[masutaka](https://github.com/masutaka) **merged!**
+* [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by @[masutaka](https://github.com/masutaka) **merged!**
 ```
 
 ## Docker
