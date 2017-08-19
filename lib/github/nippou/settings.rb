@@ -4,11 +4,15 @@ require 'ostruct'
 module Github
   module Nippou
     class Settings
+      class GettingUserError < SystemExit; end
+      class GettingAccessTokenError < SystemExit; end
+
       # Getting GitHub user
       #
+      # @param verbose [Boolean] Print error message
       # @return [String]
       # @raise [SystemExit] cannot get the user
-      def user
+      def user(verbose: true)
         @user ||=
           case
           when ENV['GITHUB_NIPPOU_USER']
@@ -16,21 +20,21 @@ module Github
           when !`git config github-nippou.user`.chomp.empty?
             `git config github-nippou.user`.chomp
           else
-            puts <<~MESSAGE
-              ** User required.
+            puts <<~MESSAGE if verbose
+              !!!! GitHub User required. Please execute the following command. !!!!
 
-              Please set github-nippou.user to your `~/.gitconfig`.
-                  $ git config --global github-nippou.user [Your GitHub account]
+                  $ github-nippou init
             MESSAGE
-            abort
+            raise GettingUserError
           end
       end
 
       # Getting GitHub personal access token
       #
+      # @param verbose [Boolean] Print error message
       # @return [String]
       # @raise [SystemExit] cannot get the access token
-      def access_token
+      def access_token(verbose: true)
         @access_token ||=
           case
           when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
@@ -38,16 +42,12 @@ module Github
           when !`git config github-nippou.token`.chomp.empty?
             `git config github-nippou.token`.chomp
           else
-            puts <<~MESSAGE
-              ** Authorization required.
+            puts <<~MESSAGE if verbose
+              !!!! GitHub Personal access token required. Please execute the following command. !!!!
 
-              Please set github-nippou.token to your `~/.gitconfig`.
-                  $ git config --global github-nippou.token [Your GitHub access token]
-
-              To get new token with `repo` and `gist` scope, visit
-              https://github.com/settings/tokens/new
+                  $ github-nippou init
             MESSAGE
-            abort
+            raise GettingAccessTokenError
           end
       end
 
@@ -106,8 +106,12 @@ module Github
           if gist_id
             client.gist(gist_id).html_url
           else
-            "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
+            default_url
           end
+      end
+
+      def default_url
+        "https://github.com/masutaka/github-nippou/blob/v#{VERSION}/config/settings.yml"
       end
 
       # Getting format settings

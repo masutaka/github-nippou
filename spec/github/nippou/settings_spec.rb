@@ -53,6 +53,11 @@ describe Github::Nippou::Settings do
     end
   end
 
+  describe '#default_url' do
+    subject { settings.default_url }
+    it { is_expected.to eq "https://github.com/masutaka/github-nippou/blob/v#{Github::Nippou::VERSION}/config/settings.yml" }
+  end
+
   describe '#format' do
     before do
       allow(settings).to receive(:gist_id).and_return '12345'
