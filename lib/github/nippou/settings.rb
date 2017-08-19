@@ -80,6 +80,13 @@ module Github
           end.to_i
       end
 
+      # Getting Octokit client
+      #
+      # return [Octokit::Client]
+      def client
+        @client ||= Octokit::Client.new(login: user, access_token: access_token)
+      end
+
       # Create gist with config/settings.yml
       #
       # @return [Sawyer::Resource]
@@ -118,13 +125,6 @@ module Github
       end
 
       private
-
-      # Getting Octokit client
-      #
-      # return [Octokit::Client]
-      def client
-        @client ||= Octokit::Client.new(login: user, access_token: access_token)
-      end
 
       # Getting default settings.yml as Hash
       #

@@ -19,7 +19,7 @@ module Github
       def list
         lines = []
         mutex = Mutex.new
-        format = Format.new(client, settings, debug)
+        format = Format.new(settings.client, settings, debug)
 
         Parallel.each_with_index(user_events, in_threads: settings.thread_num) do |user_event, i|
           # Contain GitHub access.
@@ -33,7 +33,7 @@ module Github
 
       desc 'init', 'Synchronize github-nippou settings on your gist'
       def init
-        Init.new(client: client, settings: settings).run
+        Init.new(client: settings.client, settings: settings).run
       end
 
       desc 'open-settings', 'Open settings url with web browser'
@@ -51,12 +51,8 @@ module Github
 
       def user_events
         @user_events ||= UserEvents.new(
-          client, settings.user, options[:since_date], options[:until_date]
+          settings.client, settings.user, options[:since_date], options[:until_date]
         ).collect
-      end
-
-      def client
-        @client ||= Octokit::Client.new(login: settings.user, access_token: settings.access_token)
       end
 
       def settings
