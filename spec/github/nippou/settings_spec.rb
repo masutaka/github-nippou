@@ -4,17 +4,13 @@ describe Github::Nippou::Settings do
 
   after { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = nil }
 
+  it_behaves_like 'a settings interface'
+
   describe '#gist_id' do
     before { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789' }
 
     it 'is valid' do
       expect(settings.gist_id).to eq '0123456789'
-    end
-  end
-
-  describe '#create_gist' do
-    it 'responds to #create_gist' do
-      expect(settings).to respond_to :create_gist
     end
   end
 

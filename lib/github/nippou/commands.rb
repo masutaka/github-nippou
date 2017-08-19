@@ -1,4 +1,3 @@
-require 'highline/import'
 require 'launchy'
 require 'parallel'
 require 'thor'
@@ -34,44 +33,7 @@ module Github
 
       desc 'init', 'Synchronize github-nippou settings on your gist'
       def init
-        unless client.scopes.include? 'gist'
-          puts <<~MESSAGE
-            ** Gist scope required.
-
-            You need personal access token which has `gist` scope.
-            Please add `gist` scope to your personal access token, visit
-            https://github.com/settings/tokens
-          MESSAGE
-          exit!
-        end
-
-        if settings.gist_id.present?
-          puts <<~MESSAGE
-            ** Already initialized.
-
-            Your `~/.gitconfig` already has gist_id as `github-nippou.settings-gist-id`.
-          MESSAGE
-          exit
-        end
-
-        puts 'This command will create a gist and update your `~/.gitconfig`.'
-
-        unless HighLine.agree('Are you sure? [y/n] ')
-          puts 'Canceled.'
-          abort
-        end
-
-        gist = settings.create_gist
-        `git config --global github-nippou.settings-gist-id #{gist.id}`
-
-        puts <<~MESSAGE
-          The github-nippou settings was created on #{gist.html_url}
-
-          And the gist_id was appended to your `~/.gitconfig`. You can
-          check the gist_id with following command.
-
-              $ git config --global github-nippou.settings-gist-id
-        MESSAGE
+        Init.new(client: client, settings: settings).run
       end
 
       desc 'open-settings', 'Open settings url with web browser'
