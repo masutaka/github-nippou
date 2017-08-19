@@ -4,9 +4,51 @@ require 'ostruct'
 module Github
   module Nippou
     class Settings
-      # @param client [Octokit::Client]
-      def initialize(client:)
-        @client = client
+      # Getting GitHub user
+      #
+      # @return [String]
+      # @raise [SystemExit] cannot get the user
+      def user
+        @user ||=
+          case
+          when ENV['GITHUB_NIPPOU_USER']
+            ENV['GITHUB_NIPPOU_USER']
+          when !`git config github-nippou.user`.chomp.empty?
+            `git config github-nippou.user`.chomp
+          else
+            puts <<~MESSAGE
+              ** User required.
+
+              Please set github-nippou.user to your `~/.gitconfig`.
+                  $ git config --global github-nippou.user [Your GitHub account]
+            MESSAGE
+            abort
+          end
+      end
+
+      # Getting GitHub personal access token
+      #
+      # @return [String]
+      # @raise [SystemExit] cannot get the access token
+      def access_token
+        @access_token ||=
+          case
+          when ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+            ENV['GITHUB_NIPPOU_ACCESS_TOKEN']
+          when !`git config github-nippou.token`.chomp.empty?
+            `git config github-nippou.token`.chomp
+          else
+            puts <<~MESSAGE
+              ** Authorization required.
+
+              Please set github-nippou.token to your `~/.gitconfig`.
+                  $ git config --global github-nippou.token [Your GitHub access token]
+
+              To get new token with `repo` and `gist` scope, visit
+              https://github.com/settings/tokens/new
+            MESSAGE
+            abort
+          end
       end
 
       # Getting gist id which has settings.yml
@@ -21,6 +63,21 @@ module Github
                 git_config.present? ? git_config : nil
               end
           end
+      end
+
+      # Getting thread number
+      #
+      # @return [Integer]
+      def thread_num
+        @thread_num ||=
+          case
+          when ENV['GITHUB_NIPPOU_THREAD_NUM']
+            ENV['GITHUB_NIPPOU_THREAD_NUM']
+          when !`git config github-nippou.thread-num`.chomp.empty?
+            `git config github-nippou.thread-num`.chomp
+          else
+            5
+          end.to_i
       end
 
       # Create gist with config/settings.yml
@@ -62,7 +119,12 @@ module Github
 
       private
 
-      attr_reader :client
+      # Getting Octokit client
+      #
+      # return [Octokit::Client]
+      def client
+        @client ||= Octokit::Client.new(login: user, access_token: access_token)
+      end
 
       # Getting default settings.yml as Hash
       #

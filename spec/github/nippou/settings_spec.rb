@@ -1,45 +1,64 @@
 describe Github::Nippou::Settings do
-  let(:client) { Octokit::Client.new(login: 'taro', access_token: '1234abcd') }
-  let(:settings) { described_class.new(client: client) }
-
-  after { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = nil }
+  let(:settings) { described_class.new }
 
   it_behaves_like 'a settings interface'
 
+  describe '#user' do
+    before { ENV['GITHUB_NIPPOU_USER'] = 'taro' }
+    subject { settings.user }
+    it { is_expected.to eq 'taro' }
+    after { ENV['GITHUB_NIPPOU_USER'] = nil }
+  end
+
+  describe '#access_token' do
+    before { ENV['GITHUB_NIPPOU_ACCESS_TOKEN'] = '1234abcd' }
+    subject { settings.access_token }
+    it { is_expected.to eq '1234abcd' }
+    after { ENV['GITHUB_NIPPOU_ACCESS_TOKEN'] = nil }
+  end
+
   describe '#gist_id' do
     before { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '0123456789' }
+    subject { settings.gist_id }
+    it { is_expected.to eq '0123456789' }
+    after { ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = nil }
+  end
 
-    it 'is valid' do
-      expect(settings.gist_id).to eq '0123456789'
-    end
+  describe '#thread_num' do
+    before { ENV['GITHUB_NIPPOU_THREAD_NUM'] = '10' }
+    subject { settings.thread_num }
+    it { is_expected.to eq 10 }
+    after { ENV['GITHUB_NIPPOU_THREAD_NUM'] = nil }
   end
 
   describe '#url' do
+    subject { settings.url }
+
     context 'given gist_id' do
       let(:gist_id) { '0123456789' }
 
       before do
-        ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = gist_id
-        response = OpenStruct.new(html_url: "https://gist.github.com/#{gist_id}")
-        allow(client).to receive(:gist).and_return(response)
+        allow(settings).to receive(:gist_id).and_return gist_id
+        allow(settings).to receive_message_chain(:client, :gist) do
+          OpenStruct.new(html_url: "https://gist.github.com/#{gist_id}")
+        end
       end
 
-      it 'is gist url' do
-        expect(settings.url).to eq "https://gist.github.com/#{gist_id}"
-      end
+      it { is_expected.to eq "https://gist.github.com/#{gist_id}" }
     end
 
     context 'given no gist_id' do
-      it 'is github url' do
-        expect(settings.url).to eq "https://github.com/masutaka/github-nippou/blob/v#{Github::Nippou::VERSION}/config/settings.yml"
-      end
+      before { allow(settings).to receive(:gist_id).and_return nil }
+      it { is_expected.to eq "https://github.com/masutaka/github-nippou/blob/v#{Github::Nippou::VERSION}/config/settings.yml" }
     end
   end
 
   describe '#format' do
     before do
-      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
-      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+      allow(settings).to receive(:gist_id).and_return '12345'
+      allow(settings).to receive_message_chain(:client, :gist) do
+        OpenStruct.new(files: { 'settings.yml': { content: settings_yaml } })
+      end
     end
 
     context 'given valid settings' do
@@ -65,8 +84,10 @@ describe Github::Nippou::Settings do
 
   describe '#dictionary' do
     before do
-      ENV['GITHUB_NIPPOU_SETTINGS_GIST_ID'] = '12345'
-      allow(client).to receive(:gist).and_return( files: { 'settings.yml': { content: settings_yaml } } )
+      allow(settings).to receive(:gist_id).and_return '12345'
+      allow(settings).to receive_message_chain(:client, :gist) do
+        OpenStruct.new(files: { 'settings.yml': { content: settings_yaml } })
+      end
     end
 
     context 'given valid settings' do
