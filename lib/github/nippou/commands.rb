@@ -59,6 +59,10 @@ module Github
         @client ||= Octokit::Client.new(login: user, access_token: access_token)
       end
 
+      # Getting GitHub user
+      #
+      # @return [String]
+      # @raise [SystemExit] cannot get the user
       def user
         @user ||=
           case
@@ -73,10 +77,14 @@ module Github
               Please set github-nippou.user to your `~/.gitconfig`.
                   $ git config --global github-nippou.user [Your GitHub account]
             MESSAGE
-            exit!
+            abort
           end
       end
 
+      # Getting GitHub personal access token
+      #
+      # @return [String]
+      # @raise [SystemExit] cannot get the access token
       def access_token
         @access_token ||=
           case
@@ -94,7 +102,7 @@ module Github
               To get new token with `repo` and `gist` scope, visit
               https://github.com/settings/tokens/new
             MESSAGE
-            exit!
+            abort
           end
       end
 

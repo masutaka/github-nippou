@@ -12,7 +12,8 @@ module Github
 
       # Run the initialization
       #
-      # @raise [SystemExit] don't need the initialization, or canceled
+      # @raise [SystemExit] failed the initialization,
+      #   or don't need, or canceled
       def run
         unless client.scopes.include? 'gist'
           puts <<~MESSAGE
@@ -22,7 +23,7 @@ module Github
             Please add `gist` scope to your personal access token, visit
             https://github.com/settings/tokens
           MESSAGE
-          exit!
+          abort
         end
 
         if settings.gist_id.present?
