@@ -4,11 +4,9 @@ module Github
       using SawyerResourceGithub
       using StringMarkdown
 
-      # @param client [Octokit::Client]
       # @param settings [Settings]
       # @param debug [Boolean]
-      def initialize(client, settings, debug)
-        @client = client
+      def initialize(settings, debug)
         @settings = settings
         @debug = debug
       end
@@ -60,12 +58,12 @@ module Github
       def issue(user_event)
         case
         when user_event.payload.pull_request
-          @client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
+          settings.client.pull_request(user_event.repo.name, user_event.payload.pull_request.number)
         when user_event.payload.issue.pull_request
           # a pull_request like an issue
-          @client.pull_request(user_event.repo.name, user_event.payload.issue.number)
+          settings.client.pull_request(user_event.repo.name, user_event.payload.issue.number)
         else
-          @client.issue(user_event.repo.name, user_event.payload.issue.number)
+          settings.client.issue(user_event.repo.name, user_event.payload.issue.number)
         end
       end
 

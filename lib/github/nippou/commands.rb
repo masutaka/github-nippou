@@ -19,7 +19,7 @@ module Github
       def list
         lines = []
         mutex = Mutex.new
-        format = Format.new(settings.client, settings, debug)
+        format = Format.new(settings, debug)
 
         Parallel.each_with_index(user_events, in_threads: settings.thread_num) do |user_event, i|
           # Contain GitHub access.
@@ -33,7 +33,7 @@ module Github
 
       desc 'init', 'Synchronize github-nippou settings on your gist'
       def init
-        Init.new(client: settings.client, settings: settings).run
+        Init.new(settings: settings).run
       end
 
       desc 'open-settings', 'Open settings url with web browser'

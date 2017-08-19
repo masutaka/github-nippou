@@ -3,10 +3,8 @@ require 'highline/import'
 module Github
   module Nippou
     class Init
-      # @param client [Octokit::Client]
       # @param settings [Settings]
-      def initialize(client:, settings:)
-        @client = client
+      def initialize(settings:)
         @settings = settings
       end
 
@@ -15,7 +13,7 @@ module Github
       # @raise [SystemExit] failed the initialization,
       #   or don't need, or canceled
       def run
-        unless client.scopes.include? 'gist'
+        unless settings.client.scopes.include? 'gist'
           puts <<~MESSAGE
             ** Gist scope required.
 
@@ -57,7 +55,7 @@ module Github
 
       private
 
-      attr_reader :client, :settings
+      attr_reader :settings
     end
   end
 end
