@@ -54,6 +54,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
+    yard (0.9.9)
 
 PLATFORMS
   ruby
@@ -63,6 +64,7 @@ DEPENDENCIES
   github-nippou!
   rake
   rspec
+  yard
 
 BUNDLED WITH
    1.15.3
