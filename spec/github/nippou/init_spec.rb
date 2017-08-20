@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Github::Nippou::Init do
   let(:client) { Octokit::Client.new(login: 'taro', access_token: '1234abcd') }
   let(:settings) { double(:settings, user: nil, access_token: nil, gist_id: nil, thread_num: nil,

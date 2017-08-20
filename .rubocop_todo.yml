@@ -142,19 +142,6 @@ Style/FormatString:
 Style/FormatStringToken:
   EnforcedStyle: template
 
-# Offense count: 19
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: when_needed, always, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/github/nippou/version.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.

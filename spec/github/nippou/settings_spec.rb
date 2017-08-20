@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Github::Nippou::Settings do
   let(:settings) { described_class.new }
 
