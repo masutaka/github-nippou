@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'ostruct'
 
@@ -94,7 +96,7 @@ module Github
         client.create_gist(
           description: 'github-nippou settings',
           public: true,
-          files: { 'settings.yml' => { content: default_settings.to_yaml }}
+          files: { 'settings.yml' => { content: default_settings.to_yaml } }
         )
       end
 
