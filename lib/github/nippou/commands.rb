@@ -10,11 +10,11 @@ module Github
     class Commands < Thor
       default_task :list
       class_option :since_date, type: :string,
-                   default: Time.now.strftime('%Y%m%d'),
-                   aliases: :s, desc: 'Retrieves GitHub user_events since the date'
+                                default: Time.now.strftime('%Y%m%d'),
+                                aliases: :s, desc: 'Retrieves GitHub user_events since the date'
       class_option :until_date, type: :string,
-                   default: Time.now.strftime('%Y%m%d'),
-                   aliases: :u, desc: 'Retrieves GitHub user_events until the date'
+                                default: Time.now.strftime('%Y%m%d'),
+                                aliases: :u, desc: 'Retrieves GitHub user_events until the date'
       class_option :debug, type: :boolean, default: false, aliases: :d, desc: 'Debug mode'
 
       desc 'list', "Print today's your GitHub action (Default)"
