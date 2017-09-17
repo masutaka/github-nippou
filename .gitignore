@@ -2,5 +2,6 @@
 /.bundle
 /.envrc
 /.yardoc
+/_vendor-*
 /doc
-/vendor/bundle
+/vendor
