@@ -1,15 +1,32 @@
 package cmd
 
 import (
+	"os"
+	"time"
+
+	"github.com/masutaka/github-nippou/lib"
 	"github.com/spf13/cobra"
 )
+
+var sinceDate string
+var untilDate string
+
+func init() {
+	nowDate := time.Now().Format("20060102")
+	sinceDate = nowDate
+	untilDate = nowDate
+
+	RootCmd.PersistentFlags().StringVarP(&sinceDate, "since-date", "s", sinceDate, "Retrieves GitHub user_events since the date")
+	RootCmd.PersistentFlags().StringVarP(&untilDate, "until-date", "u", untilDate, "Retrieves GitHub user_events until the date")
+}
 
 // RootCmd defines a root command
 var RootCmd = &cobra.Command{
 	Use:   "github-nippou",
-	Short: "Print today's your GitHub action.",
-	Long: `This is a helpful tool when you write a daily report in reference to
-GitHub. nippou is a japanese word which means a daily report.`,
+	Short: "Print today's your GitHub action (Default)",
 	Run: func(cmd *cobra.Command, args []string) {
+		if err := lib.List(sinceDate, untilDate); err != nil {
+			os.Exit(1)
+		}
 	},
 }
