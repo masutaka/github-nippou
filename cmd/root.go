@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -26,6 +27,7 @@ var RootCmd = &cobra.Command{
 	Short: "Print today's your GitHub action (Default)",
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := lib.List(sinceDate, untilDate); err != nil {
+			fmt.Println(err)
 			os.Exit(1)
 		}
 	},
