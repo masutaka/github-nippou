@@ -5,4 +5,5 @@
 /_vendor-*
 /doc
 /github-nippou
+/lib/bindata.go
 /vendor
