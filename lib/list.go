@@ -40,7 +40,13 @@ func List(sinceDate, untilDate string) error {
 
 	events := CollectEvents(ctx, client, user, sinceTime, untilTime)
 	format := NewFormat(ctx, client)
-	sem := make(chan int, 5)
+
+	parallelNum, err := getParallelNum()
+	if err != nil {
+		return err
+	}
+
+	sem := make(chan int, parallelNum)
 	var lines Lines
 	var wg sync.WaitGroup
 	var mu sync.Mutex

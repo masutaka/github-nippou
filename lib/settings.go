@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 
 	"github.com/google/go-github/github"
@@ -60,6 +61,20 @@ func getGistID() string {
 	}
 
 	return strings.TrimRight(string(output), "\n")
+}
+
+func getParallelNum() (int, error) {
+	if os.Getenv("GITHUB_NIPPOU_THREAD_NUM") != "" {
+		return strconv.Atoi(os.Getenv("GITHUB_NIPPOU_THREAD_NUM"))
+	}
+
+	output, _ := exec.Command("git", "config", "github-nippou.thread-num").Output()
+
+	if len(output) >= 1 {
+		return strconv.Atoi(strings.TrimRight(string(output), "\n"))
+	}
+
+	return 5, nil
 }
 
 func getClient(ctx context.Context, accessToken string) *github.Client {
