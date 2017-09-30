@@ -16,11 +16,12 @@ import (
 type Format struct {
 	ctx    context.Context
 	client *github.Client
+	debug  bool
 }
 
 // NewFormat is an initializer
-func NewFormat(ctx context.Context, client *github.Client) *Format {
-	return &Format{ctx: ctx, client: client}
+func NewFormat(ctx context.Context, client *github.Client, debug bool) *Format {
+	return &Format{ctx: ctx, client: client, debug: debug}
 }
 
 // Line is line infomation
@@ -34,7 +35,9 @@ type Line struct {
 
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
-	fmt.Printf("%2d %s\n", i, htmlURL(event))
+	if f.debug {
+		fmt.Printf("%2d %s\n", i, htmlURL(event))
+	}
 
 	payload := event.Payload()
 	var line Line

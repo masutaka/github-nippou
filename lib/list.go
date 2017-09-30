@@ -11,7 +11,7 @@ import (
 )
 
 // List outputs formated GitHub events to stdout
-func List(sinceDate, untilDate string) error {
+func List(sinceDate, untilDate string, debug bool) error {
 	user, err := getUser()
 	if err != nil {
 		return err
@@ -36,7 +36,7 @@ func List(sinceDate, untilDate string) error {
 	client := getClient(ctx, accessToken)
 
 	events := CollectEvents(ctx, client, user, sinceTime, untilTime)
-	format := NewFormat(ctx, client)
+	format := NewFormat(ctx, client, debug)
 
 	parallelNum, err := getParallelNum()
 	if err != nil {
