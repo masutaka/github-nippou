@@ -30,3 +30,15 @@ func TestGetAccessToken(t *testing.T) {
 
 	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "")
 }
+
+func TestGetGistID(t *testing.T) {
+	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
+
+	actual := lib.GetGistID()
+	const expected = "0123456789"
+	if actual != expected {
+		t.Errorf("expected %s but got %s", expected, actual)
+	}
+
+	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "")
+}
