@@ -12,15 +12,6 @@ import (
 var sinceDate string
 var untilDate string
 
-func init() {
-	nowDate := time.Now().Format("20060102")
-	sinceDate = nowDate
-	untilDate = nowDate
-
-	RootCmd.PersistentFlags().StringVarP(&sinceDate, "since-date", "s", sinceDate, "Retrieves GitHub user_events since the date")
-	RootCmd.PersistentFlags().StringVarP(&untilDate, "until-date", "u", untilDate, "Retrieves GitHub user_events until the date")
-}
-
 // RootCmd defines a root command
 var RootCmd = &cobra.Command{
 	Use:   "github-nippou",
@@ -31,4 +22,13 @@ var RootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 	},
+}
+
+func init() {
+	nowDate := time.Now().Format("20060102")
+	sinceDate = nowDate
+	untilDate = nowDate
+
+	RootCmd.PersistentFlags().StringVarP(&sinceDate, "since-date", "s", sinceDate, "Retrieves GitHub user_events since the date")
+	RootCmd.PersistentFlags().StringVarP(&untilDate, "until-date", "u", untilDate, "Retrieves GitHub user_events until the date")
 }

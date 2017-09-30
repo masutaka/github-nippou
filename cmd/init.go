@@ -8,10 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	RootCmd.AddCommand(initCmd)
-}
-
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize github-nippou settings",
@@ -21,4 +17,8 @@ var initCmd = &cobra.Command{
 			os.Exit(1)
 		}
 	},
+}
+
+func init() {
+	RootCmd.AddCommand(initCmd)
 }

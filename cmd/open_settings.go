@@ -8,10 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	RootCmd.AddCommand(openSettingsCmd)
-}
-
 var openSettingsCmd = &cobra.Command{
 	Use:   "open-settings",
 	Short: "Open settings url with web browser",
@@ -21,4 +17,8 @@ var openSettingsCmd = &cobra.Command{
 			os.Exit(1)
 		}
 	},
+}
+
+func init() {
+	RootCmd.AddCommand(openSettingsCmd)
 }
