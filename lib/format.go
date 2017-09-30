@@ -1,10 +1,13 @@
 package lib
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
+	"text/template"
 
 	"github.com/google/go-github/github"
 )
@@ -146,8 +149,13 @@ func getOwnerRepo(repoFullName string) (string, string) {
 }
 
 // All returns all lines which are formatted and sorted
-func (f *Format) All(lines Lines) string {
+func (f *Format) All(lines Lines) (string, error) {
 	var result, prevRepoName, currentRepoName string
+	var settings Settings
+
+	if err := settings.Init(); err != nil {
+		return "", nil
+	}
 
 	sort.Sort(lines)
 
@@ -156,13 +164,13 @@ func (f *Format) All(lines Lines) string {
 
 		if currentRepoName != prevRepoName {
 			prevRepoName = currentRepoName
-			result += fmt.Sprintf("\n#### %s\n\n", currentRepoName)
+			result += fmt.Sprintf("\n%s\n\n", formatSubject(settings, currentRepoName))
 		}
 
-		result += fmt.Sprintf("%s\n", formatLine(line))
+		result += fmt.Sprintf("%s\n", formatLine(settings, line))
 	}
 
-	return result
+	return result, nil
 }
 
 // Lines has sort.Interface
@@ -180,7 +188,48 @@ func (l Lines) Less(i, j int) bool {
 	return l[i].url < l[j].url
 }
 
-func formatLine(line Line) string {
-	return fmt.Sprintf("* [%s](%s) by @[%s](https://github.com/%s) **%s!**",
-		line.title, line.url, line.user, line.user, line.status)
+func formatSubject(settings Settings, repoName string) string {
+	formatSubject := convertNamedParameters(settings.Format.Subject)
+
+	m := map[string]interface{}{"subject": repoName}
+	t := template.Must(template.New("").Parse(formatSubject))
+
+	var rendered bytes.Buffer
+	t.Execute(&rendered, m)
+
+	return rendered.String()
+}
+
+func formatLine(settings Settings, line Line) string {
+	formatLine := convertNamedParameters(settings.Format.Line)
+
+	m := map[string]interface{}{
+		"title":  line.title,
+		"url":    line.url,
+		"user":   line.user,
+		"status": formatStatus(settings, line.status),
+	}
+	t := template.Must(template.New("").Parse(formatLine))
+
+	var rendered bytes.Buffer
+	t.Execute(&rendered, m)
+
+	return rendered.String()
+}
+
+func formatStatus(settings Settings, status string) string {
+	switch status {
+	case "merged":
+		return settings.Dictionary.Status.Merged
+	case "closed":
+		return settings.Dictionary.Status.Closed
+	default:
+		return ""
+	}
+}
+
+// "#{hoge}" => "{{.hoge}}"
+func convertNamedParameters(str string) string {
+	re := regexp.MustCompile("%{([^}]+)}")
+	return re.ReplaceAllString(str, "{{.$1}}")
 }

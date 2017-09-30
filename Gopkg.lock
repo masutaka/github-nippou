@@ -61,9 +61,15 @@
   revision = "150dc57a1b433e64154302bdc40b6bb8aefa313a"
   version = "v1.0.0"
 
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  revision = "eb3733d160e74a9c7e442f435eb3bea458e1d19f"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "26150b835ad23df5df8a42823758a9bc0121b40db32c3422e2310b3f9364c38c"
+  inputs-digest = "a6a2ca8051e6c46ad88176d5659602df2ce01ce0737436ab48cb4e3b40a001ab"
   solver-name = "gps-cdcl"
   solver-version = 1

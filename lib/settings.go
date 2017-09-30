@@ -11,7 +11,60 @@ import (
 
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
+	"gopkg.in/yaml.v2"
 )
+
+// Settings has configure
+type Settings struct {
+	Format struct {
+		Subject string
+		Line    string
+	}
+	Dictionary struct {
+		Status struct {
+			Merged string
+			Closed string
+		}
+	}
+	URL string
+}
+
+// Init initializes Settings
+func (s *Settings) Init() error {
+	var content string
+	var err error
+
+	gistID := getGistID()
+
+	if gistID != "" {
+		ctx := context.Background()
+
+		accessToken, err := getAccessToken()
+		if err != nil {
+			return err
+		}
+
+		client := getClient(ctx, accessToken)
+
+		gist, _, err := client.Gists.Get(ctx, gistID)
+		if err != nil {
+			return err
+		}
+
+		content = *gist.Files["settings.yml"].Content
+		s.URL = *gist.HTMLURL
+	} else {
+		content, err = getDefaultSettingsYml()
+		if err != nil {
+			return err
+		}
+		s.URL = getDefaultSettingsURL()
+	}
+
+	yaml.Unmarshal([]byte(content), s)
+
+	return nil
+}
 
 func getUser() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {

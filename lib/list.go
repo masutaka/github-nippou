@@ -70,7 +70,12 @@ func List(sinceDate, untilDate string) error {
 	}
 	wg.Wait()
 
-	fmt.Print(format.All(lines))
+	allLines, err := format.All(lines)
+	if err != nil {
+		return err
+	}
+
+	fmt.Print(allLines)
 
 	return nil
 }
