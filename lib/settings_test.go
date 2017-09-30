@@ -42,3 +42,15 @@ func TestGetGistID(t *testing.T) {
 
 	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "")
 }
+
+func TestGetParallelNum(t *testing.T) {
+	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
+
+	actual, _ := lib.GetParallelNum()
+	const expected = 10
+	if actual != expected {
+		t.Errorf("expected %d but got %d", expected, actual)
+	}
+
+	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "")
+}
