@@ -32,9 +32,6 @@ func List(sinceDate, untilDate string) error {
 		log.Fatal(err)
 	}
 
-	// fmt.Printf("sinceDate: %s, sinceTime: %s\n", sinceDate, sinceTime)
-	// fmt.Printf("untilDate: %s, untilTime: %s\n", untilDate, untilTime)
-
 	ctx := context.Background()
 	client := getClient(ctx, accessToken)
 
@@ -56,16 +53,12 @@ func List(sinceDate, untilDate string) error {
 		go func(event *github.Event, i int) {
 			defer wg.Done()
 			sem <- 1
-			// fmt.Printf("%2d Start\n", i)
 			line := format.Line(event, i)
-			// fmt.Printf("%2d Finish\n", i)
 			<-sem
 
-			// fmt.Printf("%2d Lock\n", i)
 			mu.Lock()
 			defer mu.Unlock()
 			lines = append(lines, line)
-			// fmt.Printf("%2d Unlock\n", i)
 		}(event, i)
 	}
 	wg.Wait()
