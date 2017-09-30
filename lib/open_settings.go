@@ -8,7 +8,12 @@ import (
 
 // OpenSettings opens settings url with web browser
 func OpenSettings() error {
-	settingsURL := getDefaultSettingsURL()
-	fmt.Printf("Open %s\n", settingsURL)
-	return open.Run(settingsURL)
+	var settings Settings
+
+	if err := settings.Init(); err != nil {
+		return nil
+	}
+
+	fmt.Printf("Open %s\n", settings.URL)
+	return open.Run(settings.URL)
 }
