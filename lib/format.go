@@ -157,7 +157,7 @@ func (f *Format) All(lines Lines) (string, error) {
 	var settings Settings
 
 	if err := settings.Init(); err != nil {
-		return "", nil
+		return "", err
 	}
 
 	sort.Sort(lines)

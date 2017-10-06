@@ -61,9 +61,7 @@ func (s *Settings) Init() error {
 		s.URL = getDefaultSettingsURL()
 	}
 
-	yaml.Unmarshal([]byte(content), s)
-
-	return nil
+	return yaml.Unmarshal([]byte(content), s)
 }
 
 func getUser() (string, error) {
