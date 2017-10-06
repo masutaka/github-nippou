@@ -54,3 +54,11 @@ func TestGetParallelNum(t *testing.T) {
 
 	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "")
 }
+
+func TestGetDefaultSettingsURL(t *testing.T) {
+	actual := lib.GetDefaultSettingsURL()
+	const expected = "https://github.com/masutaka/github-nippou/blob/v" + lib.Version + "/config/settings.yml"
+	if actual != expected {
+		t.Errorf("expected %d but got %d", expected, actual)
+	}
+}
