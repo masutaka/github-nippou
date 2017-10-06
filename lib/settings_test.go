@@ -7,6 +7,10 @@ import (
 	"github.com/masutaka/github-nippou/lib"
 )
 
+func TestInit(t *testing.T) {
+	t.Skip("This test is pending.")
+}
+
 func TestGetUser(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_USER", "taro")
 
@@ -61,4 +65,8 @@ func TestGetDefaultSettingsURL(t *testing.T) {
 	if actual != expected {
 		t.Errorf("expected %d but got %d", expected, actual)
 	}
+}
+
+func TestGetDefaultSettingsYml(t *testing.T) {
+	t.Skip("This test is pending.")
 }
