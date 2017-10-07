@@ -3,6 +3,7 @@
 /.envrc
 /.yardoc
 /_vendor-*
+/dist/*
 /doc
 /github-nippou
 /lib/bindata.go
