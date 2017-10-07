@@ -5,13 +5,13 @@
   branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "11b8df160996e00fd4b55cbaafb3d84ec6d50fa8"
+  revision = "130e6b02ab059e7b717a096f397c5b60111cae74"
 
 [[projects]]
   branch = "master"
   name = "github.com/google/go-github"
   packages = ["github"]
-  revision = "12126fbfe000a09047ebdeb2b5160be3af88ab9e"
+  revision = "64c38a12bfba4aefcb14b60fc9cd196f4f31634e"
 
 [[projects]]
   branch = "master"
@@ -35,7 +35,7 @@
   branch = "master"
   name = "github.com/spf13/cobra"
   packages = ["."]
-  revision = "b78744579491c1ceeaaa3b40205e56b0591b93a3"
+  revision = "bc69223348ce9692e3ab90f04c375ac6cd71e9ba"
 
 [[projects]]
   name = "github.com/spf13/pflag"
@@ -47,13 +47,13 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
-  revision = "8351a756f30f1297fe94bbf4b767ec589c6ea6d0"
+  revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/oauth2"
   packages = [".","internal"]
-  revision = "13449ad91cb26cb47661c1b080790392170385fd"
+  revision = "bb50c06baba3d0c76f9d125c0719093e315b5b44"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -70,6 +70,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a6a2ca8051e6c46ad88176d5659602df2ce01ce0737436ab48cb4e3b40a001ab"
+  inputs-digest = "7a30dc8fe8d797904172f7d7003a8d1e80f1b9f8b8e4d5c84ca8ce661f13f22b"
   solver-name = "gps-cdcl"
   solver-version = 1
