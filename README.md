@@ -30,6 +30,14 @@ If you're interested in hacking on `github-nippou`, you can install via `go get`
 $ go get -u github.com/masutaka/github-nippou
 ```
 
+Also you can use make command, it's easy to build `github-nippou`:
+
+```
+$ make deps
+$ make
+$ ./github-nippou
+```
+
 ## Setup
 
     $ github-nippou init
