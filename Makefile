@@ -21,7 +21,7 @@ deps: dep go-bindata
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
 $(NAME): $(SRCS)
-	go build -v -o $(NAME)
+	go build -o $(NAME)
 
 .PHONY: install
 install:
