@@ -30,7 +30,6 @@ install:
 
 .PHONY: clean
 clean:
-	go clean
 	rm -f $(NAME)
 	rm -rf dist/*
 
