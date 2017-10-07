@@ -1,16 +1,12 @@
-# Github::Nippou
+# github-nippou
 
 [![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?style=flat-square)][travisci]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
-[![Gem](https://img.shields.io/gem/v/github-nippou.svg?style=flat-square)][gem-link]
-[![Docker Stars](https://img.shields.io/docker/stars/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
-[![Docker Pulls](https://img.shields.io/docker/pulls/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
-[![Docker Automated buil](https://img.shields.io/docker/automated/masutaka/github-nippou.svg?style=flat-square)][dockerhub]
+[![GoDoc](https://godoc.org/github.com/masutaka/github-nippou?status.svg)][godoc]
 
 [travisci]: https://travis-ci.org/masutaka/github-nippou
 [license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
-[gem-link]: http://badge.fury.io/rb/github-nippou
-[dockerhub]: https://hub.docker.com/r/masutaka/github-nippou/
+[godoc]: https://godoc.org/github.com/masutaka/github-nippou
 
 Print today's your GitHub action.
 
@@ -19,19 +15,20 @@ GitHub. Nippou is a japanese word which means a daily report.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Grab the latest binary from the [releases](https://github.com/masutaka/github-nippou/releases) page.
 
-```ruby
-gem 'github-nippou'
+On macOS you can install or upgrade to the latest released version with Homebrew:
+
+```
+$ brew install masutaka/github-nippou/github-nippou
+$ brew upgrade github-nippou
 ```
 
-And then execute:
+If you're interested in hacking on `github-nippou`, you can install via `go get`:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install github-nippou
+```
+$ go get -u github.com/masutaka/github-nippou
+```
 
 ## Setup
 
@@ -47,20 +44,26 @@ The initialization will be update your `~/.gitconfig`.
 
 ```
 $ github-nippou help
-Commands:
-  github-nippou help [COMMAND]  # Describe available commands or one specific command
-  github-nippou init            # Initialize github-nippou settings
-  github-nippou list            # Print today's your GitHub action (Default)
-  github-nippou open-settings   # Open settings url with web browser
-  github-nippou version         # Print version
+Print today's your GitHub action
 
-Options:
-  s, [--since-date=SINCE_DATE]  # Retrieves GitHub user_events since the date
-                                # Default: 20170819
-  u, [--until-date=UNTIL_DATE]  # Retrieves GitHub user_events until the date
-                                # Default: 20170819
-  d, [--debug], [--no-debug]    # Debug mode
+Usage:
+  github-nippou [flags]
+  github-nippou [command]
 
+Available Commands:
+  help          Help about any command
+  init          Initialize github-nippou settings
+  list          Print today's your GitHub action
+  open-settings Open settings url with web browser
+  version       Print version
+
+Flags:
+  -d, --debug               Debug mode
+  -h, --help                help for github-nippou
+  -s, --since-date string   Retrieves GitHub user_events since the date (default "20171007")
+  -u, --until-date string   Retrieves GitHub user_events until the date (default "20171007")
+
+Use "github-nippou [command] --help" for more information about a command.
 ```
 
 You can get your GitHub Nippou on today.
@@ -76,16 +79,6 @@ $ github-nippou
 * [Add sub command \`open-settings\`](https://github.com/masutaka/github-nippou/pull/65) by @[masutaka](https://github.com/masutaka) **merged!**
 * [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by @[masutaka](https://github.com/masutaka) **merged!**
 ```
-
-## Docker
-
-You can use the [dockerized github-nippou](https://hub.docker.com/r/masutaka/github-nippou/) via `bin/docker-github-nippou`.
-
-    $ git clone https://github.com/masutaka/github-nippou.git
-    $ cd github-nippou/bin
-    $ ./docker-github-nippou help
-
-However, you cannot use the sub command `open-settings`.
 
 ## Contributing
 
