@@ -16,7 +16,7 @@ var debug bool
 // RootCmd defines a root command
 var RootCmd = &cobra.Command{
 	Use:   "github-nippou",
-	Short: "Print today's your GitHub action (Default)",
+	Short: "Print today's your GitHub action",
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := lib.List(sinceDate, untilDate, debug); err != nil {
 			fmt.Println(err)
