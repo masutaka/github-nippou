@@ -1,7 +1,7 @@
 NAME := github-nippou
 SRCS := $(shell find . -type f -name '*.go')
 
-all: build
+all: $(NAME)
 
 .PHONY: dep
 dep:
@@ -20,8 +20,7 @@ deps: dep go-bindata
 	dep ensure
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
-.PHONY: build
-build: $(SRCS)
+$(NAME): $(SRCS)
 	go build -v -o $(NAME)
 
 .PHONY: install
