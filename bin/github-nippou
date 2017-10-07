@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'github/nippou'
-
-Github::Nippou::Commands.start
