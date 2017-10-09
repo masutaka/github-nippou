@@ -96,6 +96,17 @@ $ github-nippou
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+## Maintenance
+
+It's possible to release to GitHub using `make` command.
+
+```
+$ git checkout master
+$ git pull
+$ make package
+$ make release
+```
+
 ## External article
 
 In Japanese
