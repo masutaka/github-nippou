@@ -39,7 +39,7 @@ test:
 .PHONY: cross-build
 cross-build: deps
 	for os in darwin linux windows; do \
-		for arch in amd64; do \
+		for arch in amd64 386; do \
 			GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 go build -v -o dist/$(NAME)_$${os}_$${arch}; \
 		done; \
 	done
