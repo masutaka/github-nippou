@@ -65,14 +65,14 @@ package: cross-build
 	mkdir -p pkg/dist/$(VERSION)
 
 	for PLATFORM in $$(find pkg -mindepth 1 -maxdepth 1 -type d); do \
-		PLATFORM_NAME=$$(basename $${PLATFORM}); \
+		PLATFORM_NAME=$$(basename $$PLATFORM); \
 		ARCHIVE_NAME=$(NAME)_$(VERSION)_$${PLATFORM_NAME}; \
 		\
 		if [ $$PLATFORM_NAME = "dist" ]; then \
 			continue; \
 		fi; \
 		\
-		pushd $${PLATFORM}; \
+		pushd $$PLATFORM; \
 		zip $(CURDIR)/pkg/dist/$(VERSION)/$${ARCHIVE_NAME}.zip *; \
 		popd; \
 	done
