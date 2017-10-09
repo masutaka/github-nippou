@@ -78,9 +78,9 @@ vet:
 lint:
 	echo $(PACKAGES) | xargs -n1 golint 
 
-# Generate packages for release
-.PHONY: package
-package: cross-build
+# Generate binary archives for GitHub release
+.PHONY: dist
+dist: cross-build
 	if [ -d pkg ]; then \
 		rm -rf pkg/dist; \
 	fi
@@ -109,7 +109,7 @@ cross-build: deps lib/bindata.go
 	rm -rf pkg/*
 	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
-# Release Generated packages to GitHub
+# Release binary archives to GitHub
 .PHONY: release
 release:
 	ghr $(VERSION) pkg/dist/$(VERSION)

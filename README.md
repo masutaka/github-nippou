@@ -103,7 +103,7 @@ It's possible to release to GitHub using `make` command.
 ```
 $ git checkout master
 $ git pull
-$ make package
+$ make dist
 $ make release
 ```
 
