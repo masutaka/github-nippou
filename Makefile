@@ -1,6 +1,7 @@
 NAME := github-nippou
 SRCS := $(shell find . -type f ! -path ./lib/bindata.go -name '*.go')
 CONFIGS := $(wildcard config/*)
+VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 
 all: $(NAME)
 
@@ -16,8 +17,14 @@ ifeq ($(shell command -v go-bindata 2> /dev/null),)
 	go get github.com/jteeuwen/go-bindata/...
 endif
 
+.PHONY: gox
+gox:
+ifeq ($(shell command -v gox 2> /dev/null),)
+	go get github.com/mitchellh/gox
+endif
+
 .PHONY: deps
-deps: dep go-bindata
+deps: dep go-bindata gox
 	dep ensure
 
 lib/bindata.go: $(CONFIGS)
@@ -33,7 +40,6 @@ install:
 .PHONY: clean
 clean:
 	rm -f $(NAME)
-	rm -rf dist/*
 
 .PHONY: test
 test:
@@ -41,11 +47,25 @@ test:
 
 .PHONY: cross-build
 cross-build: deps lib/bindata.go
-	for os in darwin linux windows; do \
-		for arch in amd64 386; do \
-			GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 go build -o dist/$(NAME); \
-			gzip -c dist/$(NAME) > dist/$(NAME)_$${os}_$${arch}.gz; \
-			rm -f dist/$(NAME); \
-			shasum -a 256 dist/$(NAME)_$${os}_$${arch}.gz; \
-		done; \
+	rm -rf pkg/*
+	gox -os="darwin linux windows" -arch="amd64 386" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
+
+.PHONY: package
+package: cross-build
+	if [ -d pkg ]; then \
+		rm -rf pkg/dist; \
+	fi
+
+	mkdir -p pkg/dist/$(VERSION)
+
+	for PLATFORM in $$(find pkg -mindepth 1 -maxdepth 1 -type d); do \
+		PLATFORM_NAME=$$(basename $${PLATFORM}); \
+		ARCHIVE_NAME=$(NAME)_$(VERSION)_$${PLATFORM_NAME}; \
+		pushd $${PLATFORM}; \
+		zip $(CURDIR)/pkg/dist/$(VERSION)/$${ARCHIVE_NAME}.zip *; \
+		popd; \
 	done
+
+	pushd pkg/dist/$(VERSION); \
+	shasum -a 256 * > $(VERSION)_SHASUMS; \
+	popd
