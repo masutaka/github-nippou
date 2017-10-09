@@ -54,7 +54,7 @@ test:
 .PHONY: cross-build
 cross-build: deps lib/bindata.go
 	rm -rf pkg/*
-	gox -os="darwin linux windows" -arch="amd64 386" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
+	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
 .PHONY: package
 package: cross-build
