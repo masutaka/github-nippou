@@ -1,5 +1,6 @@
 NAME := github-nippou
-SRCS := $(shell find . -type f -name '*.go')
+SRCS := $(shell find . -type f ! -path ./lib/bindata.go -name '*.go')
+CONFIGS := $(wildcard config/*)
 
 all: $(NAME)
 
@@ -18,9 +19,11 @@ endif
 .PHONY: deps
 deps: dep go-bindata
 	dep ensure
+
+lib/bindata.go: $(CONFIGS)
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
-$(NAME): $(SRCS)
+$(NAME): lib/bindata.go $(SRCS)
 	go build -o $(NAME)
 
 .PHONY: install
@@ -37,7 +40,7 @@ test:
 	go test -v ./...
 
 .PHONY: cross-build
-cross-build: deps
+cross-build: deps lib/bindata.go
 	for os in darwin linux windows; do \
 		for arch in amd64 386; do \
 			GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 go build -o dist/$(NAME); \
