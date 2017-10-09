@@ -6,6 +6,11 @@ PACKAGES := $(shell go list ./...)
 
 all: $(NAME)
 
+# Install dependencies for development
+.PHONY: deps
+deps: dep go-bindata gox ghr
+	dep ensure
+
 .PHONY: dep
 dep:
 ifeq ($(shell command -v dep 2> /dev/null),)
@@ -16,12 +21,6 @@ endif
 go-bindata:
 ifeq ($(shell command -v go-bindata 2> /dev/null),)
 	go get github.com/jteeuwen/go-bindata/...
-endif
-
-.PHONY: golint
-golint:
-ifeq ($(shell command -v golint 2> /dev/null),)
-	go get github.com/golang/lint/golint
 endif
 
 .PHONY: gox
@@ -36,44 +35,50 @@ ifeq ($(shell command -v ghr 2> /dev/null),)
 	go get github.com/tcnksm/ghr
 endif
 
-.PHONY: deps
-deps: dep go-bindata gox ghr
-	dep ensure
+# Build binary
+$(NAME): lib/bindata.go $(SRCS)
+	go build -o $(NAME)
 
 lib/bindata.go: $(CONFIGS)
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
-$(NAME): lib/bindata.go $(SRCS)
-	go build -o $(NAME)
-
+# Install binary to $GOPATH/bin
 .PHONY: install
 install:
 	go install
 
+# Clean binary
 .PHONY: clean
 clean:
 	rm -f $(NAME)
 
+# Test for development
 .PHONY: test
 test:
-	go test -v ./...
+	go test -v $(PACKAGES)
+
+# Test for CI
+.PHONY: test-all
+test-all: deps-ci vet lint test
+
+.PHONY: deps-ci
+deps-ci: golint
+
+.PHONY: golint
+golint:
+ifeq ($(shell command -v golint 2> /dev/null),)
+	go get github.com/golang/lint/golint
+endif
 
 .PHONY: vet
 vet:
 	go vet $(PACKAGES)
 
 .PHONY: lint
-lint: golint
+lint:
 	echo $(PACKAGES) | xargs -n1 golint 
 
-.PHONY: test-all
-test-all: vet lint test
-
-.PHONY: cross-build
-cross-build: deps lib/bindata.go
-	rm -rf pkg/*
-	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
-
+# Generate packages for release
 .PHONY: package
 package: cross-build
 	if [ -d pkg ]; then \
@@ -99,6 +104,12 @@ package: cross-build
 	shasum -a 256 * > $(VERSION)_SHASUMS; \
 	popd
 
+.PHONY: cross-build
+cross-build: deps lib/bindata.go
+	rm -rf pkg/*
+	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
+
+# Release Generated packages to GitHub
 .PHONY: release
 release:
 	ghr $(VERSION) pkg/dist/$(VERSION)
