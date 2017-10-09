@@ -23,8 +23,14 @@ ifeq ($(shell command -v gox 2> /dev/null),)
 	go get github.com/mitchellh/gox
 endif
 
+.PHONY: ghr
+ghr:
+ifeq ($(shell command -v ghr 2> /dev/null),)
+	go get github.com/tcnksm/ghr
+endif
+
 .PHONY: deps
-deps: dep go-bindata gox
+deps: dep go-bindata gox ghr
 	dep ensure
 
 lib/bindata.go: $(CONFIGS)
@@ -69,3 +75,7 @@ package: cross-build
 	pushd pkg/dist/$(VERSION); \
 	shasum -a 256 * > $(VERSION)_SHASUMS; \
 	popd
+
+.PHONY: release
+release:
+	ghr $(VERSION) pkg/dist/$(VERSION)
