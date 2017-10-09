@@ -2,6 +2,7 @@ NAME := github-nippou
 SRCS := $(shell find . -type f ! -path ./lib/bindata.go -name '*.go')
 CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
+PACKAGES := $(shell go list ./...)
 
 all: $(NAME)
 
@@ -15,6 +16,12 @@ endif
 go-bindata:
 ifeq ($(shell command -v go-bindata 2> /dev/null),)
 	go get github.com/jteeuwen/go-bindata/...
+endif
+
+.PHONY: golint
+golint:
+ifeq ($(shell command -v golint 2> /dev/null),)
+	go get github.com/golang/lint/golint
 endif
 
 .PHONY: gox
@@ -50,6 +57,17 @@ clean:
 .PHONY: test
 test:
 	go test -v ./...
+
+.PHONY: vet
+vet:
+	go vet $(PACKAGES)
+
+.PHONY: lint
+lint: golint
+	echo $(PACKAGES) | xargs -n1 golint 
+
+.PHONY: test-all
+test-all: vet lint test
 
 .PHONY: cross-build
 cross-build: deps lib/bindata.go
