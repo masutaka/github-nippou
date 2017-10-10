@@ -217,7 +217,7 @@ func formatLine(settings Settings, line Line) string {
 	var rendered bytes.Buffer
 	t.Execute(&rendered, m)
 
-	return rendered.String()
+	return strings.TrimSpace(rendered.String())
 }
 
 func formatStatus(settings Settings, status string) string {
