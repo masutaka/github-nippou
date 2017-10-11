@@ -231,7 +231,7 @@ func formatStatus(settings Settings, status string) string {
 	}
 }
 
-// "#{hoge}" => "{{.hoge}}"
+// "%{hoge}" => "{{.hoge}}"
 func convertNamedParameters(str string) string {
 	re := regexp.MustCompile("%{([^}]+)}")
 	return re.ReplaceAllString(str, "{{.$1}}")
