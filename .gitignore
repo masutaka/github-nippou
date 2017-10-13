@@ -1,6 +1,5 @@
-*.gem
-/.bundle
 /.envrc
-/.yardoc
-/doc
-/vendor/bundle
+/github-nippou
+/lib/bindata.go
+/pkg
+/vendor
