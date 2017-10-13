@@ -51,6 +51,7 @@ install:
 .PHONY: clean
 clean:
 	rm -f $(NAME)
+	rm -f lib/bindata.go
 
 # Test for development
 .PHONY: test
