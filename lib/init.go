@@ -25,11 +25,7 @@ func Init() error {
 
 	time.Sleep(500 * time.Millisecond)
 
-	if err := createAndSetGist(ctx); err != nil {
-		return err
-	}
-
-	return nil
+	return createAndSetGist(ctx)
 }
 
 func setUser() error {
