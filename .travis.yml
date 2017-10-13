@@ -13,4 +13,4 @@ install:
 script:
   - echo $PATH
   - echo $GOPATH
-  - PATH=$GOPATH/bin:$PATH make test-all
+  - make test-all
