@@ -78,7 +78,7 @@ vet:
 
 .PHONY: lint
 lint:
-	echo $(PACKAGES) | xargs -n1 golint 
+	echo $(PACKAGES) | xargs -n1 golint -set_exit_status
 
 # Generate binary archives for GitHub release
 .PHONY: dist
