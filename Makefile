@@ -62,7 +62,7 @@ test:
 test-all: deps-ci vet lint test
 
 .PHONY: deps-ci
-deps-ci: golint
+deps-ci: dep golint
 
 .PHONY: golint
 golint:
