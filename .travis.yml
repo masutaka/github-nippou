@@ -11,4 +11,6 @@ install:
   - echo "skipping travis default"
 
 script:
-  - make test-all
+  - echo $PATH
+  - echo $GOPATH
+  - PATH=$GOPATH/bin:$PATH make test-all
