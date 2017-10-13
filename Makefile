@@ -39,7 +39,7 @@ endif
 $(NAME): lib/bindata.go $(SRCS)
 	go build -o $(NAME)
 
-lib/bindata.go: $(CONFIGS)
+lib/bindata.go: go-bindata $(CONFIGS)
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
 # Install binary to $GOPATH/bin
@@ -51,10 +51,11 @@ install:
 .PHONY: clean
 clean:
 	rm -f $(NAME)
+	rm -f lib/bindata.go
 
 # Test for development
 .PHONY: test
-test:
+test: lib/bindata.go
 	go test -v $(PACKAGES)
 
 # Test for CI
@@ -62,7 +63,8 @@ test:
 test-all: deps-ci vet lint test
 
 .PHONY: deps-ci
-deps-ci: golint
+deps-ci: dep golint lib/bindata.go
+	dep ensure
 
 .PHONY: golint
 golint:
@@ -76,7 +78,7 @@ vet:
 
 .PHONY: lint
 lint:
-	echo $(PACKAGES) | xargs -n1 golint 
+	echo $(PACKAGES) | xargs -n1 golint -set_exit_status
 
 # Generate binary archives for GitHub release
 .PHONY: dist
