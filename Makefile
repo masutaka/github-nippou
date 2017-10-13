@@ -48,10 +48,10 @@ test: lib/bindata.go
 
 # Test for CI
 .PHONY: test-all
-test-all: deps-ci vet lint test
+test-all: deps-test-all vet lint test
 
-.PHONY: deps-ci
-deps-ci: dep golint lib/bindata.go
+.PHONY: deps-test-all
+deps-test-all: dep golint lib/bindata.go
 	dep ensure
 
 .PHONY: golint
