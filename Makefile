@@ -39,7 +39,7 @@ endif
 $(NAME): lib/bindata.go $(SRCS)
 	go build -o $(NAME)
 
-lib/bindata.go: $(CONFIGS)
+lib/bindata.go: go-bindata $(CONFIGS)
 	go-bindata -nocompress -pkg lib -o lib/bindata.go config
 
 # Install binary to $GOPATH/bin
@@ -54,7 +54,7 @@ clean:
 
 # Test for development
 .PHONY: test
-test:
+test: lib/bindata.go
 	go test -v $(PACKAGES)
 
 # Test for CI
@@ -62,7 +62,7 @@ test:
 test-all: deps-ci vet lint test
 
 .PHONY: deps-ci
-deps-ci: dep golint
+deps-ci: dep golint lib/bindata.go
 	dep ensure
 
 .PHONY: golint
