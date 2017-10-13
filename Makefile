@@ -8,7 +8,7 @@ all: $(NAME)
 
 # Install dependencies for development
 .PHONY: deps
-deps: dep go-bindata gox ghr
+deps: dep go-bindata
 	dep ensure
 
 .PHONY: dep
@@ -21,18 +21,6 @@ endif
 go-bindata:
 ifeq ($(shell command -v go-bindata 2> /dev/null),)
 	go get github.com/jteeuwen/go-bindata/...
-endif
-
-.PHONY: gox
-gox:
-ifeq ($(shell command -v gox 2> /dev/null),)
-	go get github.com/mitchellh/gox
-endif
-
-.PHONY: ghr
-ghr:
-ifeq ($(shell command -v ghr 2> /dev/null),)
-	go get github.com/tcnksm/ghr
 endif
 
 # Build binary
@@ -107,11 +95,29 @@ dist: cross-build
 	popd
 
 .PHONY: cross-build
-cross-build: deps lib/bindata.go
+cross-build: deps-cross-build
 	rm -rf pkg/*
 	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
+.PHONY: deps-cross-build
+deps-cross-build: deps lib/bindata.go gox
+
+.PHONY: gox
+gox:
+ifeq ($(shell command -v gox 2> /dev/null),)
+	go get github.com/mitchellh/gox
+endif
+
 # Release binary archives to GitHub
 .PHONY: release
-release:
+release: deps-release
 	ghr $(VERSION) pkg/dist/$(VERSION)
+
+.PHONY: deps-release
+deps-release: ghr
+
+.PHONY: ghr
+ghr:
+ifeq ($(shell command -v ghr 2> /dev/null),)
+	go get github.com/tcnksm/ghr
+endif
