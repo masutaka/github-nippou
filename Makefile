@@ -32,7 +32,7 @@ $(NAME): lib/bindata.go $(SRCS)
 	go build -o $(NAME)
 
 lib/bindata.go: $(CONFIGS)
-	go-bindata -nocompress -pkg lib -o lib/bindata.go config
+	go generate
 
 # Install binary to $GOPATH/bin
 .PHONY: install
