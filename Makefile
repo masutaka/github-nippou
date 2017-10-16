@@ -4,6 +4,10 @@ CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 PACKAGES := $(shell go list ./...)
 
+ifeq (Windows_NT, $(OS))
+NAME := $(NAME).exe
+endif
+
 all: $(NAME)
 
 # Install dependencies for development
@@ -28,7 +32,7 @@ $(NAME): lib/bindata.go $(SRCS)
 	go build -o $(NAME)
 
 lib/bindata.go: $(CONFIGS)
-	go-bindata -nocompress -pkg lib -o lib/bindata.go config
+	go generate
 
 # Install binary to $GOPATH/bin
 .PHONY: install

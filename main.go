@@ -1,5 +1,7 @@
 package main
 
+//go:generate go-bindata -nocompress -pkg lib -o lib/bindata.go config
+
 import (
 	"fmt"
 	"os"
