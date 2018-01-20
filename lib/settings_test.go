@@ -13,50 +13,46 @@ func TestInit(t *testing.T) {
 
 func TestGetUser(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_USER", "taro")
+	defer os.Unsetenv("GITHUB_NIPPOU_USER")
 
 	actual, _ := lib.GetUser()
 	const expected = "taro"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
 	}
-
-	os.Setenv("GITHUB_NIPPOU_USER", "")
 }
 
 func TestGetAccessToken(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
+	defer os.Unsetenv("GITHUB_NIPPOU_ACCESS_TOKEN")
 
 	actual, _ := lib.GetAccessToken()
 	const expected = "1234abcd"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
 	}
-
-	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "")
 }
 
 func TestGetGistID(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
+	defer os.Unsetenv("GITHUB_NIPPOU_SETTINGS_GIST_ID")
 
 	actual := lib.GetGistID()
 	const expected = "0123456789"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
 	}
-
-	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "")
 }
 
 func TestGetParallelNum(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
+	defer os.Unsetenv("GITHUB_NIPPOU_THREAD_NUM")
 
 	actual, _ := lib.GetParallelNum()
 	const expected = 10
 	if actual != expected {
 		t.Errorf("expected %d but got %d", expected, actual)
 	}
-
-	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "")
 }
 
 func TestGetDefaultSettingsURL(t *testing.T) {
