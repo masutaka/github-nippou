@@ -47,40 +47,72 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		e := payload.(*github.IssuesEvent)
 		issue := getIssue(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
 
-		if issue.PullRequestLinks == nil {
-			line = Line{
-				title:    *issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *issue.HTMLURL,
-				user:     *issue.User.Login,
-				status:   getIssueStatus(issue),
+		if issue != nil {
+			if issue.PullRequestLinks == nil {
+				line = Line{
+					title:    *issue.Title,
+					repoName: *event.Repo.Name,
+					url:      *issue.HTMLURL,
+					user:     *issue.User.Login,
+					status:   getIssueStatus(issue),
+				}
+			} else {
+				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
+
+				line = Line{
+					title:    *pr.Title,
+					repoName: *event.Repo.Name,
+					url:      *pr.HTMLURL,
+					user:     *pr.User.Login,
+					status:   getPullRequestStatus(pr),
+				}
 			}
 		} else {
-			pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
 			line = Line{
-				title:    *pr.Title,
+				title:    *e.Issue.Title,
 				repoName: *event.Repo.Name,
-				url:      *pr.HTMLURL,
-				user:     *pr.User.Login,
-				status:   getPullRequestStatus(pr),
+				url:      *e.Issue.HTMLURL,
+				user:     *e.Issue.User.Login,
+				status:   getIssueStatus(e.Issue),
 			}
 		}
 	case "IssueCommentEvent":
 		e := payload.(*github.IssueCommentEvent)
 		issue := getIssue(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
 
-		if issue.PullRequestLinks == nil {
-			line = Line{
-				title:    *issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *issue.HTMLURL,
-				user:     *issue.User.Login,
-				status:   getIssueStatus(issue),
+		if issue != nil {
+			if issue.PullRequestLinks == nil {
+				line = Line{
+					title:    *issue.Title,
+					repoName: *event.Repo.Name,
+					url:      *issue.HTMLURL,
+					user:     *issue.User.Login,
+					status:   getIssueStatus(issue),
+				}
+			} else {
+				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
+
+				line = Line{
+					title:    *pr.Title,
+					repoName: *event.Repo.Name,
+					url:      *pr.HTMLURL,
+					user:     *pr.User.Login,
+					status:   getPullRequestStatus(pr),
+				}
 			}
 		} else {
-			pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
+			line = Line{
+				title:    *e.Issue.Title,
+				repoName: *event.Repo.Name,
+				url:      *e.Issue.HTMLURL,
+				user:     *e.Issue.User.Login,
+				status:   getIssueStatus(e.Issue),
+			}
+		}
+	case "PullRequestEvent":
+		e := payload.(*github.PullRequestEvent)
+		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, e.GetNumber())
+		if pr != nil {
 			line = Line{
 				title:    *pr.Title,
 				repoName: *event.Repo.Name,
@@ -88,16 +120,14 @@ func (f *Format) Line(event *github.Event, i int) Line {
 				user:     *pr.User.Login,
 				status:   getPullRequestStatus(pr),
 			}
-		}
-	case "PullRequestEvent":
-		e := payload.(*github.PullRequestEvent)
-		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, e.GetNumber())
-		line = Line{
-			title:    *pr.Title,
-			repoName: *event.Repo.Name,
-			url:      *pr.HTMLURL,
-			user:     *pr.User.Login,
-			status:   getPullRequestStatus(pr),
+		} else {
+			line = Line{
+				title:    *e.PullRequest.Title,
+				repoName: *event.Repo.Name,
+				url:      *e.PullRequest.HTMLURL,
+				user:     *e.PullRequest.User.Login,
+				status:   getPullRequestStatus(e.PullRequest),
+			}
 		}
 	case "PullRequestReviewCommentEvent":
 		e := payload.(*github.PullRequestReviewCommentEvent)
