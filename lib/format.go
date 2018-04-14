@@ -33,6 +33,28 @@ type Line struct {
 	status   string
 }
 
+// NewLineByIssue is an initializer by Issue
+func NewLineByIssue(repoName string, issue *github.Issue) Line {
+	return Line{
+		title:    *issue.Title,
+		repoName: repoName,
+		url:      *issue.HTMLURL,
+		user:     *issue.User.Login,
+		status:   getIssueStatus(issue),
+	}
+}
+
+// NewLineByPullRequest is an initializer by PR
+func NewLineByPullRequest(repoName string, pr *github.PullRequest) Line {
+	return Line{
+		title:    *pr.Title,
+		repoName: repoName,
+		url:      *pr.HTMLURL,
+		user:     *pr.User.Login,
+		status:   getPullRequestStatus(pr),
+	}
+}
+
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
 	if f.debug {
@@ -49,32 +71,13 @@ func (f *Format) Line(event *github.Event, i int) Line {
 
 		if issue != nil {
 			if issue.PullRequestLinks == nil {
-				line = Line{
-					title:    *issue.Title,
-					repoName: *event.Repo.Name,
-					url:      *issue.HTMLURL,
-					user:     *issue.User.Login,
-					status:   getIssueStatus(issue),
-				}
+				line = NewLineByIssue(*event.Repo.Name, issue)
 			} else {
 				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
-				line = Line{
-					title:    *pr.Title,
-					repoName: *event.Repo.Name,
-					url:      *pr.HTMLURL,
-					user:     *pr.User.Login,
-					status:   getPullRequestStatus(pr),
-				}
+				line = NewLineByPullRequest(*event.Repo.Name, pr)
 			}
 		} else {
-			line = Line{
-				title:    *e.Issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *e.Issue.HTMLURL,
-				user:     *e.Issue.User.Login,
-				status:   getIssueStatus(e.Issue),
-			}
+			line = NewLineByIssue(*event.Repo.Name, e.Issue)
 		}
 	case "IssueCommentEvent":
 		e := payload.(*github.IssueCommentEvent)
@@ -82,72 +85,29 @@ func (f *Format) Line(event *github.Event, i int) Line {
 
 		if issue != nil {
 			if issue.PullRequestLinks == nil {
-				line = Line{
-					title:    *issue.Title,
-					repoName: *event.Repo.Name,
-					url:      *issue.HTMLURL,
-					user:     *issue.User.Login,
-					status:   getIssueStatus(issue),
-				}
+				line = NewLineByIssue(*event.Repo.Name, issue)
 			} else {
 				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
-				line = Line{
-					title:    *pr.Title,
-					repoName: *event.Repo.Name,
-					url:      *pr.HTMLURL,
-					user:     *pr.User.Login,
-					status:   getPullRequestStatus(pr),
-				}
+				line = NewLineByPullRequest(*event.Repo.Name, pr)
 			}
 		} else {
-			line = Line{
-				title:    *e.Issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *e.Issue.HTMLURL,
-				user:     *e.Issue.User.Login,
-				status:   getIssueStatus(e.Issue),
-			}
+			line = NewLineByIssue(*event.Repo.Name, e.Issue)
 		}
 	case "PullRequestEvent":
 		e := payload.(*github.PullRequestEvent)
 		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, e.GetNumber())
 		if pr != nil {
-			line = Line{
-				title:    *pr.Title,
-				repoName: *event.Repo.Name,
-				url:      *pr.HTMLURL,
-				user:     *pr.User.Login,
-				status:   getPullRequestStatus(pr),
-			}
+			line = NewLineByPullRequest(*event.Repo.Name, pr)
 		} else {
-			line = Line{
-				title:    *e.PullRequest.Title,
-				repoName: *event.Repo.Name,
-				url:      *e.PullRequest.HTMLURL,
-				user:     *e.PullRequest.User.Login,
-				status:   getPullRequestStatus(e.PullRequest),
-			}
+			line = NewLineByPullRequest(*event.Repo.Name, e.PullRequest)
 		}
 	case "PullRequestReviewCommentEvent":
 		e := payload.(*github.PullRequestReviewCommentEvent)
 		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.PullRequest.Number)
 		if pr != nil {
-			line = Line{
-				title:    *pr.Title,
-				repoName: *event.Repo.Name,
-				url:      *pr.HTMLURL,
-				user:     *pr.User.Login,
-				status:   getPullRequestStatus(pr),
-			}
+			line = NewLineByPullRequest(*event.Repo.Name, pr)
 		} else {
-			line = Line{
-				title:    *e.PullRequest.Title,
-				repoName: *event.Repo.Name,
-				url:      *e.PullRequest.HTMLURL,
-				user:     *e.PullRequest.User.Login,
-				status:   getPullRequestStatus(e.PullRequest),
-			}
+			line = NewLineByPullRequest(*event.Repo.Name, e.PullRequest)
 		}
 	}
 
