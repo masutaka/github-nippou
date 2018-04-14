@@ -132,12 +132,22 @@ func (f *Format) Line(event *github.Event, i int) Line {
 	case "PullRequestReviewCommentEvent":
 		e := payload.(*github.PullRequestReviewCommentEvent)
 		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.PullRequest.Number)
-		line = Line{
-			title:    *pr.Title,
-			repoName: *event.Repo.Name,
-			url:      *pr.HTMLURL,
-			user:     *pr.User.Login,
-			status:   getPullRequestStatus(pr),
+		if pr != nil {
+			line = Line{
+				title:    *pr.Title,
+				repoName: *event.Repo.Name,
+				url:      *pr.HTMLURL,
+				user:     *pr.User.Login,
+				status:   getPullRequestStatus(pr),
+			}
+		} else {
+			line = Line{
+				title:    *e.PullRequest.Title,
+				repoName: *event.Repo.Name,
+				url:      *e.PullRequest.HTMLURL,
+				user:     *e.PullRequest.User.Login,
+				status:   getPullRequestStatus(e.PullRequest),
+			}
 		}
 	}
 
