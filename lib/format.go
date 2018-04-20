@@ -33,6 +33,28 @@ type Line struct {
 	status   string
 }
 
+// NewLineByIssue is an initializer by Issue
+func NewLineByIssue(repoName string, issue github.Issue) Line {
+	return Line{
+		title:    *issue.Title,
+		repoName: repoName,
+		url:      *issue.HTMLURL,
+		user:     *issue.User.Login,
+		status:   getIssueStatus(issue),
+	}
+}
+
+// NewLineByPullRequest is an initializer by PR
+func NewLineByPullRequest(repoName string, pr github.PullRequest) Line {
+	return Line{
+		title:    *pr.Title,
+		repoName: repoName,
+		url:      *pr.HTMLURL,
+		user:     *pr.User.Login,
+		status:   getPullRequestStatus(pr),
+	}
+}
+
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
 	if f.debug {
@@ -47,67 +69,45 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		e := payload.(*github.IssuesEvent)
 		issue := getIssue(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
 
-		if issue.PullRequestLinks == nil {
-			line = Line{
-				title:    *issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *issue.HTMLURL,
-				user:     *issue.User.Login,
-				status:   getIssueStatus(issue),
+		if issue != nil {
+			if issue.PullRequestLinks == nil {
+				line = NewLineByIssue(*event.Repo.Name, *issue)
+			} else {
+				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
+				line = NewLineByPullRequest(*event.Repo.Name, *pr)
 			}
 		} else {
-			pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
-			line = Line{
-				title:    *pr.Title,
-				repoName: *event.Repo.Name,
-				url:      *pr.HTMLURL,
-				user:     *pr.User.Login,
-				status:   getPullRequestStatus(pr),
-			}
+			line = NewLineByIssue(*event.Repo.Name, *e.Issue)
 		}
 	case "IssueCommentEvent":
 		e := payload.(*github.IssueCommentEvent)
 		issue := getIssue(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
 
-		if issue.PullRequestLinks == nil {
-			line = Line{
-				title:    *issue.Title,
-				repoName: *event.Repo.Name,
-				url:      *issue.HTMLURL,
-				user:     *issue.User.Login,
-				status:   getIssueStatus(issue),
+		if issue != nil {
+			if issue.PullRequestLinks == nil {
+				line = NewLineByIssue(*event.Repo.Name, *issue)
+			} else {
+				pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
+				line = NewLineByPullRequest(*event.Repo.Name, *pr)
 			}
 		} else {
-			pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.Issue.Number)
-
-			line = Line{
-				title:    *pr.Title,
-				repoName: *event.Repo.Name,
-				url:      *pr.HTMLURL,
-				user:     *pr.User.Login,
-				status:   getPullRequestStatus(pr),
-			}
+			line = NewLineByIssue(*event.Repo.Name, *e.Issue)
 		}
 	case "PullRequestEvent":
 		e := payload.(*github.PullRequestEvent)
 		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, e.GetNumber())
-		line = Line{
-			title:    *pr.Title,
-			repoName: *event.Repo.Name,
-			url:      *pr.HTMLURL,
-			user:     *pr.User.Login,
-			status:   getPullRequestStatus(pr),
+		if pr != nil {
+			line = NewLineByPullRequest(*event.Repo.Name, *pr)
+		} else {
+			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
 	case "PullRequestReviewCommentEvent":
 		e := payload.(*github.PullRequestReviewCommentEvent)
 		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.PullRequest.Number)
-		line = Line{
-			title:    *pr.Title,
-			repoName: *event.Repo.Name,
-			url:      *pr.HTMLURL,
-			user:     *pr.User.Login,
-			status:   getPullRequestStatus(pr),
+		if pr != nil {
+			line = NewLineByPullRequest(*event.Repo.Name, *pr)
+		} else {
+			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
 	}
 
@@ -126,7 +126,7 @@ func getPullRequest(ctx context.Context, client *github.Client, repoFullName str
 	return pr
 }
 
-func getIssueStatus(issue *github.Issue) string {
+func getIssueStatus(issue github.Issue) string {
 	result := ""
 	if *issue.State == "closed" {
 		result = "closed"
@@ -134,7 +134,7 @@ func getIssueStatus(issue *github.Issue) string {
 	return result
 }
 
-func getPullRequestStatus(pr *github.PullRequest) string {
+func getPullRequestStatus(pr github.PullRequest) string {
 	result := ""
 	if *pr.Merged {
 		result = "merged"
