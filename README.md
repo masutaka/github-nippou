@@ -1,6 +1,6 @@
 # github-nippou
 
-[![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?style=flat-square)][travisci]
+[![Travis Status](https://img.shields.io/travis/masutaka/github-nippou.svg?logo=travis&style=flat-square)][travisci]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
 [![GoDoc](https://godoc.org/github.com/masutaka/github-nippou?status.svg)][godoc]
 
