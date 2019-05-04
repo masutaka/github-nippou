@@ -1,5 +1,5 @@
 NAME := github-nippou
-SRCS := $(shell find . -type f ! -path ./lib/bindata.go -name '*.go' ! -name '*_test.go')
+SRCS := $(shell find . -type f ! -path ./statik/statik.go -name '*.go' ! -name '*_test.go')
 CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 PACKAGES := $(shell go list ./...)
@@ -12,7 +12,7 @@ all: $(NAME)
 
 # Install dependencies for development
 .PHONY: deps
-deps: dep go-bindata
+deps: dep statik
 	dep ensure
 
 .PHONY: dep
@@ -21,17 +21,17 @@ ifeq ($(shell command -v dep 2> /dev/null),)
 	go get github.com/golang/dep/cmd/dep
 endif
 
-.PHONY: go-bindata
-go-bindata:
-ifeq ($(shell command -v go-bindata 2> /dev/null),)
-	go get github.com/jteeuwen/go-bindata/...
+.PHONY: statik
+statik:
+ifeq ($(shell command -v statik 2> /dev/null),)
+	go get github.com/rakyll/statik
 endif
 
 # Build binary
-$(NAME): lib/bindata.go $(SRCS)
+$(NAME): statik/statik.go $(SRCS)
 	go build -o $(NAME)
 
-lib/bindata.go: $(CONFIGS)
+statik/statik.go: $(CONFIGS)
 	go generate
 
 # Install binary to $GOPATH/bin
@@ -46,7 +46,7 @@ clean:
 
 # Test for development
 .PHONY: test
-test: lib/bindata.go
+test: statik/statik.go
 	go test -v $(PACKAGES)
 
 # Test for CI
@@ -54,7 +54,7 @@ test: lib/bindata.go
 test-all: deps-test-all vet lint test
 
 .PHONY: deps-test-all
-deps-test-all: dep go-bindata golint lib/bindata.go
+deps-test-all: dep statik golint statik/statik.go
 	dep ensure
 
 .PHONY: golint
@@ -103,7 +103,7 @@ cross-build: deps-cross-build
 	gox -os="darwin linux windows" -arch="386 amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
 .PHONY: deps-cross-build
-deps-cross-build: deps lib/bindata.go gox
+deps-cross-build: deps statik/statik.go gox
 
 .PHONY: gox
 gox:
