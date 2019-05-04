@@ -4,6 +4,9 @@ CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 PACKAGES := $(shell go list ./...)
 
+# If go-1.13 releases, I can remove this.
+export GO111MODULE := on
+
 ifeq (Windows_NT, $(OS))
 NAME := $(NAME).exe
 endif
@@ -12,14 +15,8 @@ all: $(NAME)
 
 # Install dependencies for development
 .PHONY: deps
-deps: dep statik
-	dep ensure
-
-.PHONY: dep
-dep:
-ifeq ($(shell command -v dep 2> /dev/null),)
-	go get github.com/golang/dep/cmd/dep
-endif
+deps: statik
+	go mod download
 
 .PHONY: statik
 statik:
@@ -54,8 +51,8 @@ test: statik/statik.go
 test-all: deps-test-all vet lint test
 
 .PHONY: deps-test-all
-deps-test-all: dep statik golint statik/statik.go
-	dep ensure
+deps-test-all: statik golint statik/statik.go
+	go mod download
 
 .PHONY: golint
 golint:
