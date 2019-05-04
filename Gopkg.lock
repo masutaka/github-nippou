@@ -34,6 +34,14 @@
   version = "v1.0"
 
 [[projects]]
+  digest = "1:79c3c0b8805e9331a87c459b37dd007d4389cc511dfa2beeae1d6f35986cd4a4"
+  name = "github.com/rakyll/statik"
+  packages = ["fs"]
+  pruneopts = ""
+  revision = "3bac566d30cdbeddef402a80f3d6305860e59f12"
+  version = "v0.1.6"
+
+[[projects]]
   branch = "master"
   digest = "1:50b5be512f924d289f20e8b2aef8951d98b9bd8c44666cf169514906df597a4c"
   name = "github.com/skratchdot/open-golang"
@@ -108,6 +116,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/google/go-github/github",
+    "github.com/rakyll/statik/fs",
     "github.com/skratchdot/open-golang/open",
     "github.com/spf13/cobra",
     "golang.org/x/oauth2",
