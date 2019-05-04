@@ -60,7 +60,7 @@ deps-test-all: dep statik golint statik/statik.go
 .PHONY: golint
 golint:
 ifeq ($(shell command -v golint 2> /dev/null),)
-	go get github.com/golang/lint/golint
+	go get golang.org/x/lint/golint
 endif
 
 .PHONY: vet
