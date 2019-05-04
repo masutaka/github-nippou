@@ -4,12 +4,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 
+	// Import ./config/*
+	_ "github.com/masutaka/github-nippou/statik"
+
 	"github.com/google/go-github/github"
+	"github.com/rakyll/statik/fs"
 	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v2"
 )
@@ -165,6 +170,22 @@ func getDefaultSettingsURL() string {
 }
 
 func getDefaultSettingsYml() (string, error) {
-	yml, err := Asset("config/settings.yml")
-	return string(yml), err
+	statikFS, err := fs.New()
+	if err != nil {
+		return "", err
+	}
+
+	file, err := statikFS.Open("/settings.yml")
+	if err != nil {
+		return "", err
+	}
+
+	defer file.Close()
+
+	yml, err := ioutil.ReadAll(file)
+	if err != nil {
+		return "", err
+	}
+
+	return string(yml), nil
 }

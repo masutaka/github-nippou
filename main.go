@@ -1,6 +1,6 @@
 package main
 
-//go:generate go-bindata -nocompress -pkg lib -o lib/bindata.go config
+//go:generate statik -src=./config -m
 
 import (
 	"fmt"
