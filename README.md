@@ -103,6 +103,8 @@ It's possible to release to GitHub using `make` command.
 ```
 $ git checkout master
 $ git pull
+# Edit and commit lib/version.go
+$ git push origin master
 $ make dist
 $ make release
 ```
