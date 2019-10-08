@@ -1,6 +1,6 @@
 module github.com/masutaka/github-nippou
 
-go 1.12
+go 1.13
 
 require (
 	github.com/golang/protobuf v1.0.0
