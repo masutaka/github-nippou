@@ -4,9 +4,6 @@ CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 PACKAGES := $(shell go list ./...)
 
-# If go-1.13 releases, I can remove this.
-export GO111MODULE := on
-
 ifeq (Windows_NT, $(OS))
 NAME := $(NAME).exe
 endif
