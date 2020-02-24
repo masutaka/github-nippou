@@ -1,5 +1,5 @@
 NAME := github-nippou
-SRCS := $(shell find . -type f ! -path ./statik/statik.go -name '*.go' ! -name '*_test.go')
+SRCS := go.mod go.sum $(shell find . -type f ! -path ./statik/statik.go -name '*.go' ! -name '*_test.go')
 CONFIGS := $(wildcard config/*)
 VERSION := v$(shell grep 'const Version ' lib/version.go | sed -E 's/.*"(.+)"$$/\1/')
 PACKAGES := $(shell go list ./...)
