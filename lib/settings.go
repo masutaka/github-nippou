@@ -77,6 +77,7 @@ func getUser() (string, error) {
 	output, _ := exec.Command("git", "config", "github-nippou.user").Output()
 
 	if len(output) >= 1 {
+		fmt.Fprintf(os.Stderr, "[Warn] 'github-nippou.user' found in your git config. Please migrate using '$ github-nippou init'\n")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -95,6 +96,7 @@ func getAccessToken() (string, error) {
 	output, _ := exec.Command("git", "config", "github-nippou.token").Output()
 
 	if len(output) >= 1 {
+		fmt.Fprintf(os.Stderr, "[Warn] 'github-nippou.token' found in your git config. Please migrate using '$ github-nippou init'\n")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -116,6 +118,7 @@ func getGistID() string {
 		return ""
 	}
 
+	fmt.Fprintf(os.Stderr, "[Warn] 'github-nippou.settings-gist-id' found in your git config. Please migrate using '$ github-nippou init'\n")
 	return strings.TrimRight(string(output), "\n")
 }
 
