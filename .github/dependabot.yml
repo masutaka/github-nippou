@@ -6,4 +6,3 @@ updates:
     interval: monthly
     time: "19:00"
     timezone: Asia/Tokyo
-  open-pull-requests-limit: 10
