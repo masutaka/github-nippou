@@ -1,9 +1,11 @@
 version: 2
 updates:
-- package-ecosystem: gomod
-  directory: "/"
-  schedule:
-    interval: monthly
-    time: "19:00"
-    timezone: Asia/Tokyo
-  open-pull-requests-limit: 10
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "19:00"
+      timezone: "Asia/Tokyo"
+    assignees:
+      - "masutaka"
+    open-pull-requests-limit: 10
