@@ -18,7 +18,7 @@ deps: statik
 .PHONY: statik
 statik:
 ifeq ($(shell command -v statik 2> /dev/null),)
-	go get github.com/rakyll/statik
+	go install github.com/rakyll/statik@latest
 endif
 
 # Build binary
@@ -54,7 +54,7 @@ deps-test-all: statik golint statik/statik.go
 .PHONY: golint
 golint:
 ifeq ($(shell command -v golint 2> /dev/null),)
-	go get golang.org/x/lint/golint
+	go install golang.org/x/lint/golint@latest
 endif
 
 .PHONY: vet
@@ -102,7 +102,7 @@ deps-cross-build: deps statik/statik.go gox
 .PHONY: gox
 gox:
 ifeq ($(shell command -v gox 2> /dev/null),)
-	go get github.com/mitchellh/gox
+	go install github.com/mitchellh/gox@latest
 endif
 
 # Release binary archives to GitHub
@@ -116,5 +116,5 @@ deps-release: ghr
 .PHONY: ghr
 ghr:
 ifeq ($(shell command -v ghr 2> /dev/null),)
-	go get github.com/tcnksm/ghr
+	go install github.com/tcnksm/ghr@latest
 endif

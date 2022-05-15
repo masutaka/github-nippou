@@ -24,10 +24,10 @@ $ brew install masutaka/github-nippou/github-nippou
 $ brew upgrade github-nippou
 ```
 
-If you're interested in hacking on `github-nippou`, you can install via `go get`:
+If you're interested in hacking on `github-nippou`, you can install via `go install`:
 
 ```
-$ go get -u github.com/masutaka/github-nippou
+$ go install github.com/masutaka/github-nippou@latest
 ```
 
 Also you can use make command, it's easy to build `github-nippou`:
