@@ -36,7 +36,7 @@ install:
 # Clean binary
 .PHONY: clean
 clean:
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 # Test for development
 .PHONY: test
@@ -69,7 +69,7 @@ lint:
 .PHONY: dist
 dist: cross-build
 	if [ -d pkg ]; then \
-		rm -rf pkg/dist; \
+		$(RM) -r pkg/dist; \
 	fi
 
 	mkdir -p pkg/dist/$(VERSION)
@@ -93,7 +93,7 @@ dist: cross-build
 
 .PHONY: cross-build
 cross-build: deps-cross-build
-	rm -rf pkg/*
+	$(RM) -r pkg/*
 	gox -os="darwin linux windows" -arch="amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
 .PHONY: deps-cross-build
