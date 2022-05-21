@@ -65,6 +65,14 @@ vet:
 lint:
 	echo $(PACKAGES) | xargs -n1 golint -set_exit_status
 
+# Bump go version
+.PHONY: bump_go_version
+bump_go_version:
+	@echo -n "go version? "; read version; \
+	sed -i -e "s@go-version: [0-9]\+\.[0-9]\+\.[0-9]\+@go-version: $$version@" .github/workflows/test.yml; \
+	go mod edit -go="$$(echo $$version | sed -e 's@\.[0-9]\+$$@@')"
+	go mod tidy
+
 # Generate binary archives for GitHub release
 .PHONY: dist
 dist: cross-build
