@@ -59,6 +59,7 @@ Usage:
   github-nippou [command]
 
 Available Commands:
+  completion    Generate the autocompletion script for the specified shell
   help          Help about any command
   init          Initialize github-nippou settings
   list          Print today's your GitHub action
@@ -68,8 +69,8 @@ Available Commands:
 Flags:
   -d, --debug               Debug mode
   -h, --help                help for github-nippou
-  -s, --since-date string   Retrieves GitHub user_events since the date (default "20171007")
-  -u, --until-date string   Retrieves GitHub user_events until the date (default "20171007")
+  -s, --since-date string   Retrieves GitHub user_events since the date (default "20221122")
+  -u, --until-date string   Retrieves GitHub user_events until the date (default "20221122")
 
 Use "github-nippou [command] --help" for more information about a command.
 ```
