@@ -102,7 +102,7 @@ dist: cross-build
 .PHONY: cross-build
 cross-build: deps-cross-build
 	$(RM) -r pkg/*
-	gox -os="darwin linux windows" -arch="amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
+	gox -osarch="darwin/amd64 darwin/arm64 linux/amd64 windows/amd64" -output "pkg/{{.OS}}_{{.Arch}}/{{.Dir}}"
 
 .PHONY: deps-cross-build
 deps-cross-build: deps statik/statik.go gox
