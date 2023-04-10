@@ -71,7 +71,7 @@ func filter(events []*github.Event) []*github.Event {
 
 	for _, event := range events {
 		switch *event.Type {
-		case "IssuesEvent", "IssueCommentEvent", "PullRequestEvent", "PullRequestReviewCommentEvent":
+		case "IssuesEvent", "IssueCommentEvent", "PullRequestEvent", "PullRequestReviewCommentEvent", "PullRequestReviewEvent":
 			result = append(result, event)
 		}
 	}
@@ -108,6 +108,8 @@ func htmlURL(event *github.Event) string {
 		result = *payload.(*github.PullRequestEvent).PullRequest.HTMLURL
 	case "PullRequestReviewCommentEvent":
 		result = *payload.(*github.PullRequestReviewCommentEvent).PullRequest.HTMLURL
+	case "PullRequestReviewEvent":
+		result = *payload.(*github.PullRequestReviewEvent).PullRequest.HTMLURL
 	}
 
 	return result

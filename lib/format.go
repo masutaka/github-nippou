@@ -109,6 +109,14 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		} else {
 			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
+	case "PullRequestReviewEvent":
+		e := payload.(*github.PullRequestReviewEvent)
+		pr := getPullRequest(f.ctx, f.client, *event.Repo.Name, *e.PullRequest.Number)
+		if pr != nil {
+			line = NewLineByPullRequest(*event.Repo.Name, *pr)
+		} else {
+			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
+		}
 	}
 
 	return line
