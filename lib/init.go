@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -39,7 +40,8 @@ func setUser() error {
 	if _, err := getUser(); err == nil {
 		msg = "Already initialized."
 	} else {
-		var user, answer string
+		var user string
+		var answer string = "Y"
 
 		fmt.Print("What's your GitHub account? ")
 		fmt.Scanln(&user)
@@ -52,10 +54,10 @@ The following command will be executed.
 
 `, user)
 
-			fmt.Print("Are you sure? [y/n] ")
+			fmt.Print("Are you sure? [Y/n] ")
 			fmt.Scanln(&answer)
 
-			if string(answer[0]) != "y" {
+			if strings.ToUpper(answer[0:1]) != "Y" {
 				return errors.New("Canceled")
 			}
 
@@ -93,7 +95,7 @@ https://github.com/settings/tokens/new
 	if err == nil {
 		msg = "Already initialized."
 	} else {
-		var answer string
+		var answer string = "Y"
 
 		fmt.Print("What's your GitHub personal access token? ")
 		fmt.Scanln(&accessToken)
@@ -106,10 +108,10 @@ The following command will be executed.
 
 `, accessToken)
 
-			fmt.Print("Are you sure? [y/n] ")
+			fmt.Print("Are you sure? [Y/n] ")
 			fmt.Scanln(&answer)
 
-			if string(answer[0]) != "y" {
+			if strings.ToUpper(answer[0:1]) != "Y" {
 				return errors.New("Canceled")
 			}
 
@@ -174,7 +176,7 @@ func createAndSetGist(ctx context.Context) error {
 	if len(getGistID()) >= 1 {
 		msg = "Already initialized."
 	} else {
-		var answer string
+		var answer string = "N"
 
 		fmt.Printf(`1. Create a gist with the content of %s
 2. The following command will be executed
@@ -183,11 +185,11 @@ func createAndSetGist(ctx context.Context) error {
 
 `, getDefaultSettingsURL())
 
-		fmt.Print("Are you sure? [y/n] ")
+		fmt.Print("Are you sure? [y/N] ")
 		fmt.Scanln(&answer)
 
-		if string(answer[0]) != "y" {
-			return errors.New("Canceled")
+		if strings.ToUpper(answer[0:1]) == "N" {
+			return nil
 		}
 
 		accessToken, err := getAccessToken()
