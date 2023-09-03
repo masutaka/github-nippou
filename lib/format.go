@@ -116,7 +116,7 @@ func (f *Format) Line(event *github.Event, i int) Line {
 	}
 
 	if f.debug {
-		fmt.Printf("%2d %s: %v\n", i, *event.Type, line)
+		fmt.Printf("[Debug] %2d %s: %v\n", i, *event.Type, line)
 	}
 
 	return line
