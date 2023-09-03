@@ -35,7 +35,7 @@ func List(sinceDate, untilDate string, debug bool) error {
 	ctx := context.Background()
 	client := getClient(ctx, accessToken)
 
-	events := NewEvents(ctx, client, user, sinceTime, untilTime).Collect()
+	events := NewEvents(ctx, client, user, sinceTime, untilTime, debug).Collect()
 	format := NewFormat(ctx, client, debug)
 
 	parallelNum, err := getParallelNum()

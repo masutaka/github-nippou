@@ -57,10 +57,6 @@ func NewLineByPullRequest(repoName string, pr github.PullRequest) Line {
 
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
-	if f.debug {
-		fmt.Printf("%2d %s\n", i, htmlURL(event))
-	}
-
 	payload := event.Payload()
 	var line Line
 
@@ -117,6 +113,10 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		} else {
 			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
+	}
+
+	if f.debug {
+		fmt.Printf("%2d %s: %v\n", i, *event.Type, line)
 	}
 
 	return line

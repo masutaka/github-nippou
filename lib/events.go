@@ -2,6 +2,7 @@ package lib
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -16,16 +17,17 @@ type Events struct {
 	user      string
 	sinceTime time.Time
 	untilTime time.Time
+	debug     bool
 }
 
 // NewEvents is an initializer
-func NewEvents(ctx context.Context, client *github.Client, user string, sinceTime, untilTime time.Time) *Events {
-	return &Events{ctx: ctx, client: client, user: user, sinceTime: sinceTime, untilTime: untilTime}
+func NewEvents(ctx context.Context, client *github.Client, user string, sinceTime, untilTime time.Time, debug bool) *Events {
+	return &Events{ctx: ctx, client: client, user: user, sinceTime: sinceTime, untilTime: untilTime, debug: debug}
 }
 
 // Collect retrieve GitHub `e.user` events from `e.sinceTime` to `e.untilTime`
 func (e *Events) Collect() []*github.Event {
-	return uniq(filter(e.retrieve()))
+	return e.uniq(e.filter(e.retrieve()))
 }
 
 func (e *Events) retrieve() []*github.Event {
@@ -81,10 +83,15 @@ func isRange(event *github.Event, sinceTime, untilTime time.Time) bool {
 		event.CreatedAt.Before(untilTime.Add(time.Nanosecond))
 }
 
-func filter(events []*github.Event) []*github.Event {
+func (e *Events) filter(events []*github.Event) []*github.Event {
 	var result []*github.Event
 
 	for _, event := range events {
+		if e.debug {
+			format := NewFormat(e.ctx, e.client, false)
+			fmt.Printf("%s: %v\n", *event.Type, format.Line(event, 999))
+		}
+
 		switch *event.Type {
 		case "IssuesEvent", "IssueCommentEvent", "PullRequestEvent", "PullRequestReviewCommentEvent", "PullRequestReviewEvent":
 			result = append(result, event)
@@ -94,7 +101,7 @@ func filter(events []*github.Event) []*github.Event {
 	return result
 }
 
-func uniq(events []*github.Event) []*github.Event {
+func (e *Events) uniq(events []*github.Event) []*github.Event {
 	m := make(map[string]bool)
 	var result []*github.Event
 
