@@ -8,31 +8,46 @@ import (
 	"github.com/google/go-github/github"
 )
 
-// CollectEvents retrieve GitHub `user` events from `sinceTime` to `untilTime`
-func CollectEvents(ctx context.Context, client *github.Client, user string, sinceTime, untilTime time.Time) []*github.Event {
-	return uniq(filter(retrieve(ctx, client, user, sinceTime, untilTime)))
+// Events represents a structure for fetching user-related events from the GitHub API.
+// It holds the necessary parameters to filter and retrieve specific event data for a user.
+type Events struct {
+	ctx       context.Context
+	client    *github.Client
+	user      string
+	sinceTime time.Time
+	untilTime time.Time
 }
 
-func retrieve(ctx context.Context, client *github.Client, user string, sinceTime, untilTime time.Time) []*github.Event {
+// NewEvents is an initializer
+func NewEvents(ctx context.Context, client *github.Client, user string, sinceTime, untilTime time.Time) *Events {
+	return &Events{ctx: ctx, client: client, user: user, sinceTime: sinceTime, untilTime: untilTime}
+}
+
+// Collect retrieve GitHub `e.user` events from `e.sinceTime` to `e.untilTime`
+func (e *Events) Collect() []*github.Event {
+	return uniq(filter(e.retrieve()))
+}
+
+func (e *Events) retrieve() []*github.Event {
 	var allEvents []*github.Event
 	opt := &github.ListOptions{Page: 1, PerPage: 100}
 
 	for {
-		events, response, err := client.Activity.ListEventsPerformedByUser(ctx, user, false, opt)
+		events, response, err := e.client.Activity.ListEventsPerformedByUser(e.ctx, e.user, false, opt)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		allEvents = append(allEvents, events...)
 
-		if !continueToRetrieve(response, events, sinceTime) {
+		if !continueToRetrieve(response, events, e.sinceTime) {
 			break
 		}
 
 		opt.Page = response.NextPage
 	}
 
-	return selectEventsInRange(allEvents, sinceTime, untilTime)
+	return selectEventsInRange(allEvents, e.sinceTime, e.untilTime)
 }
 
 func continueToRetrieve(response *github.Response, events []*github.Event, sinceTime time.Time) bool {
