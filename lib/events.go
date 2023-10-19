@@ -26,7 +26,7 @@ func NewEvents(ctx context.Context, client *github.Client, user string, sinceTim
 }
 
 // Collect retrieve GitHub `e.user` events from `e.sinceTime` to `e.untilTime`
-func (e *Events) Collect() []*github.Event {
+func (e *Events) Collect() ([]*github.Event, error) {
 	return e.uniq(e.filter(e.retrieve()))
 }
 
@@ -101,12 +101,15 @@ func (e *Events) filter(events []*github.Event) []*github.Event {
 	return result
 }
 
-func (e *Events) uniq(events []*github.Event) []*github.Event {
+func (e *Events) uniq(events []*github.Event) ([]*github.Event, error) {
 	m := make(map[string]bool)
 	var result []*github.Event
 
 	for _, event := range events {
-		htmlURL := htmlURL(event)
+		htmlURL, err := htmlURL(event)
+		if err != nil {
+			return nil, err
+		}
 
 		if !m[htmlURL] {
 			m[htmlURL] = true
@@ -114,12 +117,15 @@ func (e *Events) uniq(events []*github.Event) []*github.Event {
 		}
 	}
 
-	return result
+	return result, nil
 }
 
-func htmlURL(event *github.Event) string {
+func htmlURL(event *github.Event) (string, error) {
 	var result string
-	payload := event.Payload()
+	payload, err := event.ParsePayload()
+	if err != nil {
+		return "", err
+	}
 
 	switch *event.Type {
 	case "IssuesEvent":
@@ -134,5 +140,5 @@ func htmlURL(event *github.Event) string {
 		result = *payload.(*github.PullRequestReviewEvent).PullRequest.HTMLURL
 	}
 
-	return result
+	return result, nil
 }
