@@ -108,7 +108,7 @@ View the default configuration [here](https://github.com/masutaka/github-nippou/
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `user` | `string` | Displays the username who interacted with the issue or pull request. |
+| `user` | `string` | Displays the username of author of the issue or pull request. |
 | `title` | `string` | Displays the title of the issue or pull request. |
 | `url` | `string` | Displays the URL of the issue or pull request. |
 | `status` | `string \| nil` | Displays the status, utilizing the format in `dictionary.status`. |
