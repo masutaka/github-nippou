@@ -89,6 +89,38 @@ $ github-nippou
 * [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by @[masutaka](https://github.com/masutaka) **merged!**
 ```
 
+## Optional: Customize Output Format
+
+Customize the list output format as needed. Configurations are stored in a Gist.   
+Running `github-nippou init` creates your Gist and adds its ID to `github-nippou.settings-gist-id`.
+
+View the default configuration [here](./config/settings.yml).
+
+### Available Properties
+
+#### `format.subject`
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `subject` | `string` | Represents the repository name. |
+
+#### `format.line`
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `user` | `string` | Displays the username of author of the issue or pull request. |
+| `title` | `string` | Displays the title of the issue or pull request. |
+| `url` | `string` | Displays the URL of the issue or pull request. |
+| `status` | `string \| nil` | Displays the status, utilizing the format in `dictionary.status`. |
+
+#### `format.dictionary.status`
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `closed` | `string` | Displays when the issue or pull request is closed. |
+| `merged` | `string` | Displays when the pull request is merged. Applicable to pull requests only. |
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/masutaka/github-nippou/fork )
