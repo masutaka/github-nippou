@@ -42,7 +42,7 @@ $ ./github-nippou
 
     $ github-nippou init
 
-The initialization will be update your `~/.gitconfig`.
+The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
 
 1. Add `github-nippou.user`
 2. Add `github-nippou.token`
