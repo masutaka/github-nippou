@@ -94,7 +94,7 @@ $ github-nippou
 Customize the list output format as needed. Configurations are stored in a Gist.   
 Running `github-nippou init` creates your Gist and adds its ID to `github-nippou.settings-gist-id`.
 
-View the default configuration [here](https://github.com/masutaka/github-nippou/blob/master/config/settings.yml).
+View the default configuration [here](./config/settings.yml).
 
 ### Available Properties
 
