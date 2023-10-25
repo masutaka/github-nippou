@@ -164,7 +164,11 @@ func (f *Format) All(lines Lines) (string, error) {
 	var result, prevRepoName, currentRepoName string
 	var settings Settings
 
-	if err := settings.Init(); err != nil {
+	accessToken, err := getAccessToken()
+	if err != nil {
+		return "", err
+	}
+	if err := settings.Init(getGistID(), accessToken); err != nil {
 		return "", err
 	}
 
