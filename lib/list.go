@@ -39,7 +39,11 @@ func List(sinceDate, untilDate string, debug bool) error {
 	if err != nil {
 		return err
 	}
-	format := NewFormat(ctx, client, debug)
+	var settings Settings
+	if err = settings.Init(getGistID(), accessToken); err != nil {
+		return err
+	}
+	format := NewFormat(ctx, client, settings, debug)
 
 	parallelNum, err := getParallelNum()
 	if err != nil {
