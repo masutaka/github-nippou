@@ -14,14 +14,15 @@ import (
 
 // Format is Formatter
 type Format struct {
-	ctx    context.Context
-	client *github.Client
-	debug  bool
+	ctx      context.Context
+	client   *github.Client
+	settings Settings
+	debug    bool
 }
 
 // NewFormat is an initializer
-func NewFormat(ctx context.Context, client *github.Client, debug bool) *Format {
-	return &Format{ctx: ctx, client: client, debug: debug}
+func NewFormat(ctx context.Context, client *github.Client, settings Settings, debug bool) *Format {
+	return &Format{ctx: ctx, client: client, settings: settings, debug: debug}
 }
 
 // Line is line infomation
@@ -162,11 +163,6 @@ func getOwnerRepo(repoFullName string) (string, string) {
 // All returns all lines which are formatted and sorted
 func (f *Format) All(lines Lines) (string, error) {
 	var result, prevRepoName, currentRepoName string
-	var settings Settings
-
-	if err := settings.Init(); err != nil {
-		return "", err
-	}
 
 	sort.Sort(lines)
 
@@ -175,10 +171,10 @@ func (f *Format) All(lines Lines) (string, error) {
 
 		if currentRepoName != prevRepoName {
 			prevRepoName = currentRepoName
-			result += fmt.Sprintf("\n%s\n\n", formatSubject(settings, currentRepoName))
+			result += fmt.Sprintf("\n%s\n\n", formatSubject(f.settings, currentRepoName))
 		}
 
-		result += fmt.Sprintf("%s\n", formatLine(settings, line))
+		result += fmt.Sprintf("%s\n", formatLine(f.settings, line))
 	}
 
 	return result, nil

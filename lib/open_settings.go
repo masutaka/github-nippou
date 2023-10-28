@@ -10,7 +10,7 @@ import (
 func OpenSettings() error {
 	var settings Settings
 
-	if err := settings.Init(); err != nil {
+	if err := settings.Init(getGistID(), ""); err != nil {
 		return nil
 	}
 

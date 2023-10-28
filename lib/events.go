@@ -88,7 +88,7 @@ func (e *Events) filter(events []*github.Event) []*github.Event {
 
 	for _, event := range events {
 		if e.debug {
-			format := NewFormat(e.ctx, e.client, false)
+			format := NewFormat(e.ctx, e.client, Settings{}, false)
 			fmt.Printf("[Debug] %s: %v\n", *event.Type, format.Line(event, 999))
 		}
 
