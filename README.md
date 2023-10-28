@@ -8,7 +8,7 @@
 [license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
 [godoc]: https://godoc.org/github.com/masutaka/github-nippou
 
-Print today's your GitHub action.
+Print today's your GitHub activity for issues and pull requests.
 
 This is a helpful tool when you write a daily report in reference to
 GitHub. Nippou is a japanese word which means a daily report.
@@ -52,7 +52,7 @@ The initialization will be update your [Git global configuration file](https://g
 
 ```
 $ github-nippou help
-Print today's your GitHub action
+Print today's your GitHub activity for issues and pull requests
 
 Usage:
   github-nippou [flags]
@@ -62,15 +62,15 @@ Available Commands:
   completion    Generate the autocompletion script for the specified shell
   help          Help about any command
   init          Initialize github-nippou settings
-  list          Print today's your GitHub action
+  list          Print today's your GitHub activity for issues and pull requests
   open-settings Open settings url with web browser
   version       Print version
 
 Flags:
   -d, --debug               Debug mode
   -h, --help                help for github-nippou
-  -s, --since-date string   Retrieves GitHub user_events since the date (default "20221122")
-  -u, --until-date string   Retrieves GitHub user_events until the date (default "20221122")
+  -s, --since-date string   Retrieves GitHub user_events since the date (default "20231028")
+  -u, --until-date string   Retrieves GitHub user_events until the date (default "20231028")
 
 Use "github-nippou [command] --help" for more information about a command.
 ```
