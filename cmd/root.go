@@ -18,9 +18,12 @@ var RootCmd = &cobra.Command{
 	Use:   "github-nippou",
 	Short: "Print today's your GitHub activity for issues and pull requests",
 	Run: func(cmd *cobra.Command, args []string) {
+		list, err := lib.NewListFromCLI(sinceDate, untilDate)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-		// TODO
-		list := lib.NewList(sinceDate, untilDate, "user", "token", "gistID")
 		lines, err := list.Collect(debug)
 		if err != nil {
 			fmt.Println(err)

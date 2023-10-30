@@ -28,6 +28,27 @@ func NewList(sinceDate, untilDate, user, accessToken, settingsGistID string) *Li
 	}
 }
 
+// NewListFromCLI returns a new List from environment variables or git config.
+func NewListFromCLI(sinceDate, untilDate string) (*List, error) {
+	user, err := getUser()
+	if err != nil {
+		return nil, err
+	}
+	accessToken, err := getAccessToken()
+	if err != nil {
+		return nil, err
+	}
+	settingsGistID := getGistID()
+
+	return &List{
+		sinceDate:      sinceDate,
+		untilDate:      untilDate,
+		user:           user,
+		accessToken:    accessToken,
+		settingsGistID: settingsGistID,
+	}, nil
+}
+
 // Collect collects GitHub activities.
 func (l *List) Collect(debug bool) (string, error) {
 	sinceTime, err := getSinceTime(l.sinceDate)
