@@ -10,7 +10,12 @@ import (
 func OpenSettings() error {
 	var settings Settings
 
-	if err := settings.Init(getGistID(), ""); err != nil {
+	accessToken, err := getAccessToken()
+	if err != nil {
+		return err
+	}
+
+	if err := settings.Init(getGistID(), accessToken); err != nil {
 		return nil
 	}
 
