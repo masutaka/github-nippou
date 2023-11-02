@@ -15,21 +15,23 @@ type List struct {
 	user           string
 	accessToken    string
 	settingsGistID string
+	debug          bool
 }
 
 // NewList returns a new List.
-func NewList(sinceDate, untilDate, user, accessToken, settingsGistID string) *List {
+func NewList(sinceDate, untilDate, user, accessToken, settingsGistID string, debug bool) *List {
 	return &List{
 		sinceDate:      sinceDate,
 		untilDate:      untilDate,
 		user:           user,
 		accessToken:    accessToken,
 		settingsGistID: settingsGistID,
+		debug:          debug,
 	}
 }
 
 // NewListFromCLI returns a new List from environment variables or git config.
-func NewListFromCLI(sinceDate, untilDate string) (*List, error) {
+func NewListFromCLI(sinceDate, untilDate string, debug bool) (*List, error) {
 	user, err := getUser()
 	if err != nil {
 		return nil, err
@@ -46,11 +48,12 @@ func NewListFromCLI(sinceDate, untilDate string) (*List, error) {
 		user:           user,
 		accessToken:    accessToken,
 		settingsGistID: settingsGistID,
+		debug:          debug,
 	}, nil
 }
 
 // Collect collects GitHub activities.
-func (l *List) Collect(debug bool) (string, error) {
+func (l *List) Collect() (string, error) {
 	sinceTime, err := getSinceTime(l.sinceDate)
 	if err != nil {
 		return "", err
@@ -64,7 +67,7 @@ func (l *List) Collect(debug bool) (string, error) {
 	ctx := context.Background()
 	client := getClient(ctx, l.accessToken)
 
-	events, err := NewEvents(ctx, client, l.user, sinceTime, untilTime, debug).Collect()
+	events, err := NewEvents(ctx, client, l.user, sinceTime, untilTime, l.debug).Collect()
 	if err != nil {
 		return "", err
 	}
@@ -72,7 +75,7 @@ func (l *List) Collect(debug bool) (string, error) {
 	if err = settings.Init(l.settingsGistID, l.accessToken); err != nil {
 		return "", err
 	}
-	format := NewFormat(ctx, client, settings, debug)
+	format := NewFormat(ctx, client, settings, l.debug)
 
 	parallelNum, err := getParallelNum()
 	if err != nil {
