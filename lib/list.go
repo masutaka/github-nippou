@@ -2,52 +2,84 @@ package lib
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"sync"
 	"time"
 
 	"github.com/google/go-github/github"
 )
 
-// List outputs formated GitHub events to stdout
-func List(sinceDate, untilDate string, debug bool) error {
+// List is a struct for collecting GitHub activities.
+type List struct {
+	sinceDate      string
+	untilDate      string
+	user           string
+	accessToken    string
+	settingsGistID string
+	debug          bool
+}
+
+// NewList returns a new List.
+func NewList(sinceDate, untilDate, user, accessToken, settingsGistID string, debug bool) *List {
+	return &List{
+		sinceDate:      sinceDate,
+		untilDate:      untilDate,
+		user:           user,
+		accessToken:    accessToken,
+		settingsGistID: settingsGistID,
+		debug:          debug,
+	}
+}
+
+// NewListFromCLI returns a new List from environment variables or git config.
+func NewListFromCLI(sinceDate, untilDate string, debug bool) (*List, error) {
 	user, err := getUser()
 	if err != nil {
-		return err
+		return nil, err
 	}
-
 	accessToken, err := getAccessToken()
 	if err != nil {
-		return err
+		return nil, err
+	}
+	settingsGistID := getGistID()
+
+	return &List{
+		sinceDate:      sinceDate,
+		untilDate:      untilDate,
+		user:           user,
+		accessToken:    accessToken,
+		settingsGistID: settingsGistID,
+		debug:          debug,
+	}, nil
+}
+
+// Collect collects GitHub activities.
+func (l *List) Collect() (string, error) {
+	sinceTime, err := getSinceTime(l.sinceDate)
+	if err != nil {
+		return "", err
 	}
 
-	sinceTime, err := getSinceTime(sinceDate)
+	untilTime, err := getUntilTime(l.untilDate)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	untilTime, err := getUntilTime(untilDate)
-	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	ctx := context.Background()
-	client := getClient(ctx, accessToken)
+	client := getClient(ctx, l.accessToken)
 
-	events, err := NewEvents(ctx, client, user, sinceTime, untilTime, debug).Collect()
+	events, err := NewEvents(ctx, client, l.user, sinceTime, untilTime, l.debug).Collect()
 	if err != nil {
-		return err
+		return "", err
 	}
 	var settings Settings
-	if err = settings.Init(getGistID(), accessToken); err != nil {
-		return err
+	if err = settings.Init(l.settingsGistID, l.accessToken); err != nil {
+		return "", err
 	}
-	format := NewFormat(ctx, client, settings, debug)
+	format := NewFormat(ctx, client, settings, l.debug)
 
 	parallelNum, err := getParallelNum()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	sem := make(chan int, parallelNum)
@@ -72,12 +104,10 @@ func List(sinceDate, untilDate string, debug bool) error {
 
 	allLines, err := format.All(lines)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	fmt.Print(allLines)
-
-	return nil
+	return allLines, nil
 }
 
 func getSinceTime(sinceDate string) (time.Time, error) {
