@@ -2,11 +2,11 @@
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmasutaka%2Fgithub-nippou%2Fbadge%3Fref%3Dmaster&style=flat)][github actions]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
-[![GoDoc](https://godoc.org/github.com/masutaka/github-nippou?status.svg)][godoc]
+[![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
 [github actions]: https://actions-badge.atrox.dev/masutaka/github-nippou/goto?ref=master
 [license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
-[godoc]: https://godoc.org/github.com/masutaka/github-nippou
+[Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
 Print today's your GitHub activity for issues and pull requests.
 
