@@ -3,7 +3,7 @@ module github.com/masutaka/github-nippou/v4
 go 1.21
 
 require (
-	github.com/google/go-github v17.0.0+incompatible
+	github.com/google/go-github/v56 v56.0.0
 	github.com/rakyll/statik v0.1.7
 	github.com/skratchdot/open-golang v0.0.0-20190402232053-79abb63cd66e
 	github.com/spf13/cobra v1.7.0
@@ -13,7 +13,7 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

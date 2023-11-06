@@ -13,7 +13,7 @@ import (
 	// Import ./config/*
 	_ "github.com/masutaka/github-nippou/v4/statik"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v56/github"
 	"github.com/rakyll/statik/fs"
 	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v2"
