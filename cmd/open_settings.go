@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/masutaka/github-nippou/lib"
+	"github.com/masutaka/github-nippou/v4/lib"
 	"github.com/spf13/cobra"
 )
 
