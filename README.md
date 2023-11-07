@@ -10,8 +10,9 @@
 
 Print today's your GitHub activity for issues and pull requests.
 
-This is a helpful tool when you write a daily report in reference to
-GitHub. Nippou is a japanese word which means a daily report.
+This is a helpful CLI when you write a daily report in reference to GitHub. Nippou is a japanese word which means a daily report.
+
+A web version of this CLI is also available at https://github.com/MH4GF/github-nippou-web .
 
 ## Installation
 
