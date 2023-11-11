@@ -1,11 +1,11 @@
 # github-nippou
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmasutaka%2Fgithub-nippou%2Fbadge%3Fref%3Dmaster&style=flat)][github actions]
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmasutaka%2Fgithub-nippou%2Fbadge%3Fref%3Dmain&style=flat)][github actions]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
-[github actions]: https://actions-badge.atrox.dev/masutaka/github-nippou/goto?ref=master
-[license]: https://github.com/masutaka/github-nippou/blob/master/LICENSE.txt
+[github actions]: https://actions-badge.atrox.dev/masutaka/github-nippou/goto?ref=main
+[license]: https://github.com/masutaka/github-nippou/blob/main/LICENSE.txt
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
 Print today's your GitHub activity for issues and pull requests.
@@ -135,10 +135,10 @@ View the default configuration [here](./config/settings.yml).
 It's possible to release to GitHub using `make` command.
 
 ```
-$ git checkout master
+$ git checkout main
 $ git pull
 # Edit and commit lib/version.go
-$ git push origin master
+$ git push origin main
 $ make dist
 $ make release
 ```
