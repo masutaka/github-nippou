@@ -72,56 +72,25 @@ bump_go_version:
 	go mod edit -go="$$(echo $$version | sed -e 's@\.[0-9]\+$$@@')"
 	go mod tidy
 
-# Generate binary archives for GitHub release
+# Generate binary archives for release check on local machine
 .PHONY: dist
-dist: cross-build
-	if [ -d pkg ]; then \
-		$(RM) -r pkg/dist; \
-	fi
+dist: deps-dist
+	goreleaser release --snapshot --clean
 
-	mkdir -p pkg/dist/$(VERSION)
-
-	for PLATFORM in $$(find pkg -mindepth 1 -maxdepth 1 -type d); do \
-		PLATFORM_NAME=$$(basename $$PLATFORM); \
-		ARCHIVE_NAME=$(NAME)_$(VERSION)_$${PLATFORM_NAME}; \
-		\
-		if [ $$PLATFORM_NAME = "dist" ]; then \
-			continue; \
-		fi; \
-		\
-		pushd $$PLATFORM; \
-		zip $(CURDIR)/pkg/dist/$(VERSION)/$${ARCHIVE_NAME}.zip *; \
-		popd; \
-	done
-
-	pushd pkg/dist/$(VERSION); \
-	shasum -a 256 * > $(VERSION)_SHASUMS; \
-	popd
-
-.PHONY: cross-build
-cross-build: deps-cross-build
-	$(RM) -r pkg/*
-	gox -osarch="darwin/amd64 darwin/arm64 linux/amd64 windows/amd64" -output "pkg/{{.OS}}_{{.Arch}}/$(NAME)"
-
-.PHONY: deps-cross-build
-deps-cross-build: deps statik/statik.go gox
-
-.PHONY: gox
-gox:
-ifeq ($(shell command -v gox 2> /dev/null),)
-	go install github.com/mitchellh/gox@latest
-endif
+.PHONY: deps-dist
+deps-dist: goreleaser
 
 # Release binary archives to GitHub
 .PHONY: release
 release: deps-release
-	ghr $(VERSION) pkg/dist/$(VERSION)
+	git push origin main --tag
+	goreleaser --clean
 
 .PHONY: deps-release
-deps-release: ghr
+deps-release: goreleaser
 
-.PHONY: ghr
-ghr:
-ifeq ($(shell command -v ghr 2> /dev/null),)
-	go install github.com/tcnksm/ghr@latest
+.PHONY: goreleaser
+goreleaser:
+ifeq ($(shell command -v goreleaser 2> /dev/null),)
+	go install github.com/goreleaser/goreleaser@latest
 endif

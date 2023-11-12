@@ -1,0 +1,55 @@
+version: 1
+
+before:
+  hooks:
+    - go mod download
+    - go mod tidy
+
+builds:
+  - id: github-nippou-darwin
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./main.go
+  - id: github-nippou-linux
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    main: ./main.go
+  - id: github-nippou-windows
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+    goarch:
+      - amd64
+    main: ./main.go
+
+archives:
+  - format: zip
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    files:
+      - CHANGELOG.md
+      - LICENSE.txt
+      - README.md
+
+checksum:
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_checksums.txt'
+
+snapshot:
+  name_template: "{{ .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
