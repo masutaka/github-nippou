@@ -9,6 +9,8 @@ jobs:
   tagpr:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: Songmu/tagpr@v1
