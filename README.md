@@ -1,10 +1,10 @@
 # github-nippou
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmasutaka%2Fgithub-nippou%2Fbadge%3Fref%3Dmain&style=flat)][github actions]
+[![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg)][Test]
 [![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][license]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
-[github actions]: https://actions-badge.atrox.dev/masutaka/github-nippou/goto?ref=main
+[Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
 [license]: https://github.com/masutaka/github-nippou/blob/main/LICENSE.txt
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
