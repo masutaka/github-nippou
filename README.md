@@ -130,19 +130,6 @@ View the default configuration [here](./config/settings.yml).
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-## Maintenance
-
-It's possible to release to GitHub using `make` command.
-
-```
-$ git checkout main
-$ git pull
-# Edit and commit lib/version.go
-$ git push origin main
-$ make dist
-$ make release
-```
-
 ## External articles
 
 In Japanese
