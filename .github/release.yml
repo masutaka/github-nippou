@@ -12,6 +12,9 @@ changelog:
     - title: "Fix bug :bug:"
       labels:
         - bug
+    - title: "Update modules :up:"
+      labels:
+        - dependencies
     - title: "Other Changes"
       labels:
         - "*"
