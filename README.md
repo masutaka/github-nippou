@@ -143,8 +143,15 @@ $ make dist
 $ make release
 ```
 
-## External article
+## External articles
 
 In Japanese
 
-[github-nippou - GitHubから日報を作成 MOONGIFT](http://www.moongift.jp/2016/06/github-nippou-github%E3%81%8B%E3%82%89%E6%97%A5%E5%A0%B1%E3%82%92%E4%BD%9C%E6%88%90/)
+1. [いつも日報書くときに使っているスクリプトをGem化した | マスタカの ChangeLog メモ](https://masutaka.net/2014-12-07-1/)
+1. [github-nippou v0.1.1 released | マスタカの ChangeLog メモ](https://masutaka.net/2014-12-18-1/)
+1. [github-nippou v1.1.0 and v1.1.1 released | マスタカの ChangeLog メモ](https://masutaka.net/2016-03-21-1/)
+1. [github-nippou v1.2.0 released | マスタカの ChangeLog メモ](https://masutaka.net/2016-03-23-1/)
+1. [社内勉強会で github-nippou v2.0.0 をライブリリースした | マスタカの ChangeLog メモ](https://masutaka.net/2016-04-09-1/)
+1. [github-nippou v3.0.0 released | マスタカの ChangeLog メモ](https://masutaka.net/2017-08-07-1/)
+1. [github-nippou という gem を golang で書き直したという発表をした - Feedforce Developer Blog](https://developer.feedforce.jp/entry/2017/10/16/150000)
+1. [github-nippou を golang で書き換えて v4.0.1 リリースしてました | マスタカの ChangeLog メモ](https://masutaka.net/2017-10-22-1/)
