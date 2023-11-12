@@ -3,15 +3,15 @@ changelog:
     labels:
       - tagpr
   categories:
-    - title: Breaking Changes :hammer_and_wrench:
+    - title: "Breaking Changes :hammer_and_wrench:"
       labels:
         - breaking-change
-    - title: New Features :tada:
+    - title: "New Features :tada:"
       labels:
         - enhancement
-    - title: Fix bug :bug:
+    - title: "Fix bug :bug:"
       labels:
         - bug
-    - title: Other Changes
+    - title: "Other Changes"
       labels:
         - "*"
