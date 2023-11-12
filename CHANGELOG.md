@@ -5,7 +5,7 @@
 - Bump golang.org/x/oauth2 from 0.13.0 to 0.14.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/126
 - Bump github.com/spf13/cobra from 1.7.0 to 1.8.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/127
 ### Other Changes
-- Introduce github-nippou-web by @masutaka in https://github.com/masutaka/github-nippou/pull/125
+- Introduce github-nippou-web in README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/125
 - Change default branch from `master` to `main` by @masutaka in https://github.com/masutaka/github-nippou/pull/128
 - Introduce automatic release using GitHub Actions by @masutaka in https://github.com/masutaka/github-nippou/pull/130
 
