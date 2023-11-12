@@ -72,3 +72,111 @@
 
 ## [v4.1.11](https://github.com/masutaka/github-nippou/compare/v4.1.10...v4.1.11) - 2022-11-22
 - Bump github.com/spf13/cobra from 1.5.0 to 1.6.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/95
+
+## [v4.1.10](https://github.com/masutaka/github-nippou/compare/v4.1.9...v4.1.10) - 2022-08-07
+- Bump github.com/spf13/cobra from 1.4.0 to 1.5.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/94
+
+## [v4.1.9](https://github.com/masutaka/github-nippou/compare/v4.1.8...v4.1.9) - 2022-05-21
+
+## [v4.1.8](https://github.com/masutaka/github-nippou/compare/v4.1.7...v4.1.8) - 2022-05-15
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/masutaka/github-nippou/pull/93
+- Bump actions/setup-go from 2 to 3 by @dependabot in https://github.com/masutaka/github-nippou/pull/92
+
+## [v4.1.7](https://github.com/masutaka/github-nippou/compare/v4.1.6...v4.1.7) - 2022-04-03
+- Bump github.com/spf13/cobra from 1.3.0 to 1.4.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/91
+
+## [v4.1.6](https://github.com/masutaka/github-nippou/compare/v4.1.5...v4.1.6) - 2022-01-01
+- Bump github.com/spf13/cobra from 1.2.1 to 1.3.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/90
+
+## [v4.1.5](https://github.com/masutaka/github-nippou/compare/v4.1.4...v4.1.5) - 2021-12-30
+- Bump gopkg.in/yaml.v2 from 2.2.8 to 2.3.0 by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/85
+- Update Dependabot config file by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/86
+- Bump gopkg.in/yaml.v2 from 2.3.0 to 2.4.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/87
+- Bump github.com/spf13/cobra from 0.0.7 to 1.2.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/88
+- Migrate  Travis CI to GitHub actions by @masutaka in https://github.com/masutaka/github-nippou/pull/89
+
+## [v4.1.4](https://github.com/masutaka/github-nippou/compare/v4.1.3...v4.1.4) - 2020-04-12
+- Bump github.com/rakyll/statik from 0.1.6 to 0.1.7 by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/82
+- Bump github.com/spf13/cobra from 0.0.6 to 0.0.7 by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/84
+
+## [v4.1.3](https://github.com/masutaka/github-nippou/compare/v4.1.2...v4.1.3) - 2020-02-24
+- Bump github.com/spf13/cobra from 0.0.5 to 0.0.6 by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/81
+
+## [v4.1.2](https://github.com/masutaka/github-nippou/compare/v4.1.1...v4.1.2) - 2020-02-03
+- Bump gopkg.in/yaml.v2 from 2.2.4 to 2.2.8 by @dependabot-preview in https://github.com/masutaka/github-nippou/pull/80
+
+## [v4.1.1](https://github.com/masutaka/github-nippou/compare/v4.1.0...v4.1.1) - 2019-10-08
+
+## [v4.1.0](https://github.com/masutaka/github-nippou/compare/v4.0.4...v4.1.0) - 2019-05-07
+- Migrate go-bindata to statik by @masutaka in https://github.com/masutaka/github-nippou/pull/76
+- Migrate dep to go mod by @masutaka in https://github.com/masutaka/github-nippou/pull/77
+
+## [v4.0.4](https://github.com/masutaka/github-nippou/compare/v4.0.3...v4.0.4) - 2018-04-20
+- Avoid panic when user doesn't have permission to the repositories by @masutaka in https://github.com/masutaka/github-nippou/pull/75
+- Use event's Issue/PullRequest when user doesn't have permission to the repositories by @yono in https://github.com/masutaka/github-nippou/pull/74
+
+## [v4.0.3](https://github.com/masutaka/github-nippou/compare/v4.0.2...v4.0.3) - 2018-02-24
+
+## [v4.0.2](https://github.com/masutaka/github-nippou/compare/v4.0.1...v4.0.2) - 2018-01-20
+
+## [v4.0.1](https://github.com/masutaka/github-nippou/compare/v4.0.0...v4.0.1) - 2017-10-17
+- Fix CI by @masutaka in https://github.com/masutaka/github-nippou/pull/72
+- Windows by @mattn in https://github.com/masutaka/github-nippou/pull/73
+
+## [v4.0.0](https://github.com/masutaka/github-nippou/compare/v3.2.0...v4.0.0) - 2017-10-13
+- Introduce golang by @masutaka in https://github.com/masutaka/github-nippou/pull/70
+
+## [v3.2.0](https://github.com/masutaka/github-nippou/compare/v3.1.0...v3.2.0) - 2017-08-19
+- Merge Setup in README.md to sub command `init` by @masutaka in https://github.com/masutaka/github-nippou/pull/68
+
+## [v3.1.0](https://github.com/masutaka/github-nippou/compare/v3.0.0...v3.1.0) - 2017-08-09
+
+## [v3.0.0](https://github.com/masutaka/github-nippou/compare/v2.0.1...v3.0.0) - 2017-08-07
+- Improve format by @masutaka in https://github.com/masutaka/github-nippou/pull/56
+- The github-nippou will be able to use custom format. by @ryz310 in https://github.com/masutaka/github-nippou/pull/58
+- Introduce Travis CI by @masutaka in https://github.com/masutaka/github-nippou/pull/60
+- Fix warnings in Ruby-2.4 by @masutaka in https://github.com/masutaka/github-nippou/pull/61
+- Refactor creating Github::Nippou::Settings class by @masutaka in https://github.com/masutaka/github-nippou/pull/62
+- Enable to inject settings_gist_id instead of the settings by @masutaka in https://github.com/masutaka/github-nippou/pull/63
+- Add y/n prompt to sub command `init` by @masutaka in https://github.com/masutaka/github-nippou/pull/64
+- Add sub command `open-settings` by @masutaka in https://github.com/masutaka/github-nippou/pull/65
+- Dockerize by @masutaka in https://github.com/masutaka/github-nippou/pull/66
+- Update README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/67
+
+## [v2.0.1](https://github.com/masutaka/github-nippou/compare/v2.0.0...v2.0.1) - 2016-04-10
+
+## [v2.0.0](https://github.com/masutaka/github-nippou/compare/v1.2.0...v2.0.0) - 2016-04-08
+- Smart Retrieve by @masutaka in https://github.com/masutaka/github-nippou/pull/42
+- Use correct title by @masutaka in https://github.com/masutaka/github-nippou/pull/43
+- Fix performance by @masutaka in https://github.com/masutaka/github-nippou/pull/44
+- Add `--until-date (-u)` option by @masutaka in https://github.com/masutaka/github-nippou/pull/45
+- Add sub command `version` by @masutaka in https://github.com/masutaka/github-nippou/pull/46
+- Bit improve performance by @masutaka in https://github.com/masutaka/github-nippou/pull/47
+- Refactor data structure by @masutaka in https://github.com/masutaka/github-nippou/pull/48
+- Use safe logic by @masutaka in https://github.com/masutaka/github-nippou/pull/49
+- Fix too match meta programming by @masutaka in https://github.com/masutaka/github-nippou/pull/50
+- Improve performance using thread by @masutaka in https://github.com/masutaka/github-nippou/pull/51
+- Fix condition issue or pull_request by @masutaka in https://github.com/masutaka/github-nippou/pull/52
+- Fix not good name by @masutaka in https://github.com/masutaka/github-nippou/pull/53
+- Refactor Thread logic using `parallel` gem by @masutaka in https://github.com/masutaka/github-nippou/pull/54
+- Useful debug mode by @masutaka in https://github.com/masutaka/github-nippou/pull/55
+
+## [v1.2.0](https://github.com/masutaka/github-nippou/compare/v1.1.1...v1.2.0) - 2016-03-23
+
+## [v1.1.1](https://github.com/masutaka/github-nippou/compare/v1.1.0...v1.1.1) - 2016-03-21
+
+## [v1.1.0](https://github.com/masutaka/github-nippou/compare/v1.0.2...v1.1.0) - 2016-03-21
+
+## [v1.0.2](https://github.com/masutaka/github-nippou/compare/v1.0.1...v1.0.2) - 2015-10-10
+
+## [v1.0.1](https://github.com/masutaka/github-nippou/compare/v1.0.0...v1.0.1) - 2015-10-03
+
+## [v1.0.0](https://github.com/masutaka/github-nippou/compare/v0.1.1...v1.0.0) - 2015-03-07
+
+## [v0.1.1](https://github.com/masutaka/github-nippou/compare/v0.1.0...v0.1.1) - 2014-12-17
+
+## [v0.1.0](https://github.com/masutaka/github-nippou/compare/v0.0.2...v0.1.0) - 2014-12-07
+
+## [v0.0.2](https://github.com/masutaka/github-nippou/compare/v0.0.1...v0.0.2) - 2014-12-07
+
+## [v0.0.1](https://github.com/masutaka/github-nippou/commits/v0.0.1) - 2014-12-07
