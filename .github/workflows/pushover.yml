@@ -1,5 +1,8 @@
 name: Pushover
 
+on:
+  workflow_call:
+
 jobs:
   pushover:
     runs-on: ubuntu-latest
