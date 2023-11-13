@@ -21,16 +21,4 @@ jobs:
     name: pushover if failure
     if: github.ref_name == github.event.repository.default_branch && failure()
     needs: [test]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-    - name: pushover-actions
-      uses: umahmood/pushover-actions@v1.1.0
-      env:
-        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_KEY }}
-        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
-      with:
-        status: ${{ job.status }}
-        title: "Failed ${{ github.event.repository.full_name }}'s workflow (${{ github.workflow }})"
-        url: "${{ github.server_url }}/${{ github.event.repository.full_name }}/actions/runs/${{ github.run_id }}"
-        priority: 1 # High
+    uses: .github/workflows/pushover.yml
