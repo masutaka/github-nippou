@@ -29,6 +29,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
       - name: Setup Go environment
         uses: actions/setup-go@v4
         with:
