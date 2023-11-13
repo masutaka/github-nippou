@@ -83,7 +83,6 @@ deps-dist: goreleaser
 # Release binary archives to GitHub
 .PHONY: release
 release: deps-release
-	git pull origin main --tag
 	goreleaser --clean
 
 .PHONY: deps-release
