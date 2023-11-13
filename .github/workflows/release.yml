@@ -21,8 +21,8 @@ jobs:
     outputs:
       tagpr-tag: ${{ steps.run-tagpr.outputs.tag }}
   release:
-    needs: tagpr
     if: needs.tagpr.outputs.tagpr-tag != ''
+    needs: tagpr
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -45,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   pushover:
     name: pushover if failure
-    needs: [release]
     if: failure()
-    uses: .github/workflows/pushover.yml
+    needs: [release]
+    uses: ./.github/workflows/pushover.yml
