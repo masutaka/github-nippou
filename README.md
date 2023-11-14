@@ -142,3 +142,4 @@ In Japanese
 1. [github-nippou v3.0.0 released | マスタカの ChangeLog メモ](https://masutaka.net/2017-08-07-1/)
 1. [github-nippou という gem を golang で書き直したという発表をした - Feedforce Developer Blog](https://developer.feedforce.jp/entry/2017/10/16/150000)
 1. [github-nippou を golang で書き換えて v4.0.1 リリースしてました | マスタカの ChangeLog メモ](https://masutaka.net/2017-10-22-1/)
+1. [github-nippou のリリースを gox+ghr の手動実行から、tagpr+goreleaser の自動実行に変えた | マスタカの ChangeLog メモ](https://masutaka.net/2023-11-14-1/)
