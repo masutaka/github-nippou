@@ -7,6 +7,10 @@ on:
 
 jobs:
   tagpr:
+    # (1) Create a release pull request.
+    #     e.g. https://github.com/masutaka/github-nippou/pull/132
+    # (2) If the pull request exists, update it.
+    # (3) If the pull request is merged, create a new git tag.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -21,6 +25,8 @@ jobs:
     outputs:
       tagpr-tag: ${{ steps.run-tagpr.outputs.tag }}
   release:
+    # When (3) above, the if condition is satisfied.
+    # The github-nippou binaries are built and uploaded to GitHub release.
     if: needs.tagpr.outputs.tagpr-tag != ''
     needs: tagpr
     runs-on: ubuntu-latest
