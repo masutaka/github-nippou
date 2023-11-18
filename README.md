@@ -21,7 +21,7 @@ Grab the latest binary from the [releases](https://github.com/masutaka/github-ni
 On macOS you can install or upgrade to the latest released version with Homebrew:
 
 ```
-$ brew install masutaka/github-nippou/github-nippou
+$ brew install masutaka/tap/github-nippou
 $ brew upgrade github-nippou
 ```
 
