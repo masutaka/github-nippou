@@ -25,7 +25,7 @@ func NewFormat(ctx context.Context, client *github.Client, settings Settings, de
 	return &Format{ctx: ctx, client: client, settings: settings, debug: debug}
 }
 
-// Line is line infomation
+// Line is line information
 type Line struct {
 	title    string
 	repoName string
