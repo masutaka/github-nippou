@@ -1,11 +1,11 @@
 # github-nippou
 
 [![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg)][Test]
-[![License](https://img.shields.io/github/license/masutaka/github-nippou.svg?style=flat-square)][License]
+[![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
 [Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
-[License]: https://github.com/masutaka/github-nippou/blob/main/LICENSE.txt
+[Go Report Card]: https://goreportcard.com/report/github.com/masutaka/github-nippou/v4
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
 Print today's your GitHub activity for issues and pull requests.
