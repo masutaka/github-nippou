@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.2.11](https://github.com/masutaka/github-nippou/compare/v4.2.10...v4.2.11) - 2023-12-01
+### Update modules :up:
+- Bump golang.org/x/oauth2 from 0.14.0 to 0.15.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/135
+### Other Changes
+- Update badges in README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/133
+- Fix typo in comment by @masutaka in https://github.com/masutaka/github-nippou/pull/134
+
 ## [v4.2.10](https://github.com/masutaka/github-nippou/compare/v4.2.9...v4.2.10) - 2023-11-12
 ### Update modules :up:
 - Bump golang.org/x/oauth2 from 0.13.0 to 0.14.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/126
