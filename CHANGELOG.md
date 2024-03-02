@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.2.13](https://github.com/masutaka/github-nippou/compare/v4.2.12...v4.2.13) - 2024-03-02
+### Update modules :up:
+- Bump golang.org/x/oauth2 from 0.16.0 to 0.17.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/140
+- Bump google/go-github to v60 by @masutaka in https://github.com/masutaka/github-nippou/pull/143
+### Other Changes
+- Bump go to v1.22 by @masutaka in https://github.com/masutaka/github-nippou/pull/142
+
 ## [v4.2.12](https://github.com/masutaka/github-nippou/compare/v4.2.11...v4.2.12) - 2024-02-03
 ### Update modules :up:
 - Bump actions/setup-go from 4 to 5 by @dependabot in https://github.com/masutaka/github-nippou/pull/137
