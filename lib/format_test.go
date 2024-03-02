@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/google/go-github/v56/github"
+	"github.com/google/go-github/v60/github"
 	"github.com/masutaka/github-nippou/v4/lib"
 )
 
