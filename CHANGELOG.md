@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.15](https://github.com/masutaka/github-nippou/compare/v4.2.14...v4.2.15) - 2024-04-01
+### Update modules :up:
+- Bump golang.org/x/oauth2 from 0.17.0 to 0.18.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/146
+
 ## [v4.2.14](https://github.com/masutaka/github-nippou/compare/v4.2.13...v4.2.14) - 2024-03-14
 ### Update modules :up:
 - Bump google.golang.org/protobuf from 1.31.0 to 1.33.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/144
