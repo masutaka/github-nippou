@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.16](https://github.com/masutaka/github-nippou/compare/v4.2.15...v4.2.16) - 2024-04-19
+### Update modules :up:
+- Bump golang.org/x/net from 0.22.0 to 0.23.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/148
+
 ## [v4.2.15](https://github.com/masutaka/github-nippou/compare/v4.2.14...v4.2.15) - 2024-04-01
 ### Update modules :up:
 - Bump golang.org/x/oauth2 from 0.17.0 to 0.18.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/146
