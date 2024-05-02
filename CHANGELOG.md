@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.2.17](https://github.com/masutaka/github-nippou/compare/v4.2.16...v4.2.17) - 2024-05-02
+### Update modules :up:
+- Bump golang.org/x/oauth2 from 0.18.0 to 0.19.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/153
+### Other Changes
+- Give dependencies to the test and release workflows by @masutaka in https://github.com/masutaka/github-nippou/pull/150
+- Refactor GH Actions workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/152
+
 ## [v4.2.16](https://github.com/masutaka/github-nippou/compare/v4.2.15...v4.2.16) - 2024-04-19
 ### Update modules :up:
 - Bump golang.org/x/net from 0.22.0 to 0.23.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/148
