@@ -14,7 +14,7 @@ jobs:
         PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_KEY }}
         PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
       with:
-        status: ${{ job.status }}
+        status: "failure"
         title: "Failed ${{ github.event.repository.full_name }}'s workflow (${{ github.workflow }})"
         url: "${{ github.server_url }}/${{ github.event.repository.full_name }}/actions/runs/${{ github.run_id }}"
         priority: 1 # High
