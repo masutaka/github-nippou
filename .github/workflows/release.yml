@@ -7,6 +7,9 @@ on:
     types:
       - completed
 
+concurrency:
+  group: ${{ github.workflow }}
+
 jobs:
   tagpr:
     # (1) Create a release pull request.
