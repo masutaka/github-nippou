@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.18](https://github.com/masutaka/github-nippou/compare/v4.2.17...v4.2.18) - 2024-06-02
+### Update modules :up:
+- Bump golang.org/x/oauth2 from 0.19.0 to 0.20.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/156
+### Other Changes
+- test: Does dependabot support commit hash? by @masutaka in https://github.com/masutaka/github-nippou/pull/154
+
 ## [v4.2.17](https://github.com/masutaka/github-nippou/compare/v4.2.16...v4.2.17) - 2024-05-02
 ### Update modules :up:
 - Bump golang.org/x/oauth2 from 0.18.0 to 0.19.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/153
