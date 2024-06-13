@@ -12,9 +12,10 @@ changelog:
     - title: "Fix bug :bug:"
       labels:
         - bug
-    - title: "Update modules :up:"
+    - title: "Maintenance :technologist:"
       labels:
         - dependencies
+        - maintenance
     - title: "Other Changes"
       labels:
         - "*"
