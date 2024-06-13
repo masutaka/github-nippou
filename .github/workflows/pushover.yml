@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: pushover-actions
-      uses: umahmood/pushover-actions@v1.1.0
+      uses: umahmood/pushover-actions@5da31193f672e7418804bdb51836bdf20f393c8f # v1.1.0
       env:
         PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_KEY }}
         PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
