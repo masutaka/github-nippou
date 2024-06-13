@@ -23,9 +23,9 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@v4
       - id: run-tagpr
-        uses: Songmu/tagpr@v1
+        uses: Songmu/tagpr@0a9b8e6634db66e773516828c1359dc6e9e8b484 # v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
@@ -40,7 +40,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@v4
         with:
           fetch-tags: true
       - name: Setup Go environment
