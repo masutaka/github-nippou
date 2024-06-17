@@ -36,5 +36,5 @@ jobs:
   pushover:
     name: pushover if failure
     if: github.ref_name == github.event.repository.default_branch && failure()
-    needs: [test]
+    needs: [actionlint, test]
     uses: ./.github/workflows/pushover.yml
