@@ -2,6 +2,11 @@ name: Pushover
 
 on:
   workflow_call:
+    secrets:
+      PUSHOVER_API_KEY:
+        required: true
+      PUSHOVER_USER_KEY:
+        required: true
 
 jobs:
   pushover:
