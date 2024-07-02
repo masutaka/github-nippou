@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.22](https://github.com/masutaka/github-nippou/compare/v4.2.21...v4.2.22) - 2024-07-02
+### Maintenance :technologist:
+- Fix .goreleaser.yaml part3 by @masutaka in https://github.com/masutaka/github-nippou/pull/174
+
 ## [v4.2.21](https://github.com/masutaka/github-nippou/compare/v4.2.20...v4.2.21) - 2024-07-02
 ### Maintenance :technologist:
 - Fix .goreleaser.yaml part2 by @masutaka in https://github.com/masutaka/github-nippou/pull/172
