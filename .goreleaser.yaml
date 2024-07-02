@@ -55,14 +55,15 @@ changelog:
       - "^test:"
 
 brews:
-  repository:
-    owner: masutaka
-    name: homebrew-tap
+  - name: github-nippou
+    repository:
+      owner: masutaka
+      name: homebrew-tap
     commit_author:
       name: "github-actions[bot]"
       email: "github-actions[bot]@users.noreply.github.com"
-    description: "Print today's your GitHub activity for issues and pull requests"
     homepage: "https://github.com/masutaka/github-nippou"
+    description: "Print today's your GitHub activity for issues and pull requests"
     license: "MIT"
     install: |
       bin.install 'github-nippou'
