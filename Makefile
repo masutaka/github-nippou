@@ -82,11 +82,15 @@ deps-dist: goreleaser
 
 # Release binary archives to GitHub
 .PHONY: release
-release: deps-release
+release: deps-release release-check
 	goreleaser --clean
 
 .PHONY: deps-release
 deps-release: goreleaser
+
+.PHONY: release-check
+release-check:
+	goreleaser check
 
 .PHONY: goreleaser
 goreleaser:
