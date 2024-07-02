@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.28](https://github.com/masutaka/github-nippou/compare/v4.2.27...v4.2.28) - 2024-07-02
+### Maintenance :technologist:
+- Revert "Refactor release workflow" by @masutaka in https://github.com/masutaka/github-nippou/pull/186
+
 ## [v4.2.27](https://github.com/masutaka/github-nippou/compare/v4.2.26...v4.2.27) - 2024-07-02
 ### Maintenance :technologist:
 - Refactor release workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/184
