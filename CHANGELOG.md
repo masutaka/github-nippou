@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.20](https://github.com/masutaka/github-nippou/compare/v4.2.19...v4.2.20) - 2024-07-02
+### Maintenance :technologist:
+- Fix .goreleaser.yaml by @masutaka in https://github.com/masutaka/github-nippou/pull/170
+
 ## [v4.2.19](https://github.com/masutaka/github-nippou/compare/v4.2.18...v4.2.19) - 2024-07-02
 ### Maintenance :technologist:
 - switch to action hash with version comment by @masutaka in https://github.com/masutaka/github-nippou/pull/158
