@@ -53,3 +53,30 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+
+brews:
+  repository:
+    owner: masutaka
+    name: homebrew-tap
+    commit_author:
+      name: "github-actions[bot]"
+      email: "github-actions[bot]@users.noreply.github.com"
+    description: "Print today's your GitHub activity for issues and pull requests"
+    homepage: "https://github.com/masutaka/github-nippou"
+    license: "MIT"
+    install: |
+      bin.install 'github-nippou'
+
+      # Install bash completion
+      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'bash')
+      (bash_completion/'github-nippou').write output
+
+      # Install fish completion
+      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'fish')
+      (fish_completion/'github-nippou.fish').write output
+
+      # Install zsh completion
+      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'zsh')
+      (zsh_completion/'_github-nippou').write output
+    test: |
+      system 'github-nippou', 'version'
