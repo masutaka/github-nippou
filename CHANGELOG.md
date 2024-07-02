@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.27](https://github.com/masutaka/github-nippou/compare/v4.2.26...v4.2.27) - 2024-07-02
+### Maintenance :technologist:
+- Refactor release workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/184
+
 ## [v4.2.26](https://github.com/masutaka/github-nippou/compare/v4.2.25...v4.2.26) - 2024-07-02
 ### Maintenance :technologist:
 - Fix .goreleaser.yaml part7 by @masutaka in https://github.com/masutaka/github-nippou/pull/182
