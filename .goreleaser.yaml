@@ -56,10 +56,10 @@ changelog:
 
 brews:
   - name: github-nippou
-    token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     repository:
       owner: masutaka
       name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     commit_author:
       name: "github-actions[bot]"
       email: "github-actions[bot]@users.noreply.github.com"
