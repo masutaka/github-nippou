@@ -1,4 +1,4 @@
 package lib
 
 // Version is the github-nippou version
-const Version = "4.2.18"
+const Version = "4.2.19"

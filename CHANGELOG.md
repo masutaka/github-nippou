@@ -1,5 +1,19 @@
 # Changelog
 
+## [v4.2.19](https://github.com/masutaka/github-nippou/compare/v4.2.18...v4.2.19) - 2024-07-02
+### Maintenance :technologist:
+- switch to action hash with version comment by @masutaka in https://github.com/masutaka/github-nippou/pull/158
+- Change section and add label for release.yml by @masutaka in https://github.com/masutaka/github-nippou/pull/159
+- Introduce actionlint to CI by @masutaka in https://github.com/masutaka/github-nippou/pull/160
+- Fix GitHub Actions workflows by @masutaka in https://github.com/masutaka/github-nippou/pull/161
+- Refactor pushover workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/163
+- Bump reviewdog/action-actionlint from 1.48.0 to 1.51.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/166
+- Bump goreleaser/goreleaser-action from 5 to 6 by @dependabot in https://github.com/masutaka/github-nippou/pull/167
+- Bump github.com/spf13/cobra from 1.8.0 to 1.8.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/164
+- Bump golang.org/x/oauth2 from 0.20.0 to 0.21.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/165
+- Automatically update masutaka/homebrew-tap after release by @masutaka in https://github.com/masutaka/github-nippou/pull/168
+- Decrease GitHub App permission by @masutaka in https://github.com/masutaka/github-nippou/pull/169
+
 ## [v4.2.18](https://github.com/masutaka/github-nippou/compare/v4.2.17...v4.2.18) - 2024-06-02
 ### Update modules :up:
 - Bump golang.org/x/oauth2 from 0.19.0 to 0.20.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/156
