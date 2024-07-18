@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.29](https://github.com/masutaka/github-nippou/compare/v4.2.28...v4.2.29) - 2024-07-18
+### Maintenance :technologist:
+- Fix missing CI trigger of Release PR by @masutaka in https://github.com/masutaka/github-nippou/pull/190
+- Fix the permission of tagpr job by @masutaka in https://github.com/masutaka/github-nippou/pull/191
+- Bump google/go-github to v63 by @masutaka in https://github.com/masutaka/github-nippou/pull/193
+
 ## [v4.2.28](https://github.com/masutaka/github-nippou/compare/v4.2.27...v4.2.28) - 2024-07-02
 ### Maintenance :technologist:
 - Revert "Refactor release workflow" by @masutaka in https://github.com/masutaka/github-nippou/pull/186
