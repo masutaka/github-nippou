@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/google/go-github/v60/github"
+	"github.com/google/go-github/v63/github"
 )
 
 // Format is Formatter
