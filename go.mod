@@ -3,7 +3,7 @@ module github.com/masutaka/github-nippou/v4
 go 1.22
 
 require (
-	github.com/google/go-github/v60 v60.0.0
+	github.com/google/go-github/v63 v63.0.0
 	github.com/rakyll/statik v0.1.7
 	github.com/skratchdot/open-golang v0.0.0-20190402232053-79abb63cd66e
 	github.com/spf13/cobra v1.8.1
