@@ -16,6 +16,9 @@ changelog:
       labels:
         - dependencies
         - maintenance
+    - title: "Documentation :memo:"
+      labels:
+        - documentation
     - title: "Other Changes"
       labels:
         - "*"
