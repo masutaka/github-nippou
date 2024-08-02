@@ -1,6 +1,6 @@
 module github.com/masutaka/github-nippou/v4
 
-go 1.22
+go 1.22.5
 
 require (
 	github.com/google/go-github/v63 v63.0.0
