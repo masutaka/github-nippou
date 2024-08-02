@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.2.30](https://github.com/masutaka/github-nippou/compare/v4.2.29...v4.2.30) - 2024-08-02
+### Maintenance :technologist:
+- Update .github/release.yml by @masutaka in https://github.com/masutaka/github-nippou/pull/197
+- Bump reviewdog/action-actionlint from 1.51.0 to 1.54.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/198
+### Documentation :memo:
+- Add "Limitations and Latency" to README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/194
+- Add external article to README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/196
+### Other Changes
+- Fix go toolchain version by @masutaka in https://github.com/masutaka/github-nippou/pull/199
+
 ## [v4.2.29](https://github.com/masutaka/github-nippou/compare/v4.2.28...v4.2.29) - 2024-07-18
 ### Maintenance :technologist:
 - Fix missing CI trigger of Release PR by @masutaka in https://github.com/masutaka/github-nippou/pull/190
