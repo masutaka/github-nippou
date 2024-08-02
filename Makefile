@@ -68,8 +68,8 @@ lint:
 # Bump go version
 .PHONY: bump_go_version
 bump_go_version:
-	@printf "go version? "; read version; \
-	go mod edit -go="$$(echo $$version | sed -e 's@\.[0-9]\+$$@@')"
+	@printf "go version (x.y.z)? "; read version; \
+	go mod edit -go="$$version"
 	go mod tidy
 
 # Generate binary archives for release check on local machine
