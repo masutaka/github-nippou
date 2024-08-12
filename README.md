@@ -1,10 +1,12 @@
 # github-nippou
 
 [![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg)][Test]
+[![CodeQL](https://github.com/masutaka/github-nippou/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)][codeql]
 [![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
 [Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
+[codeql]: https://github.com/masutaka/github-nippou/actions/workflows/github-code-scanning/codeql?query=branch%3Amain
 [Go Report Card]: https://goreportcard.com/report/github.com/masutaka/github-nippou/v4
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
