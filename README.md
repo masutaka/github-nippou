@@ -145,6 +145,14 @@ As of July 29, 2024, the above is a note regarding the [List repository events](
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+## Contributors
+
+<a href="https://github.com/masutaka/github-nippou/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=masutaka/github-nippou" />
+</a>
+
+*Made with [contrib.rocks](https://contrib.rocks).*
+
 ## External articles
 
 In Japanese
