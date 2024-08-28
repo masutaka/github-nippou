@@ -1,13 +1,14 @@
 # github-nippou
 
-[![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg?branch=main)][![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_shield)
-[Test]
+[![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg?branch=main)][Test]
 [![CodeQL](https://github.com/masutaka/github-nippou/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)][codeql]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=shield)][codeql]
 [![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
 [Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
 [codeql]: https://github.com/masutaka/github-nippou/actions/workflows/github-code-scanning/codeql?query=branch%3Amain
+[fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_shield
 [Go Report Card]: https://goreportcard.com/report/github.com/masutaka/github-nippou/v4
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
@@ -154,6 +155,10 @@ As of July 29, 2024, the above is a note regarding the [List repository events](
 
 *Made with [contrib.rocks](https://contrib.rocks).*
 
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_large)
+
 ## External articles
 
 In Japanese
@@ -169,7 +174,3 @@ In Japanese
 1. [github-nippou のリリースを gox+ghr の手動実行から、tagpr+goreleaser の自動実行に変えた | マスタカの ChangeLog メモ](https://masutaka.net/2023-11-14-1/)
 1. [github\-nippou の Web 版を App Router \+ Go \+ Vercel で作った \| Hirotaka Miyagi](https://www.mh4gf.dev/articles/github-nippou-web)
 1. [github\-nippou のリリース時に formula ファイルも自動更新するようにした \| マスタカの ChangeLog メモ](https://masutaka.net/2024-07-30-1/)
-
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_large)
