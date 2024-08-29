@@ -2,7 +2,7 @@
 
 [![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg?branch=main)][Test]
 [![CodeQL](https://github.com/masutaka/github-nippou/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)][codeql]
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=shield)][codeql]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=shield)][fossa]
 [![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
