@@ -1,0 +1,24 @@
+name: Schedule
+
+on:
+  schedule:
+    - cron: "00 10 * * 5" # every friday 19:00 JST
+
+jobs:
+  codeql:
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      security-events: write
+    uses: route06/actions/.github/workflows/codeql_core.yml@b4926a2cc01811c7908ded0a7d93f4b5527079d4 # v2.4.0
+    with:
+      language: "go"
+  pushover:
+    name: pushover if failure
+    if: github.ref_name == github.event.repository.default_branch && failure()
+    needs: codeql
+    uses: ./.github/workflows/pushover.yml
+    secrets:
+      PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
+      PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
