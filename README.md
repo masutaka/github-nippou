@@ -172,3 +172,5 @@ In Japanese
 1. [github-nippou のリリースを gox+ghr の手動実行から、tagpr+goreleaser の自動実行に変えた | マスタカの ChangeLog メモ](https://masutaka.net/2023-11-14-1/)
 1. [github\-nippou の Web 版を App Router \+ Go \+ Vercel で作った \| Hirotaka Miyagi](https://www.mh4gf.dev/articles/github-nippou-web)
 1. [github\-nippou のリリース時に formula ファイルも自動更新するようにした \| マスタカの ChangeLog メモ](https://masutaka.net/2024-07-30-1/)
+
+test
