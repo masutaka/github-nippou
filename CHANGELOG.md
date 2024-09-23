@@ -1,5 +1,21 @@
 # Changelog
 
+## [v4.2.31](https://github.com/masutaka/github-nippou/compare/v4.2.30...v4.2.31) - 2024-09-23
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.3.0 to 1.4.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/209
+- Bump golang.org/x/oauth2 from 0.21.0 to 0.22.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/210
+- Add CodeQL job to GitHub Actions workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/212
+### Documentation :memo:
+- Update badges by @masutaka in https://github.com/masutaka/github-nippou/pull/200
+- Add contributors badge using contrib.rocks by @masutaka in https://github.com/masutaka/github-nippou/pull/202
+- Adjust FOSSA badge by @masutaka in https://github.com/masutaka/github-nippou/pull/204
+- Add license scan report and status by @fossabot in https://github.com/masutaka/github-nippou/pull/203
+- Fix FOSSA badge by @masutaka in https://github.com/masutaka/github-nippou/pull/208
+- Add SECURITY.md by @masutaka in https://github.com/masutaka/github-nippou/pull/211
+- Remove CodeQL badge by @masutaka in https://github.com/masutaka/github-nippou/pull/213
+### Other Changes
+- Fix the GoReleaser deprecation by @masutaka in https://github.com/masutaka/github-nippou/pull/215
+
 ## [v4.2.31](https://github.com/masutaka/github-nippou/compare/v4.2.30...v4.2.31) - 2024-09-15
 ### Maintenance :technologist:
 - Bump Songmu/tagpr from 1.3.0 to 1.4.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/209
