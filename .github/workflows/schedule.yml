@@ -11,7 +11,7 @@ jobs:
       checks: read
       contents: read
       security-events: write
-    uses: route06/actions/.github/workflows/codeql_core.yml@b4926a2cc01811c7908ded0a7d93f4b5527079d4 # v2.4.0
+    uses: route06/actions/.github/workflows/codeql_core.yml@9e45172619c61b4bafec4eddde0872fb3947c190 # v2.4.1
     with:
       language: "go"
   pushover:
