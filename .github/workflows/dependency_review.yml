@@ -1,0 +1,7 @@
+name: Dependency Review
+
+on: [pull_request]
+
+jobs:
+  dependency_review:
+    uses: route06/actions/.github/workflows/dependency_review.yml@55b3a3db392059a08cee1d8c1b4b022e14c7ceda # v2.5.0
