@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.33](https://github.com/masutaka/github-nippou/compare/v4.2.32...v4.2.33) - 2024-10-13
+### Maintenance :technologist:
+- Introduce Dependency Review to CI by @masutaka in https://github.com/masutaka/github-nippou/pull/222
+
 ## [v4.2.32](https://github.com/masutaka/github-nippou/compare/v4.2.31...v4.2.32) - 2024-10-01
 ### Maintenance :technologist:
 - Bump route06/actions from 2.4.0 to 2.4.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/218
