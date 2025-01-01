@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.34](https://github.com/masutaka/github-nippou/compare/v4.2.33...v4.2.34) - 2025-01-01
+### Maintenance :technologist:
+- Bump reviewdog/action-actionlint from 1.57.0 to 1.61.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/233
+### Documentation :memo:
+- Update External articles in README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/229
+
 ## [v4.2.33](https://github.com/masutaka/github-nippou/compare/v4.2.32...v4.2.33) - 2024-12-01
 ### Maintenance :technologist:
 - Introduce Dependency Review to CI by @masutaka in https://github.com/masutaka/github-nippou/pull/222
