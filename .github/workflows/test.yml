@@ -19,7 +19,7 @@ jobs:
     - name: Run actionlint
       uses: reviewdog/action-actionlint@abd537417cf4991e1ba8e21a67b1119f4f53b8e0 # v1.64.1
       with:
-        fail_on_error: true
+        fail_level: error
         filter_mode: nofilter
         level: error
         reporter: github-pr-review
