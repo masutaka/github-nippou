@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/go-github/v63/github"
+	"github.com/google/go-github/v69/github"
 )
 
 // List is a struct for collecting GitHub activities.

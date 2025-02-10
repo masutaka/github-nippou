@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/google/go-github/v63/github"
+	"github.com/google/go-github/v69/github"
 )
 
 // Events represents a structure for fetching user-related events from the GitHub API.
