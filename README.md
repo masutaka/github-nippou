@@ -14,8 +14,6 @@ Print today's your GitHub activity for issues and pull requests.
 
 This is a helpful CLI when you write a daily report in reference to GitHub. Nippou is a japanese word which means a daily report.
 
-A web version of this CLI is also available at https://github.com/MH4GF/github-nippou-web .
-
 ## Installation
 
 Grab the latest binary from the [releases](https://github.com/masutaka/github-nippou/releases) page.
@@ -91,6 +89,15 @@ $ github-nippou
 * [Add sub command \`open-settings\`](https://github.com/masutaka/github-nippou/pull/65) by @[masutaka](https://github.com/masutaka) **merged!**
 * [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by @[masutaka](https://github.com/masutaka) **merged!**
 ```
+
+## Usage Examples as a library
+
+The following projects use github-nippou as a library:
+
+* https://github.com/MH4GF/github-nippou-web
+    * A web app version of github-nippou
+* https://github.com/NoritakaIkeda/GitJournal
+    * A web app that can post github-nippou output to a GitHub Discussion
 
 ## Optional: Customize Output Format
 
