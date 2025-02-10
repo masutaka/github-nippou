@@ -1,19 +1,5 @@
 # Changelog
 
-## [v4.2.34](https://github.com/masutaka/github-nippou/compare/v4.2.33...v4.2.34) - 2025-02-10
-### Maintenance :technologist:
-- Bump reviewdog/action-actionlint from 1.57.0 to 1.61.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/233
-- Bump Songmu/tagpr from 1.5.0 to 1.5.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/235
-- Bump reviewdog/action-actionlint from 1.61.0 to 1.64.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/236
-- Bump golang.org/x/oauth2 from 0.24.0 to 0.25.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/234
-- Fix the warning of reviewdog/action-actionlint by @masutaka in https://github.com/masutaka/github-nippou/pull/237
-- Bump google/go-github to v69 by @masutaka in https://github.com/masutaka/github-nippou/pull/240
-### Documentation :memo:
-- Update External articles in README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/229
-- Add NoritakaIkeda/GitJournal link to README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/239
-### Other Changes
-- Introduce PR-Agent by @masutaka in https://github.com/masutaka/github-nippou/pull/238
-
 ## [v4.2.33](https://github.com/masutaka/github-nippou/compare/v4.2.32...v4.2.33) - 2024-12-01
 ### Maintenance :technologist:
 - Introduce Dependency Review to CI by @masutaka in https://github.com/masutaka/github-nippou/pull/222
