@@ -1,6 +1,6 @@
-## Related Issue
+## User description
 
-<!-- Mention the related issue if applicable. -->
+<!-- If present, mention the related issue. -->
 
 * ...
 
@@ -21,7 +21,3 @@ pr_agent:summary
 <!-- Do not change this section. -->
 
 pr_agent:walkthrough
-
-## Other Information
-
-<!-- Add any other relevant information for the reviewer. -->
