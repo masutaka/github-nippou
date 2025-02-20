@@ -1,6 +1,6 @@
 ## Related Issue
 
-<!-- Mention the related issue number if applicable. -->
+<!-- Mention the related issue if applicable. -->
 
 * ...
 
@@ -10,22 +10,18 @@
 
 pr_agent:type
 
-## PR Description
+## Description
 
 <!-- Do not change this section. -->
 
 pr_agent:summary
 
-## PR Walkthrough
+## Changes walkthrough 📝
 
 <!-- Do not change this section. -->
 
 pr_agent:walkthrough
 
-#### Testing
-
-<!-- Briefly describe the testing steps or results. -->
-
-### Other Information
+## Other Information
 
 <!-- Add any other relevant information for the reviewer. -->
