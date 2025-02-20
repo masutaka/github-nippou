@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.35](https://github.com/masutaka/github-nippou/compare/v4.2.34...v4.2.35) - 2025-02-20
+### Documentation :memo:
+- Update PR template by @masutaka in https://github.com/masutaka/github-nippou/pull/243
+### Other Changes
+- Update PR template by @masutaka in https://github.com/masutaka/github-nippou/pull/245
+
 ## [v4.2.34](https://github.com/masutaka/github-nippou/compare/v4.2.33...v4.2.34) - 2025-02-10
 ### Fix bug :bug:
 - Fix goreleaser error by @masutaka in https://github.com/masutaka/github-nippou/pull/241
