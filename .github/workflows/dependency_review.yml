@@ -4,4 +4,4 @@ on: [pull_request]
 
 jobs:
   dependency_review:
-    uses: route06/actions/.github/workflows/dependency_review.yml@55b3a3db392059a08cee1d8c1b4b022e14c7ceda # v2.5.0
+    uses: route06/actions/.github/workflows/dependency_review.yml@155715656c4cd9079f1213d08d058e78dd00cae7 # v2.6.0
