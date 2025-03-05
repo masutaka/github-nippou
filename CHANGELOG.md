@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.2.35](https://github.com/masutaka/github-nippou/compare/v4.2.34...v4.2.35) - 2025-03-05
+### Maintenance :technologist:
+- Bump reviewdog/action-actionlint from 1.64.1 to 1.65.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/250
+- Bump route06/actions from 2.5.0 to 2.6.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/249
+- Bump github.com/google/go-github/v69 from 69.0.0 to 69.2.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/248
+- Bump github.com/spf13/cobra from 1.8.1 to 1.9.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/246
+### Other Changes
+- Update PR template by @masutaka in https://github.com/masutaka/github-nippou/pull/243
+- Update PR template by @masutaka in https://github.com/masutaka/github-nippou/pull/245
+
 ## [v4.2.34](https://github.com/masutaka/github-nippou/compare/v4.2.33...v4.2.34) - 2025-02-10
 ### Fix bug :bug:
 - Fix goreleaser error by @masutaka in https://github.com/masutaka/github-nippou/pull/241
