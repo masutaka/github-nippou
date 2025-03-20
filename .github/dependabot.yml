@@ -7,7 +7,7 @@ updates:
       interval: "monthly"
       time: "19:00"
       timezone: "Asia/Tokyo"
-    assignees:
+    reviewers:
       - "masutaka"
   - package-ecosystem: "gomod"
     directory: "/"
@@ -15,6 +15,6 @@ updates:
       interval: "monthly"
       time: "19:00"
       timezone: "Asia/Tokyo"
-    assignees:
+    reviewers:
       - "masutaka"
     open-pull-requests-limit: 10
