@@ -1,5 +1,10 @@
 # Changelog
 
+## [v4.2.36](https://github.com/masutaka/github-nippou/compare/v4.2.35...v4.2.36) - 2025-06-02
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.5.2 to 1.6.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/259
+- Bump golang.org/x/oauth2 from 0.29.0 to 0.30.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/260
+
 ## [v4.2.35](https://github.com/masutaka/github-nippou/compare/v4.2.34...v4.2.35) - 2025-05-21
 ### Maintenance :technologist:
 - Bump reviewdog/action-actionlint from 1.64.1 to 1.65.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/250
