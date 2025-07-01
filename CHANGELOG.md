@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.37](https://github.com/masutaka/github-nippou/compare/v4.2.36...v4.2.37) - 2025-07-01
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.6.1 to 1.7.0 by @dependabot in https://github.com/masutaka/github-nippou/pull/262
+### Documentation :memo:
+- Remove FOSSA badges by @masutaka in https://github.com/masutaka/github-nippou/pull/264
+
 ## [v4.2.36](https://github.com/masutaka/github-nippou/compare/v4.2.35...v4.2.36) - 2025-06-02
 ### Maintenance :technologist:
 - Bump Songmu/tagpr from 1.5.2 to 1.6.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/259
