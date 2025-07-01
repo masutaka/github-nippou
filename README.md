@@ -1,12 +1,10 @@
 # github-nippou
 
 [![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg?branch=main)][Test]
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=shield)][fossa]
 [![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
 
 [Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
-[fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_shield
 [Go Report Card]: https://goreportcard.com/report/github.com/masutaka/github-nippou/v4
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
 
@@ -159,10 +157,6 @@ As of July 29, 2024, the above is a note regarding the [List repository events](
 </a>
 
 *Made with [contrib.rocks](https://contrib.rocks).*
-
-## License
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmasutaka%2Fgithub-nippou?ref=badge_large)
 
 ## External articles
 
