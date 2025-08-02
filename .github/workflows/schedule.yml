@@ -6,6 +6,9 @@ on:
 
 jobs:
   codeql:
+    strategy:
+      matrix:
+        language: [actions, go]
     permissions:
       actions: read
       checks: read
@@ -13,7 +16,7 @@ jobs:
       security-events: write
     uses: route06/actions/.github/workflows/codeql_core.yml@3bcea5bf834ff2e0e6c912c1167fcc1fe05e49c2 # v2.7.0
     with:
-      language: "go"
+      language: ${{ matrix.language }}
   pushover:
     name: pushover if failure
     if: github.ref_name == github.event.repository.default_branch && failure()
