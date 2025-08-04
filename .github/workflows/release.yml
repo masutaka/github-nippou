@@ -21,6 +21,8 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
@@ -74,6 +76,8 @@ jobs:
     if: failure()
     needs: [release]
     uses: masutaka/actions/.github/workflows/pushover.yml@main
+    permissions:
+      contents: read
     secrets:
       PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
       PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
