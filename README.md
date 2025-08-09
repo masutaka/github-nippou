@@ -3,10 +3,12 @@
 [![Test](https://github.com/masutaka/github-nippou/actions/workflows/test.yml/badge.svg?branch=main)][Test]
 [![Go Report Card](https://goreportcard.com/badge/github.com/masutaka/github-nippou/v4)][Go Report Card]
 [![Go Reference](https://pkg.go.dev/badge/github.com/masutaka/github-nippou/v4.svg)][Go Reference]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)][DeepWiki]
 
 [Test]: https://github.com/masutaka/github-nippou/actions/workflows/test.yml?query=branch%3Amain
 [Go Report Card]: https://goreportcard.com/report/github.com/masutaka/github-nippou/v4
 [Go Reference]: https://pkg.go.dev/github.com/masutaka/github-nippou/v4
+[DeepWiki]: https://deepwiki.com/masutaka/github-nippou
 
 Print today's your GitHub activity for issues and pull requests.
 
