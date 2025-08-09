@@ -1,5 +1,18 @@
 # Changelog
 
+## [v4.2.37](https://github.com/masutaka/github-nippou/compare/v4.2.36...v4.2.37) - 2025-08-09
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.6.1 to 1.7.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/262
+- Add falling sound to pushover at CI failure by @masutaka in https://github.com/masutaka/github-nippou/pull/265
+- Refactor GH Actions workflows by @masutaka in https://github.com/masutaka/github-nippou/pull/266
+- Bump route06/actions from 2.6.0 to 2.7.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/267
+- Add GitHub Actions to the list of languages for scheduled CodeQL execution by @masutaka in https://github.com/masutaka/github-nippou/pull/268
+- ci: add explicit permissions to address CodeQL findings by @masutaka in https://github.com/masutaka/github-nippou/pull/269
+### Documentation :memo:
+- Remove FOSSA badges by @masutaka in https://github.com/masutaka/github-nippou/pull/264
+- Update README.md by @masutaka in https://github.com/masutaka/github-nippou/pull/270
+- Add DeepWiki badge by @masutaka in https://github.com/masutaka/github-nippou/pull/271
+
 ## [v4.2.36](https://github.com/masutaka/github-nippou/compare/v4.2.35...v4.2.36) - 2025-06-02
 ### Maintenance :technologist:
 - Bump Songmu/tagpr from 1.5.2 to 1.6.1 by @dependabot in https://github.com/masutaka/github-nippou/pull/259
