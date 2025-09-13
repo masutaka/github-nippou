@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.38](https://github.com/masutaka/github-nippou/compare/v4.2.37...v4.2.38) - 2025-09-13
+### Maintenance :technologist:
+- Fix release settings by @masutaka in https://github.com/masutaka/github-nippou/pull/279
+
 ## [v4.2.37](https://github.com/masutaka/github-nippou/compare/v4.2.36...v4.2.37) - 2025-09-13
 ### Maintenance :technologist:
 - Bump Songmu/tagpr from 1.6.1 to 1.7.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/262
