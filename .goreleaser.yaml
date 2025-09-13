@@ -57,7 +57,7 @@ changelog:
       - "^docs:"
       - "^test:"
 
-homebrew_casks:
+brews:
   - name: github-nippou
     repository:
       owner: masutaka
