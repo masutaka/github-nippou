@@ -44,6 +44,9 @@ archives:
 checksum:
   name_template: '{{ .ProjectName }}_v{{ .Version }}_checksums.txt'
 
+release:
+  use_existing_draft: true
+
 snapshot:
   version_template: "{{ .Version }}-next"
 
