@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.40](https://github.com/masutaka/github-nippou/compare/v4.2.39...v4.2.40) - 2025-10-01
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.7.0 to 1.9.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/284
+
 ## [v4.2.39](https://github.com/masutaka/github-nippou/compare/v4.2.38...v4.2.39) - 2025-09-13
 ### Maintenance :technologist:
 - Revert "Migrate brews to homebrew_casks in .goreleaser.yaml" by @masutaka in https://github.com/masutaka/github-nippou/pull/281
