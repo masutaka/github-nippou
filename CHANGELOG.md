@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.2.40](https://github.com/masutaka/github-nippou/compare/v4.2.39...v4.2.40) - 2025-11-05
+### Fix bug :bug:
+- fix: add nil checks in htmlURL to prevent panic by @MH4GF in https://github.com/masutaka/github-nippou/pull/289
+### Maintenance :technologist:
+- Bump Songmu/tagpr from 1.7.0 to 1.9.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/284
+- Bump reviewdog/action-actionlint from 1.67.0 to 1.68.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/288
+### Other Changes
+- Introduce coderabbit and remove PR-Agent by @masutaka in https://github.com/masutaka/github-nippou/pull/286
+
 ## [v4.2.39](https://github.com/masutaka/github-nippou/compare/v4.2.38...v4.2.39) - 2025-09-13
 ### Maintenance :technologist:
 - Revert "Migrate brews to homebrew_casks in .goreleaser.yaml" by @masutaka in https://github.com/masutaka/github-nippou/pull/281
