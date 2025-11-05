@@ -129,15 +129,25 @@ func htmlURL(event *github.Event) (string, error) {
 
 	switch *event.Type {
 	case "IssuesEvent":
-		result = *payload.(*github.IssuesEvent).Issue.HTMLURL
+		if e := payload.(*github.IssuesEvent); e.Issue != nil && e.Issue.HTMLURL != nil {
+			result = *e.Issue.HTMLURL
+		}
 	case "IssueCommentEvent":
-		result = *payload.(*github.IssueCommentEvent).Issue.HTMLURL
+		if e := payload.(*github.IssueCommentEvent); e.Issue != nil && e.Issue.HTMLURL != nil {
+			result = *e.Issue.HTMLURL
+		}
 	case "PullRequestEvent":
-		result = *payload.(*github.PullRequestEvent).PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
+			result = *e.PullRequest.HTMLURL
+		}
 	case "PullRequestReviewCommentEvent":
-		result = *payload.(*github.PullRequestReviewCommentEvent).PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestReviewCommentEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
+			result = *e.PullRequest.HTMLURL
+		}
 	case "PullRequestReviewEvent":
-		result = *payload.(*github.PullRequestReviewEvent).PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestReviewEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
+			result = *e.PullRequest.HTMLURL
+		}
 	}
 
 	return result, nil
