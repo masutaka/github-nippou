@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.41](https://github.com/masutaka/github-nippou/compare/v4.2.40...v4.2.41) - 2025-11-08
+### Maintenance :technologist:
+- Bump golang.org/x/oauth2 from 0.31.0 to 0.32.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/287
+
 ## [v4.2.40](https://github.com/masutaka/github-nippou/compare/v4.2.39...v4.2.40) - 2025-11-05
 ### Fix bug :bug:
 - fix: add nil checks in htmlURL to prevent panic by @MH4GF in https://github.com/masutaka/github-nippou/pull/289
