@@ -54,7 +54,7 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v6
         with:
-          go-version-file: 'go.mod'
+          go-version-file: "go.mod"
       - name: Setup GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -64,8 +64,8 @@ jobs:
         with:
           app-id: ${{ vars.RELEASE_APP_ID }}
           private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
-          owner: 'masutaka'
-          repositories: 'homebrew-tap'
+          owner: "masutaka"
+          repositories: "homebrew-tap"
       - name: Release
         run: make release
         env:
