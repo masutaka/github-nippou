@@ -19,7 +19,7 @@ jobs:
     # (2) If the pull request exists, update it.
     # (3) If the pull request is merged, create a new git tag.
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       contents: read
@@ -43,7 +43,7 @@ jobs:
     # The github-nippou binaries are built and uploaded to GitHub release.
     if: needs.tagpr.outputs.tagpr-tag != ''
     needs: tagpr
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       contents: write

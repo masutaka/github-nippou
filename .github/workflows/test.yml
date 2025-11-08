@@ -8,7 +8,7 @@ on:
 
 jobs:
   actionlint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       checks: write
@@ -31,7 +31,7 @@ jobs:
       security-events: write
     uses: route06/actions/.github/workflows/codeql.yml@3bcea5bf834ff2e0e6c912c1167fcc1fe05e49c2 # v2.7.0
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       contents: read
