@@ -15,32 +15,32 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-    - uses: actions/checkout@v5
-    - name: Run actionlint
-      uses: reviewdog/action-actionlint@f00ad0691526c10be4021a91b2510f0a769b14d0 # v1.68.0
-      with:
-        fail_level: error
-        filter_mode: nofilter
-        level: error
-        reporter: github-pr-review
+      - uses: actions/checkout@v6
+      - name: Run actionlint
+        uses: reviewdog/action-actionlint@f00ad0691526c10be4021a91b2510f0a769b14d0 # v1.68.0
+        with:
+          fail_level: error
+          filter_mode: nofilter
+          level: error
+          reporter: github-pr-review
   codeql:
     permissions:
       actions: read
       checks: read
       contents: read
       security-events: write
-    uses: route06/actions/.github/workflows/codeql.yml@3bcea5bf834ff2e0e6c912c1167fcc1fe05e49c2 # v2.7.0
+    uses: masutaka/actions/.github/workflows/codeql.yml@main
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Go environment
         uses: actions/setup-go@v6
         with:
-          go-version-file: 'go.mod'
+          go-version-file: "go.mod"
       - run: make test-all
   pushover:
     name: pushover if failure
