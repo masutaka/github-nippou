@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.43](https://github.com/masutaka/github-nippou/compare/v4.2.42...v4.2.43) - 2025-12-07
+### Maintenance :technologist:
+- Migrate route06/actions to masutaka/actions by @masutaka in https://github.com/masutaka/github-nippou/pull/295
+
 ## [v4.2.42](https://github.com/masutaka/github-nippou/compare/v4.2.41...v4.2.42) - 2025-12-07
 ### Maintenance :technologist:
 - Bump golang.org/x/oauth2 from 0.32.0 to 0.33.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/293
