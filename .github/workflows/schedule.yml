@@ -14,7 +14,7 @@ jobs:
       checks: read
       contents: read
       security-events: write
-    uses: route06/actions/.github/workflows/codeql_core.yml@3bcea5bf834ff2e0e6c912c1167fcc1fe05e49c2 # v2.7.0
+    uses: masutaka/actions/.github/workflows/codeql_core.yml@main
     with:
       language: ${{ matrix.language }}
   pushover:
