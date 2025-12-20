@@ -15,7 +15,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Run actionlint
         uses: reviewdog/action-actionlint@f00ad0691526c10be4021a91b2510f0a769b14d0 # v1.68.0
         with:
@@ -36,9 +36,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup Go environment
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
           go-version-file: "go.mod"
       - run: make test-all
