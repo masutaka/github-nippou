@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.2.44](https://github.com/masutaka/github-nippou/compare/v4.2.43...v4.2.44) - 2026-01-02
+### Maintenance :technologist:
+- Bump reviewdog/action-actionlint from 1.68.0 to 1.69.1 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/303
+- Bump Songmu/tagpr from 1.9.0 to 1.10.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/302
+- Bump github.com/spf13/cobra from 1.10.1 to 1.10.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/301
+- Bump golang.org/x/oauth2 from 0.33.0 to 0.34.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/300
+
 ## [v4.2.43](https://github.com/masutaka/github-nippou/compare/v4.2.42...v4.2.43) - 2025-12-20
 ### Maintenance :technologist:
 - Migrate route06/actions to masutaka/actions by @masutaka in https://github.com/masutaka/github-nippou/pull/295
