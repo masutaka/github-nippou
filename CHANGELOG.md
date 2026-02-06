@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.45](https://github.com/masutaka/github-nippou/compare/v4.2.44...v4.2.45) - 2026-02-06
+### Maintenance :technologist:
+- build(deps): bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/306
+- build(deps): bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/307
+- build(deps): bump github.com/rakyll/statik from 0.1.7 to 0.1.8 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/305
+
 ## [v4.2.44](https://github.com/masutaka/github-nippou/compare/v4.2.43...v4.2.44) - 2026-01-02
 ### Maintenance :technologist:
 - Bump reviewdog/action-actionlint from 1.68.0 to 1.69.1 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/303
