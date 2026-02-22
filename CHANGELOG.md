@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.2.46](https://github.com/masutaka/github-nippou/compare/v4.2.45...v4.2.46) - 2026-02-22
+### New Features :tada:
+- Create GitHub Actions workflow `Add assignee to PR` by @masutaka in https://github.com/masutaka/github-nippou/pull/312
+### Maintenance :technologist:
+- chore: Migrate tagpr job to ubuntu-slim runner by @masutaka in https://github.com/masutaka/github-nippou/pull/310
+
 ## [v4.2.45](https://github.com/masutaka/github-nippou/compare/v4.2.44...v4.2.45) - 2026-02-06
 ### Maintenance :technologist:
 - build(deps): bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/306
