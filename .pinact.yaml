@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/pinact/refs/heads/main/json-schema/pinact.json
+# pinact - https://github.com/suzuki-shunsuke/pinact
+
+version: 3
+
+ignore_actions:
+  # Official Actions managed by GitHub are considered low risk for supply chain attacks,
+  # so SHA hash pinning is not applied.
+  # Use major version tags (v\d+) and rely on dependabot for automatic version updates.
+  - name: actions/.*
+    ref: v\d+
+  - name: github/.*
+    ref: v\d+
+  # masutaka/* are actions managed by the repo owner, so main branch references are allowed.
+  - name: masutaka/.*
+    ref: main
