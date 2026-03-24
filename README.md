@@ -134,17 +134,17 @@ View the default configuration [here](./config/settings.yml).
 
 ## Limitations and Latency
 
-github-nippou uses the GitHub [List events for the authenticated user](https://docs.github.com/ja/rest/activity/events?apiVersion=2022-11-28#list-events-for-the-authenticated-user) API.
-
-:link: [REST API endpoints for events \- GitHub Docs](https://docs.github.com/en/rest/activity/events?apiVersion=2022-11-28)
-
-> Only events created within the past 90 days will be included in timelines. Events older than 90 days will not be included (even if the total number of events in the timeline is less than 300).
-
-github-nippou can create past daily reports, but the above limitations apply.
+github-nippou uses the GitHub [List events for the authenticated user](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10#list-events-for-the-authenticated-user) API.
 
 > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.
 
-As of July 29, 2024, the above is a note regarding the [List repository events](https://docs.github.com/en/enterprise-cloud@latest/rest/activity/events?apiVersion=2022-11-28#list-repository-events) API, but I confirmed with GitHub support that it applies to all Event APIs.
+As noted above, the events retrieved may be delayed by anywhere from 30s to 6h.
+
+:link: [REST API endpoints for events \- GitHub Docs](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10)
+
+> Only events created within the past 30 days will be included. Events older than 30 days will not be included (even if the total number of events in the timeline is less than 300).
+
+github-nippou can create past daily reports, but the above limitations apply.
 
 ## Contributing
 
