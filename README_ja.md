@@ -15,28 +15,28 @@
   <a href="./README_ja.md"><img alt="日本語のREADME" src="https://img.shields.io/badge/日本語-d9d9d9"></a>
 </p>
 
-Print today's your GitHub activity for issues and pull requests.
+今日の GitHub 上の Issue と Pull Request のアクティビティを出力します。
 
-This is a helpful CLI when you write a daily report in reference to GitHub. Nippou is a japanese word which means a daily report.
+GitHub を参照しながら日報を書くときに便利な CLI です。
 
-## Installation
+## インストール
 
-Grab the latest binary from the [releases](https://github.com/masutaka/github-nippou/releases) page.
+[リリースページ](https://github.com/masutaka/github-nippou/releases)から最新のバイナリを取得してください。
 
-On macOS you can install or upgrade to the latest released version with Homebrew:
+macOS では Homebrew を使ってインストールまたはアップデートできます:
 
 ```
 $ brew install masutaka/tap/github-nippou
 $ brew upgrade github-nippou
 ```
 
-If you're interested in hacking on `github-nippou`, you can install via `go install`:
+`github-nippou` の開発に興味がある場合は `go install` でインストールできます:
 
 ```
 $ go install github.com/masutaka/github-nippou/v4@latest
 ```
 
-Also you can use make command, it's easy to build `github-nippou`:
+make コマンドを使ってビルドすることもできます:
 
 ```
 $ make deps
@@ -44,17 +44,17 @@ $ make
 $ ./github-nippou
 ```
 
-## Setup
+## セットアップ
 
     $ github-nippou init
 
-The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
+初期化により [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)が更新されます。
 
-1. Add `github-nippou.user`
-2. Add `github-nippou.token`
-3. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
+1. `github-nippou.user` を追加
+2. `github-nippou.token` を追加
+3. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
 
-## Usage
+## 使い方
 
 ```
 $ github-nippou help
@@ -81,7 +81,7 @@ Flags:
 Use "github-nippou [command] --help" for more information about a command.
 ```
 
-You can get your GitHub Nippou on today.
+今日の GitHub 日報を取得できます。
 
 ```
 $ github-nippou
@@ -95,81 +95,79 @@ $ github-nippou
 * [Dockerize](https://github.com/masutaka/github-nippou/pull/66) by @[masutaka](https://github.com/masutaka) **merged!**
 ```
 
-## Usage Examples as a library
+## ライブラリとしての利用例
 
-The following projects use github-nippou as a library:
+以下のプロジェクトが github-nippou をライブラリとして利用しています:
 
 * https://github.com/ryoppippi/gh-nippou
-    * gh CLI extension for github-nippou
+    * github-nippou の gh CLI 拡張
 * https://github.com/MH4GF/github-nippou-web
-    * A web app version of github-nippou
+    * github-nippou の Web アプリ版
 * https://github.com/NoritakaIkeda/GitJournal
-    * A web app that can post github-nippou output to a GitHub Discussion
+    * github-nippou の出力を GitHub Discussion に投稿できる Web アプリ
 
-## Optional: Customize Output Format
+## オプション: 出力形式のカスタマイズ
 
-Customize the list output format as needed. Configurations are stored in a Gist.  
-Running `github-nippou init` creates your Gist and adds its ID to `github-nippou.settings-gist-id`.
+必要に応じてリスト出力の形式をカスタマイズできます。設定は Gist に保存されます。  
+`github-nippou init` を実行すると Gist が作成され、その ID が `github-nippou.settings-gist-id` に追加されます。
 
-View the default configuration [here](./config/settings.yml).
+デフォルトの設定は[こちら](./config/settings.yml)で確認できます。
 
-### Available Properties
+### 利用可能なプロパティ
 
 #### `format.subject`
 
-| Property | Type | Description |
+| プロパティ | 型 | 説明 |
 | --- | --- | --- |
-| `subject` | `string` | Represents the repository name. |
+| `subject` | `string` | リポジトリ名を表します。 |
 
 #### `format.line`
 
-| Property | Type | Description |
+| プロパティ | 型 | 説明 |
 | --- | --- | --- |
-| `user` | `string` | Displays the username of author of the issue or pull request. |
-| `title` | `string` | Displays the title of the issue or pull request. |
-| `url` | `string` | Displays the URL of the issue or pull request. |
-| `status` | `string \| nil` | Displays the status, utilizing the format in `dictionary.status`. |
+| `user` | `string` | Issue または Pull Request の作成者のユーザー名を表示します。 |
+| `title` | `string` | Issue または Pull Request のタイトルを表示します。 |
+| `url` | `string` | Issue または Pull Request の URL を表示します。 |
+| `status` | `string \| nil` | `dictionary.status` の形式を利用してステータスを表示します。 |
 
 #### `format.dictionary.status`
 
-| Property | Type | Description |
+| プロパティ | 型 | 説明 |
 | --- | --- | --- |
-| `closed` | `string` | Displays when the issue or pull request is closed. |
-| `merged` | `string` | Displays when the pull request is merged. Applicable to pull requests only. |
+| `closed` | `string` | Issue または Pull Request がクローズされたときに表示されます。 |
+| `merged` | `string` | Pull Request がマージされたときに表示されます。Pull Request のみに適用されます。 |
 
-## Limitations and Latency
+## 制限事項と遅延
 
-github-nippou uses the GitHub [List events for the authenticated user](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10#list-events-for-the-authenticated-user) API.
+github-nippou は GitHub の [List events for the authenticated user](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10#list-events-for-the-authenticated-user) API を使用しています。
 
 > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.
 
-As noted above, the events retrieved may be delayed by anywhere from 30s to 6h.
+上記の通り、取得されるイベントには 30 秒から 6 時間の遅延が生じる場合があります。
 
 :link: [REST API endpoints for events \- GitHub Docs](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10)
 
 > Only events created within the past 30 days will be included. Events older than 30 days will not be included (even if the total number of events in the timeline is less than 300).
 
-github-nippou can create past daily reports, but only events from the past 30 days and up to 300 events can be retrieved.
+github-nippou は過去の日報を作成することもできますが、取得できるイベントは過去 30 日以内かつ最大 300 件までです。
 
-## Contributing
+## コントリビューション
 
-1. Fork it ( https://github.com/masutaka/github-nippou/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+1. フォークする ( https://github.com/masutaka/github-nippou/fork )
+2. フィーチャーブランチを作成する (`git checkout -b my-new-feature`)
+3. 変更をコミットする (`git commit -am 'Add some feature'`)
+4. ブランチにプッシュする (`git push origin my-new-feature`)
+5. Pull Request を作成する
 
-## Contributors
+## コントリビューターの皆さん
 
 <a href="https://github.com/masutaka/github-nippou/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=masutaka/github-nippou" />
 </a>
 
-*Made with [contrib.rocks](https://contrib.rocks).*
+*[contrib.rocks](https://contrib.rocks) で作成。*
 
-## External articles
-
-In Japanese
+## 外部記事
 
 1. [いつも日報書くときに使っているスクリプトをGem化した | マスタカの ChangeLog メモ](https://masutaka.net/2014-12-07-1/)
 1. [github-nippou v0.1.1 released | マスタカの ChangeLog メモ](https://masutaka.net/2014-12-18-1/)
