@@ -3,6 +3,7 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
+    open-pull-requests-limit: 99
     schedule:
       interval: "monthly"
       time: "19:00"
@@ -11,6 +12,7 @@ updates:
       default-days: 7
   - package-ecosystem: "gomod"
     directory: "/"
+    open-pull-requests-limit: 99
     schedule:
       interval: "monthly"
       time: "19:00"
