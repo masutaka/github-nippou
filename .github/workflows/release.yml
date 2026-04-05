@@ -76,8 +76,7 @@ jobs:
     if: failure()
     needs: [release]
     uses: masutaka/actions/.github/workflows/pushover.yml@main
-    permissions:
-      contents: read
+    permissions: {}
     secrets:
       PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
       PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
