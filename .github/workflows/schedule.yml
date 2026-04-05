@@ -11,7 +11,6 @@ jobs:
         language: [actions, go]
     permissions:
       actions: read
-      checks: read
       contents: read
       security-events: write
     uses: masutaka/actions/.github/workflows/codeql_core.yml@main
@@ -22,8 +21,7 @@ jobs:
     if: github.ref_name == github.event.repository.default_branch && failure()
     needs: codeql
     uses: masutaka/actions/.github/workflows/pushover.yml@main
-    permissions:
-      contents: read
+    permissions: {}
     secrets:
       PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
       PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
