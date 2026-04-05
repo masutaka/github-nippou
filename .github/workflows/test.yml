@@ -8,21 +8,9 @@ on:
 
 jobs:
   actionlint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    uses: masutaka/actions/.github/workflows/actionlint.yml@main
     permissions:
-      checks: write
       contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v6
-      - name: Run actionlint
-        uses: reviewdog/action-actionlint@0d952c597ef8459f634d7145b0b044a9699e5e43 # v1.71.0
-        with:
-          fail_level: error
-          filter_mode: nofilter
-          level: error
-          reporter: github-pr-review
   codeql:
     permissions:
       actions: read
