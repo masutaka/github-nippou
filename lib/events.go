@@ -59,11 +59,7 @@ func continueToRetrieve(response *github.Response, events []*github.Event, since
 
 	lastEvent := *events[len(events)-1]
 
-	if lastEvent.CreatedAt.Before(sinceTime.Add(-time.Nanosecond)) {
-		return false
-	}
-
-	return true
+	return !lastEvent.CreatedAt.Before(sinceTime.Add(-time.Nanosecond))
 }
 
 func selectEventsInRange(events []*github.Event, sinceTime, untilTime time.Time) []*github.Event {
