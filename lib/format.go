@@ -56,6 +56,17 @@ func NewLineByPullRequest(repoName string, pr github.PullRequest) Line {
 	}
 }
 
+// NewLineByDiscussion is an initializer by Discussion
+func NewLineByDiscussion(repoName string, discussion github.Discussion) Line {
+	return Line{
+		title:    *discussion.Title,
+		repoName: repoName,
+		url:      *discussion.HTMLURL,
+		user:     *discussion.User.Login,
+		status:   getDiscussionStatus(discussion),
+	}
+}
+
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
 	payload := event.Payload()
@@ -114,6 +125,9 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		} else {
 			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
+	case "DiscussionEvent":
+		e := payload.(*github.DiscussionEvent)
+		line = NewLineByDiscussion(*event.Repo.Name, *e.Discussion)
 	}
 
 	if f.debug {
@@ -138,6 +152,14 @@ func getPullRequest(ctx context.Context, client *github.Client, repoFullName str
 func getIssueStatus(issue github.Issue) string {
 	result := ""
 	if *issue.State == "closed" {
+		result = "closed"
+	}
+	return result
+}
+
+func getDiscussionStatus(discussion github.Discussion) string {
+	result := ""
+	if *discussion.State == "closed" {
 		result = "closed"
 	}
 	return result
