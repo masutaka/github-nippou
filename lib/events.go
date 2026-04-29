@@ -138,16 +138,16 @@ func htmlURL(event *github.Event) (string, error) {
 			result = *e.Issue.HTMLURL
 		}
 	case "PullRequestEvent":
-		if e := payload.(*github.PullRequestEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
-			result = *e.PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestEvent); e.PullRequest != nil && e.PullRequest.Number != nil {
+			result = pullRequestHTMLURL(event, *e.PullRequest.Number)
 		}
 	case "PullRequestReviewCommentEvent":
-		if e := payload.(*github.PullRequestReviewCommentEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
-			result = *e.PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestReviewCommentEvent); e.PullRequest != nil && e.PullRequest.Number != nil {
+			result = pullRequestHTMLURL(event, *e.PullRequest.Number)
 		}
 	case "PullRequestReviewEvent":
-		if e := payload.(*github.PullRequestReviewEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
-			result = *e.PullRequest.HTMLURL
+		if e := payload.(*github.PullRequestReviewEvent); e.PullRequest != nil && e.PullRequest.Number != nil {
+			result = pullRequestHTMLURL(event, *e.PullRequest.Number)
 		}
 	case "DiscussionEvent":
 		if e := payload.(*github.DiscussionEvent); e.Discussion != nil && e.Discussion.HTMLURL != nil {
@@ -156,4 +156,16 @@ func htmlURL(event *github.Event) (string, error) {
 	}
 
 	return result, nil
+}
+
+// pullRequestHTMLURL constructs a PR's HTML URL from the event's repo and the
+// PR number. The /users/{user}/events API returns pull_request payloads
+// without an html_url, so we synthesize one to keep dedup keys consistent
+// with what IssueCommentEvent.Issue.HTMLURL returns for PR comments.
+func pullRequestHTMLURL(event *github.Event, number int) string {
+	if event.Repo == nil || event.Repo.Name == nil {
+		return ""
+	}
+
+	return fmt.Sprintf("https://github.com/%s/pull/%d", *event.Repo.Name, number)
 }
