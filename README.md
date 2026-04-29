@@ -99,8 +99,6 @@ $ github-nippou
 
 The following projects use github-nippou as a library:
 
-* https://github.com/ryoppippi/gh-nippou
-    * gh CLI extension for github-nippou
 * https://github.com/MH4GF/github-nippou-web
     * A web app version of github-nippou
 * https://github.com/NoritakaIkeda/GitJournal

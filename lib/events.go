@@ -59,11 +59,7 @@ func continueToRetrieve(response *github.Response, events []*github.Event, since
 
 	lastEvent := *events[len(events)-1]
 
-	if lastEvent.CreatedAt.Before(sinceTime.Add(-time.Nanosecond)) {
-		return false
-	}
-
-	return true
+	return !lastEvent.CreatedAt.Before(sinceTime.Add(-time.Nanosecond))
 }
 
 func selectEventsInRange(events []*github.Event, sinceTime, untilTime time.Time) []*github.Event {
@@ -89,7 +85,12 @@ func (e *Events) filter(events []*github.Event) []*github.Event {
 	for _, event := range events {
 		if e.debug {
 			format := NewFormat(e.ctx, e.client, Settings{}, false)
-			fmt.Printf("[Debug] %s: %v\n", *event.Type, format.Line(event, 999))
+			line, err := format.Line(event, 999)
+			if err != nil {
+				fmt.Printf("[Debug] %s: parse error %v\n", *event.Type, err)
+			} else {
+				fmt.Printf("[Debug] %s: %v\n", *event.Type, line)
+			}
 		}
 
 		switch *event.Type {

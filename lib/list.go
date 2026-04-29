@@ -86,21 +86,31 @@ func (l *List) Collect() (string, error) {
 	var lines Lines
 	var wg sync.WaitGroup
 	var mu sync.Mutex
+	var firstErr error
 
 	for i, event := range events {
 		wg.Add(1)
 		go func(event *github.Event, i int) {
 			defer wg.Done()
 			sem <- 1
-			line := format.Line(event, i)
+			line, lineErr := format.Line(event, i)
 			<-sem
 
 			mu.Lock()
 			defer mu.Unlock()
+			if lineErr != nil {
+				if firstErr == nil {
+					firstErr = lineErr
+				}
+				return
+			}
 			lines = append(lines, line)
 		}(event, i)
 	}
 	wg.Wait()
+	if firstErr != nil {
+		return "", firstErr
+	}
 
 	allLines, err := format.All(lines)
 	if err != nil {
