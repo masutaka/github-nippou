@@ -1,5 +1,19 @@
 # Changelog
 
+## [v4.3.0](https://github.com/masutaka/github-nippou/compare/v4.2.46...v4.3.0) - 2026-04-29
+### New Features :tada:
+- Support DiscussionEvent by @masutaka in https://github.com/masutaka/github-nippou/pull/326
+### Fix bug :bug:
+- Synthesize PR html_url so dedup drops duplicate lines by @masutaka in https://github.com/masutaka/github-nippou/pull/330
+### Maintenance :technologist:
+- build(deps): bump actions/create-github-app-token from 2 to 3 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/323
+- build(deps): bump Songmu/tagpr from 1.10.0 to 1.17.1 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/322
+- Fix deprecate warnings by @masutaka in https://github.com/masutaka/github-nippou/pull/327
+### Other Changes
+- Remove .coderabbit.yaml by @masutaka in https://github.com/masutaka/github-nippou/pull/319
+- chore: Substantially unlimit open-pull-requests-limit by @masutaka in https://github.com/masutaka/github-nippou/pull/324
+- Improve GitHub Actions workflows by @masutaka in https://github.com/masutaka/github-nippou/pull/325
+
 ## [v4.2.46](https://github.com/masutaka/github-nippou/compare/v4.2.45...v4.2.46) - 2026-03-24
 ### Maintenance :technologist:
 - chore: Migrate tagpr job to ubuntu-slim runner by @masutaka in https://github.com/masutaka/github-nippou/pull/310
