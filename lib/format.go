@@ -56,6 +56,17 @@ func NewLineByPullRequest(repoName string, pr github.PullRequest) Line {
 	}
 }
 
+// NewLineByDiscussion is an initializer by Discussion
+func NewLineByDiscussion(repoName string, discussion github.Discussion) Line {
+	return Line{
+		title:    *discussion.Title,
+		repoName: repoName,
+		url:      *discussion.HTMLURL,
+		user:     *discussion.User.Login,
+		status:   getDiscussionStatus(discussion),
+	}
+}
+
 // Line returns Issue/PR info retrieving from GitHub
 func (f *Format) Line(event *github.Event, i int) Line {
 	payload := event.Payload()
@@ -114,6 +125,14 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		} else {
 			line = NewLineByPullRequest(*event.Repo.Name, *e.PullRequest)
 		}
+	case "DiscussionEvent":
+		e := payload.(*github.DiscussionEvent)
+		discussion := getDiscussion(f.ctx, f.client, *event.Repo.Name, *e.Discussion.Number)
+		if discussion != nil {
+			line = NewLineByDiscussion(*event.Repo.Name, *discussion)
+		} else {
+			line = NewLineByDiscussion(*event.Repo.Name, *e.Discussion)
+		}
 	}
 
 	if f.debug {
@@ -135,9 +154,34 @@ func getPullRequest(ctx context.Context, client *github.Client, repoFullName str
 	return pr
 }
 
+// Re-fetches the Discussion via the raw client because go-github v80 has no
+// Discussions service wrapper. Functionally redundant today since the event
+// payload already carries fresh state; kept for parity with getIssue / getPullRequest.
+func getDiscussion(ctx context.Context, client *github.Client, repoFullName string, number int) *github.Discussion {
+	owner, repo := getOwnerRepo(repoFullName)
+	u := fmt.Sprintf("repos/%v/%v/discussions/%d", owner, repo, number)
+	req, err := client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil
+	}
+	discussion := new(github.Discussion)
+	if _, err := client.Do(ctx, req, discussion); err != nil {
+		return nil
+	}
+	return discussion
+}
+
 func getIssueStatus(issue github.Issue) string {
 	result := ""
 	if *issue.State == "closed" {
+		result = "closed"
+	}
+	return result
+}
+
+func getDiscussionStatus(discussion github.Discussion) string {
+	result := ""
+	if *discussion.State == "closed" {
 		result = "closed"
 	}
 	return result

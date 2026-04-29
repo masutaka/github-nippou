@@ -93,7 +93,7 @@ func (e *Events) filter(events []*github.Event) []*github.Event {
 		}
 
 		switch *event.Type {
-		case "IssuesEvent", "IssueCommentEvent", "PullRequestEvent", "PullRequestReviewCommentEvent", "PullRequestReviewEvent":
+		case "IssuesEvent", "IssueCommentEvent", "PullRequestEvent", "PullRequestReviewCommentEvent", "PullRequestReviewEvent", "DiscussionEvent":
 			result = append(result, event)
 		}
 	}
@@ -147,6 +147,10 @@ func htmlURL(event *github.Event) (string, error) {
 	case "PullRequestReviewEvent":
 		if e := payload.(*github.PullRequestReviewEvent); e.PullRequest != nil && e.PullRequest.HTMLURL != nil {
 			result = *e.PullRequest.HTMLURL
+		}
+	case "DiscussionEvent":
+		if e := payload.(*github.DiscussionEvent); e.Discussion != nil && e.Discussion.HTMLURL != nil {
+			result = *e.Discussion.HTMLURL
 		}
 	}
 
