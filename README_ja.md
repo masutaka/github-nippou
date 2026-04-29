@@ -99,8 +99,6 @@ $ github-nippou
 
 以下のプロジェクトが github-nippou をライブラリとして利用しています:
 
-* https://github.com/ryoppippi/gh-nippou
-    * github-nippou の gh CLI 拡張
 * https://github.com/MH4GF/github-nippou-web
     * github-nippou の Web アプリ版
 * https://github.com/NoritakaIkeda/GitJournal
