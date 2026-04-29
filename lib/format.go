@@ -68,8 +68,11 @@ func NewLineByDiscussion(repoName string, discussion github.Discussion) Line {
 }
 
 // Line returns Issue/PR info retrieving from GitHub
-func (f *Format) Line(event *github.Event, i int) Line {
-	payload := event.Payload()
+func (f *Format) Line(event *github.Event, i int) (Line, error) {
+	payload, err := event.ParsePayload()
+	if err != nil {
+		return Line{}, err
+	}
 	var line Line
 
 	switch *event.Type {
@@ -139,7 +142,7 @@ func (f *Format) Line(event *github.Event, i int) Line {
 		fmt.Printf("[Debug] %2d %s: %v\n", i, *event.Type, line)
 	}
 
-	return line
+	return line, nil
 }
 
 func getIssue(ctx context.Context, client *github.Client, repoFullName string, number int) *github.Issue {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"os/exec"
 	"strconv"
@@ -144,12 +144,12 @@ func createGist(ctx context.Context, client *github.Client) (*github.Gist, *gith
 
 	gistFiles := make(map[github.GistFilename]github.GistFile, 1)
 	gistFiles["settings.yml"] = github.GistFile{
-		Content: github.String(content),
+		Content: github.Ptr(content),
 	}
 
 	gist := &github.Gist{
-		Description: github.String("github-nippou settings"),
-		Public:      github.Bool(true),
+		Description: github.Ptr("github-nippou settings"),
+		Public:      github.Ptr(true),
 		Files:       gistFiles,
 	}
 
@@ -173,7 +173,7 @@ func getDefaultSettingsYml() (string, error) {
 
 	defer file.Close()
 
-	yml, err := ioutil.ReadAll(file)
+	yml, err := io.ReadAll(file)
 	if err != nil {
 		return "", err
 	}
