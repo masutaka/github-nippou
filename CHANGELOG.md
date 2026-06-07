@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.3.1](https://github.com/masutaka/github-nippou/compare/v4.3.0...v4.3.1) - 2026-06-07
+### Maintenance :technologist:
+- build(deps): bump Songmu/tagpr from 1.17.1 to 1.18.3 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/331
+- build(deps): bump goreleaser/goreleaser-action from 7.0.0 to 7.1.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/332
+- build(deps): bump Songmu/tagpr from 1.18.3 to 1.19.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/334
+- build(deps): bump goreleaser/goreleaser-action from 7.1.0 to 7.2.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/335
+
 ## [v4.3.0](https://github.com/masutaka/github-nippou/compare/v4.2.46...v4.3.0) - 2026-04-29
 ### New Features :tada:
 - Support DiscussionEvent by @masutaka in https://github.com/masutaka/github-nippou/pull/326
