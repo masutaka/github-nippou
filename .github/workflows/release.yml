@@ -29,6 +29,10 @@ jobs:
         with:
           app-id: ${{ vars.CI_APP_ID }}
           private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
+          # Permissions required by tagpr. See https://github.com/Songmu/tagpr#synopsis
+          permission-contents: write # Push the release branch and create a git tag
+          permission-pull-requests: write # Create and update the release pull request
+          permission-issues: read # Read labels of merged pull requests to decide the next version
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -68,6 +72,7 @@ jobs:
           private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
           owner: "masutaka"
           repositories: "homebrew-tap"
+          permission-contents: write # Update the Formula in homebrew-tap
       - name: Release
         run: make release
         env:
