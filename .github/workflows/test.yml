@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  actionlint:
-    uses: masutaka/actions/.github/workflows/actionlint.yml@main
+  gh_action_lint:
+    uses: masutaka/actions/.github/workflows/gh_action_lint.yml@main
     permissions:
       contents: read
   codeql:
@@ -33,7 +33,7 @@ jobs:
   pushover:
     name: pushover if failure
     if: github.ref_name == github.event.repository.default_branch && failure()
-    needs: [actionlint, codeql, test]
+    needs: [gh_action_lint, codeql, test]
     uses: masutaka/actions/.github/workflows/pushover.yml@main
     permissions: {}
     secrets:
