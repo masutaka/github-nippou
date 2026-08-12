@@ -1,6 +1,6 @@
 name: Release
 
-on:
+on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows:
       - Test
