@@ -44,6 +44,20 @@ $ make
 $ ./github-nippou
 ```
 
+### リリースアーカイブの検証
+
+リリース時に、各アーカイブの [build provenance attestation](https://docs.github.com/ja/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations) を発行しています。次のコマンドで、アーカイブがこのリポジトリのリリースワークフローでビルドされたものか検証できます:
+
+```
+$ gh attestation verify github-nippou_<version>_<os>_<arch>.zip \
+    --repo masutaka/github-nippou \
+    --signer-workflow masutaka/github-nippou/.github/workflows/release.yml
+```
+
+発行済みの attestation は、このリポジトリの [Attestations](https://github.com/masutaka/github-nippou/attestations) ページで一覧できます。
+
+`brew install` はこの検証を行わないため、必要であれば手動で実行してください。
+
 ## セットアップ
 
     $ github-nippou init
@@ -137,13 +151,13 @@ $ github-nippou
 
 ## 制限事項と遅延
 
-github-nippou は GitHub の [List events for the authenticated user](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10#list-events-for-the-authenticated-user) API を使用しています。
+github-nippou は GitHub の [List events for the authenticated user](https://docs.github.com/ja/rest/activity/events?apiVersion=2026-03-10#list-events-for-the-authenticated-user) API を使用しています。
 
 > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.
 
 上記の通り、取得されるイベントには 30 秒から 6 時間の遅延が生じる場合があります。
 
-:link: [REST API endpoints for events \- GitHub Docs](https://docs.github.com/en/rest/activity/events?apiVersion=2026-03-10)
+:link: [REST API endpoints for events \- GitHub Docs](https://docs.github.com/ja/rest/activity/events?apiVersion=2026-03-10)
 
 > Only events created within the past 30 days will be included. Events older than 30 days will not be included (even if the total number of events in the timeline is less than 300).
 
