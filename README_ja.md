@@ -44,6 +44,20 @@ $ make
 $ ./github-nippou
 ```
 
+### リリースアーカイブの検証
+
+リリース時に、各アーカイブの [build provenance attestation](https://docs.github.com/ja/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations) を発行しています。次のコマンドで、アーカイブがこのリポジトリのリリースワークフローでビルドされたものか検証できます:
+
+```
+$ gh attestation verify github-nippou_<version>_<os>_<arch>.zip \
+    --repo masutaka/github-nippou \
+    --signer-workflow masutaka/github-nippou/.github/workflows/release.yml
+```
+
+発行済みの attestation は、このリポジトリの [Attestations](https://github.com/masutaka/github-nippou/attestations) ページで一覧できます。
+
+`brew install` はこの検証を行わないため、必要であれば手動で実行してください。
+
 ## セットアップ
 
     $ github-nippou init
