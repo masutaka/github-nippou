@@ -88,5 +88,5 @@ release-check:
 .PHONY: goreleaser
 goreleaser:
 ifeq ($(shell command -v goreleaser 2> /dev/null),)
-	go install github.com/goreleaser/goreleaser@latest
+	go install github.com/goreleaser/goreleaser/v2@latest
 endif

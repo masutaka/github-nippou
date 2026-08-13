@@ -23,10 +23,10 @@ This is a helpful CLI when you write a daily report in reference to GitHub. Nipp
 
 Grab the latest binary from the [releases](https://github.com/masutaka/github-nippou/releases) page.
 
-On macOS you can install or upgrade to the latest released version with Homebrew:
+You can install or upgrade to the latest released version with Homebrew:
 
 ```
-$ brew install masutaka/tap/github-nippou
+$ brew install --cask masutaka/tap/github-nippou
 $ brew upgrade github-nippou
 ```
 

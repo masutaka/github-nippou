@@ -23,10 +23,10 @@ GitHub を参照しながら日報を書くときに便利な CLI です。
 
 [リリースページ](https://github.com/masutaka/github-nippou/releases)から最新のバイナリを取得してください。
 
-macOS では Homebrew を使ってインストールまたはアップデートできます:
+Homebrew を使ってインストールまたはアップデートできます:
 
 ```
-$ brew install masutaka/tap/github-nippou
+$ brew install --cask masutaka/tap/github-nippou
 $ brew upgrade github-nippou
 ```
 

@@ -57,7 +57,7 @@ changelog:
       - "^docs:"
       - "^test:"
 
-brews:
+homebrew_casks:
   - name: github-nippou
     repository:
       owner: masutaka
@@ -68,20 +68,23 @@ brews:
       email: "github-actions[bot]@users.noreply.github.com"
     homepage: "https://github.com/masutaka/github-nippou"
     description: "Print today's your GitHub activity for issues and pull requests"
-    license: "MIT"
-    install: |
-      bin.install 'github-nippou'
-
-      # Install bash completion
-      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'bash')
-      (bash_completion/'github-nippou').write output
-
-      # Install fish completion
-      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'fish')
-      (fish_completion/'github-nippou.fish').write output
-
-      # Install zsh completion
-      output = Utils.safe_popen_read("#{bin}/github-nippou", 'completion', 'zsh')
-      (zsh_completion/'_github-nippou').write output
-    test: |
-      system 'github-nippou', 'version'
+    url:
+      verified: github.com/masutaka/github-nippou/
+    hooks:
+      post:
+        # Casks quarantine what they download. The binary is neither signed nor
+        # notarized, so without this it fails to run at all, and the completion
+        # generation below can never execute it.
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/github-nippou"]
+          end
+    generate_completions_from_executable:
+      args:
+        - completion
+      shell_parameter_format: cobra
+      # cobra defaults to including pwsh; keep parity with the old formula.
+      shells:
+        - bash
+        - zsh
+        - fish
