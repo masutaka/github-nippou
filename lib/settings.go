@@ -15,8 +15,8 @@ import (
 
 	"github.com/google/go-github/v80/github"
 	"github.com/rakyll/statik/fs"
+	"go.yaml.in/yaml/v3"
 	"golang.org/x/oauth2"
-	"gopkg.in/yaml.v3"
 )
 
 // Settings has configure
