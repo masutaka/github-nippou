@@ -1,5 +1,10 @@
 # Changelog
 
+## [v4.3.2](https://github.com/masutaka/github-nippou/compare/v4.3.1...v4.3.2) - 2026-08-13
+
+### Fix bug :bug:
+- fix: Move the quarantine hook ahead of completion generation by @masutaka in https://github.com/masutaka/github-nippou/pull/352
+
 ## [v4.3.1](https://github.com/masutaka/github-nippou/compare/v4.3.0...v4.3.1) - 2026-08-13
 
 ### Maintenance :technologist:
