@@ -1,5 +1,27 @@
 # Changelog
 
+## [v4.3.1](https://github.com/masutaka/github-nippou/compare/v4.3.0...v4.3.1) - 2026-08-13
+
+### Maintenance :technologist:
+- build(deps): bump Songmu/tagpr from 1.17.1 to 1.18.3 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/331
+- build(deps): bump goreleaser/goreleaser-action from 7.0.0 to 7.1.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/332
+- build(deps): bump Songmu/tagpr from 1.18.3 to 1.19.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/334
+- build(deps): bump goreleaser/goreleaser-action from 7.1.0 to 7.2.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/335
+- build(deps): bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/337
+- build(deps): bump Songmu/tagpr from 1.19.0 to 1.20.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/336
+- build(deps): bump Songmu/tagpr from 1.20.0 to 1.20.1 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/339
+- build(deps): bump actions/setup-go from 6 to 7 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/340
+- build(deps): bump goreleaser/goreleaser-action from 7.2.2 to 7.2.3 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/341
+- chore: Pin official GitHub Actions to full commit hashes by @masutaka in https://github.com/masutaka/github-nippou/pull/342
+- feat: Add ghalint to the workflow checks by @masutaka in https://github.com/masutaka/github-nippou/pull/343
+- fix: Stop requesting the issues permission not granted to the CI app by @masutaka in https://github.com/masutaka/github-nippou/pull/344
+- chore: Remove pinact configuration superseded by ghalint by @masutaka in https://github.com/masutaka/github-nippou/pull/345
+- chore: Resolve zizmor findings by @masutaka in https://github.com/masutaka/github-nippou/pull/346
+- Attach build provenance attestations to release artifacts by @masutaka in https://github.com/masutaka/github-nippou/pull/347
+- Migrate off the archived gopkg.in/yaml.v3 by @masutaka in https://github.com/masutaka/github-nippou/pull/349
+- Bump the Go version in go.mod to a supported release by @masutaka in https://github.com/masutaka/github-nippou/pull/350
+- chore: Migrate brews to homebrew_casks by @masutaka in https://github.com/masutaka/github-nippou/pull/351
+
 ## [v4.3.0](https://github.com/masutaka/github-nippou/compare/v4.2.46...v4.3.0) - 2026-04-29
 ### New Features :tada:
 - Support DiscussionEvent by @masutaka in https://github.com/masutaka/github-nippou/pull/326
