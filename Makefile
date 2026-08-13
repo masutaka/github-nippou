@@ -65,13 +65,6 @@ vet:
 lint:
 	echo $(PACKAGES) | xargs -n1 golint -set_exit_status
 
-# Bump go version
-.PHONY: bump_go_version
-bump_go_version:
-	@printf "go version (x.y.z)? "; read version; \
-	go mod edit -go="$$version"
-	go mod tidy
-
 # Generate binary archives for release check on local machine
 .PHONY: dist
 dist: deps-dist

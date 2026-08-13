@@ -1,8 +1,8 @@
 module github.com/masutaka/github-nippou/v4
 
-go 1.24.0
+go 1.25.0
 
-toolchain go1.24.3
+toolchain go1.26.5
 
 require (
 	github.com/google/go-github/v80 v80.0.0
