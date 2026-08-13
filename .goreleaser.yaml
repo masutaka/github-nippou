@@ -71,20 +71,15 @@ homebrew_casks:
     url:
       verified: github.com/masutaka/github-nippou/
     hooks:
-      post:
-        # Casks quarantine what they download. The binary is neither signed nor
-        # notarized, so without this it fails to run at all, and the completion
-        # generation below can never execute it.
+      pre:
+        # Casks quarantine their downloads, and this binary is neither signed
+        # nor notarized, so it cannot run until the bit is cleared. This has to
+        # be a preflight hook: Homebrew orders cask artifacts by class, and
+        # generate_completions_from_executable runs the binary before any
+        # postflight hook fires.
         install: |
           if OS.mac?
             system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/github-nippou"]
           end
     generate_completions_from_executable:
-      args:
-        - completion
       shell_parameter_format: cobra
-      # cobra defaults to including pwsh; keep parity with the old formula.
-      shells:
-        - bash
-        - zsh
-        - fish
