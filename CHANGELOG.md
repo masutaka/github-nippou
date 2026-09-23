@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.3.3](https://github.com/masutaka/github-nippou/compare/v4.3.2...v4.3.3) - 2026-09-23
+
+### Maintenance :technologist:
+- build(deps): bump Songmu/tagpr from 1.20.1 to 1.20.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/354
+- chore: Replace deprecated app-id input of create-github-app-token with client-id by @masutaka in https://github.com/masutaka/github-nippou/pull/329
+
 ## [v4.3.2](https://github.com/masutaka/github-nippou/compare/v4.3.1...v4.3.2) - 2026-08-13
 
 ### Fix bug :bug:
