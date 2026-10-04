@@ -41,7 +41,10 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 
 	if gistID != "" {
 		ctx := context.Background()
-		client := getClient(ctx, accessToken)
+		client, err := getClient(ctx, accessToken)
+		if err != nil {
+			return err
+		}
 		gist, _, err := client.Gists.Get(ctx, gistID)
 		if err != nil {
 			return err
@@ -124,11 +127,11 @@ func getParallelNum() (int, error) {
 	return 5, nil
 }
 
-func getClient(ctx context.Context, accessToken string) *github.Client {
+func getClient(ctx context.Context, accessToken string) (*github.Client, error) {
 	sts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: accessToken},
 	)
-	return github.NewClient(oauth2.NewClient(ctx, sts))
+	return github.NewClient(github.WithHTTPClient(oauth2.NewClient(ctx, sts)))
 }
 
 func getClientScopes(ctx context.Context, client *github.Client) ([]string, error) {
@@ -142,12 +145,12 @@ func createGist(ctx context.Context, client *github.Client) (*github.Gist, *gith
 		return nil, nil, err
 	}
 
-	gistFiles := make(map[github.GistFilename]github.GistFile, 1)
-	gistFiles["settings.yml"] = github.GistFile{
-		Content: github.Ptr(content),
+	gistFiles := make(map[github.GistFilename]*github.CreateGistFile, 1)
+	gistFiles["settings.yml"] = &github.CreateGistFile{
+		Content: content,
 	}
 
-	gist := &github.Gist{
+	gist := github.CreateGistRequest{
 		Description: github.Ptr("github-nippou settings"),
 		Public:      github.Ptr(true),
 		Files:       gistFiles,

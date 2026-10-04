@@ -157,18 +157,18 @@ func getPullRequest(ctx context.Context, client *github.Client, repoFullName str
 	return pr
 }
 
-// Re-fetches the Discussion via the raw client because go-github v80 has no
+// Re-fetches the Discussion via the raw client because go-github v92 has no
 // Discussions service wrapper. Functionally redundant today since the event
 // payload already carries fresh state; kept for parity with getIssue / getPullRequest.
 func getDiscussion(ctx context.Context, client *github.Client, repoFullName string, number int) *github.Discussion {
 	owner, repo := getOwnerRepo(repoFullName)
 	u := fmt.Sprintf("repos/%v/%v/discussions/%d", owner, repo, number)
-	req, err := client.NewRequest("GET", u, nil)
+	req, err := client.NewRequest(ctx, "GET", u, nil)
 	if err != nil {
 		return nil
 	}
 	discussion := new(github.Discussion)
-	if _, err := client.Do(ctx, req, discussion); err != nil {
+	if _, err := client.Do(req, discussion); err != nil {
 		return nil
 	}
 	return discussion

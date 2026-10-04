@@ -65,7 +65,10 @@ func (l *List) Collect() (string, error) {
 	}
 
 	ctx := context.Background()
-	client := getClient(ctx, l.accessToken)
+	client, err := getClient(ctx, l.accessToken)
+	if err != nil {
+		return "", err
+	}
 
 	events, err := NewEvents(ctx, client, l.user, sinceTime, untilTime, l.debug).Collect()
 	if err != nil {
