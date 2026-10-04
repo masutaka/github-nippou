@@ -2,10 +2,21 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "PRs are created at any time on the 1st and 16th of each month",
   "extends": ["config:recommended"],
+  "labels": ["dependencies"],
   "timezone": "Asia/Tokyo",
   "schedule": ["* * 1,16 * *"],
   "minimumReleaseAge": "7 days",
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
+  "packageRules": [
+    {
+      "matchManagers": ["gomod"],
+      "addLabels": ["go"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions"]
+    }
+  ]
 }
