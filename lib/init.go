@@ -130,7 +130,12 @@ The following command will be executed.
 
 `, msg)
 
-	scopes, err := getClientScopes(ctx, getClient(ctx, accessToken))
+	client, err := getClient(ctx, accessToken)
+	if err != nil {
+		return err
+	}
+
+	scopes, err := getClientScopes(ctx, client)
 	if err != nil {
 		return err
 	}
@@ -197,7 +202,12 @@ func createAndSetGist(ctx context.Context) error {
 			return err
 		}
 
-		gist, _, err := createGist(ctx, getClient(ctx, accessToken))
+		client, err := getClient(ctx, accessToken)
+		if err != nil {
+			return err
+		}
+
+		gist, _, err := createGist(ctx, client)
 		if err != nil {
 			return err
 		}
