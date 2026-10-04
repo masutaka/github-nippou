@@ -67,7 +67,7 @@ lint:
 
 # Generate binary archives for release check on local machine
 .PHONY: dist
-dist: deps-dist
+dist: deps-dist CREDITS
 	goreleaser release --snapshot --clean
 
 .PHONY: deps-dist
@@ -75,7 +75,7 @@ deps-dist: goreleaser
 
 # Release binary archives to GitHub
 .PHONY: release
-release: deps-release release-check
+release: deps-release release-check CREDITS
 	goreleaser --clean
 
 .PHONY: deps-release
@@ -90,3 +90,7 @@ goreleaser:
 ifeq ($(shell command -v goreleaser 2> /dev/null),)
 	go install github.com/goreleaser/goreleaser/v2@latest
 endif
+
+# Bundle the licenses of dependencies into release archives
+CREDITS: go.sum
+	go tool gocredits -w .
