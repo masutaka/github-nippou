@@ -15,6 +15,24 @@
 - chore(deps): update go toolchain directive to v1.27.1 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/361
 - Update go-github to v92 and adapt to its API changes by @masutaka in https://github.com/masutaka/github-nippou/pull/367
 - fix(deps): update module github.com/google/go-github/v80 to v92 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/362
+### Other Changes
+- chore: Remove deprecated homebrew_casks.url.verified so the release passes by @masutaka in https://github.com/masutaka/github-nippou/pull/368
+
+## [v4.3.3](https://github.com/masutaka/github-nippou/compare/v4.3.2...v4.3.3) - 2026-10-04
+
+### Maintenance :technologist:
+- build(deps): bump Songmu/tagpr from 1.20.1 to 1.20.2 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/354
+- chore: Replace deprecated app-id input of create-github-app-token with client-id by @masutaka in https://github.com/masutaka/github-nippou/pull/329
+- build(deps): bump golang.org/x/oauth2 from 0.35.0 to 0.37.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/357
+- build(deps): bump Songmu/tagpr from 1.20.2 to 1.21.0 by @dependabot[bot] in https://github.com/masutaka/github-nippou/pull/358
+- chore: Replace Dependabot with Renovate to keep the Go toolchain up to date by @masutaka in https://github.com/masutaka/github-nippou/pull/359
+- chore: Let Renovate rewrite import paths on Go module major updates by @masutaka in https://github.com/masutaka/github-nippou/pull/364
+- chore: Run Renovate twice a month to spread out update PRs by @masutaka in https://github.com/masutaka/github-nippou/pull/365
+- chore: Label Renovate PRs the same way as former Dependabot PRs by @masutaka in https://github.com/masutaka/github-nippou/pull/366
+- fix(deps): update github.com/skratchdot/open-golang digest to eef8423 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/360
+- chore(deps): update go toolchain directive to v1.27.1 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/361
+- Update go-github to v92 and adapt to its API changes by @masutaka in https://github.com/masutaka/github-nippou/pull/367
+- fix(deps): update module github.com/google/go-github/v80 to v92 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/362
 
 ## [v4.3.2](https://github.com/masutaka/github-nippou/compare/v4.3.1...v4.3.2) - 2026-08-13
 
