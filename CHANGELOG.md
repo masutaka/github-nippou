@@ -15,6 +15,7 @@
 - chore(deps): update go toolchain directive to v1.27.1 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/361
 - Update go-github to v92 and adapt to its API changes by @masutaka in https://github.com/masutaka/github-nippou/pull/367
 - fix(deps): update module github.com/google/go-github/v80 to v92 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/362
+- chore: Remove deprecated homebrew_casks.url.verified so the release passes by @masutaka in https://github.com/masutaka/github-nippou/pull/368
 
 ## [v4.3.2](https://github.com/masutaka/github-nippou/compare/v4.3.1...v4.3.2) - 2026-08-13
 
