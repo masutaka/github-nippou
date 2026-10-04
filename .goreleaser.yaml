@@ -68,8 +68,6 @@ homebrew_casks:
       email: "github-actions[bot]@users.noreply.github.com"
     homepage: "https://github.com/masutaka/github-nippou"
     description: "Print today's your GitHub activity for issues and pull requests"
-    url:
-      verified: github.com/masutaka/github-nippou/
     hooks:
       pre:
         # Casks quarantine their downloads, and this binary is neither signed
