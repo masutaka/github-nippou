@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.3.4](https://github.com/masutaka/github-nippou/compare/v4.3.3...v4.3.4) - 2026-10-12
+
+### Maintenance :technologist:
+- chore: Remove ghalint and zizmor configs now provided by masutaka/actions by @masutaka in https://github.com/masutaka/github-nippou/pull/370
+- chore: Bundle dependency licenses as CREDITS in release archives by @masutaka in https://github.com/masutaka/github-nippou/pull/372
+- chore: Migrate to actions/attest as attest-build-provenance is superseded by @masutaka in https://github.com/masutaka/github-nippou/pull/373
+
 ## [v4.3.3](https://github.com/masutaka/github-nippou/compare/v4.3.2...v4.3.3) - 2026-10-04
 
 ### Maintenance :technologist:
