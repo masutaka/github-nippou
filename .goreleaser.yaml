@@ -63,10 +63,6 @@ homebrew_casks:
     repository:
       owner: masutaka
       name: homebrew-tap
-      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
-    commit_author:
-      name: "github-actions[bot]"
-      email: "github-actions[bot]@users.noreply.github.com"
     homepage: "https://github.com/masutaka/github-nippou"
     description: "Print today's your GitHub activity for issues and pull requests"
     hooks:

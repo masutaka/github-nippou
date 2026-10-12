@@ -73,10 +73,10 @@ dist: deps-dist CREDITS
 .PHONY: deps-dist
 deps-dist: goreleaser
 
-# Release binary archives to GitHub
+# Build binary archives for release. Publishing is done by the release workflow.
 .PHONY: release
 release: deps-release release-check CREDITS
-	goreleaser --clean
+	goreleaser release --clean --skip=publish
 
 .PHONY: deps-release
 deps-release: goreleaser

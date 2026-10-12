@@ -41,16 +41,17 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
     outputs:
       tagpr-tag: ${{ steps.run-tagpr.outputs.tag }}
-  release:
+  build:
     # When (3) above, the if condition is satisfied.
-    # The github-nippou binaries are built and uploaded to GitHub release.
+    # The github-nippou binaries are built and attested without any write
+    # permissions to the repository or tokens for publishing.
     if: needs.tagpr.outputs.tagpr-tag != ''
     needs: tagpr
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       attestations: write
-      contents: write
+      contents: read
       id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -66,6 +67,41 @@ jobs:
         uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
         with:
           install-only: true
+      - name: Build
+        run: make release
+      - name: Attest build provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-checksums: ./dist/github-nippou_${{ needs.tagpr.outputs.tagpr-tag }}_checksums.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release
+          path: |
+            dist/*.zip
+            dist/*_checksums.txt
+            dist/homebrew/Casks/github-nippou.rb
+          if-no-files-found: error
+          retention-days: 1
+  publish:
+    # The attested binaries are uploaded to the draft release created by
+    # tagpr, and the Homebrew cask is updated.
+    needs: [tagpr, build]
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release
+          path: dist
+      - name: Publish GitHub release
+        run: |
+          gh release upload "$TAG" dist/*.zip dist/*_checksums.txt --repo "$GITHUB_REPOSITORY"
+          gh release edit "$TAG" --draft=false --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.tagpr.outputs.tagpr-tag }}
       - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: app-token
         with:
@@ -74,19 +110,22 @@ jobs:
           owner: "masutaka"
           repositories: "homebrew-tap"
           permission-contents: write
-      - name: Release
-        run: make release
+      - name: Update Homebrew cask
+        run: |
+          sha=$(gh api "repos/masutaka/homebrew-tap/contents/$CASK_PATH" --jq .sha)
+          gh api --method PUT "repos/masutaka/homebrew-tap/contents/$CASK_PATH" \
+            --field message="Brew cask update for github-nippou version $TAG" \
+            --field content="$(base64 --wrap=0 "dist/homebrew/$CASK_PATH")" \
+            --field sha="$sha" \
+            --silent
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAP_GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-      - name: Attest build provenance
-        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
-        with:
-          subject-checksums: ./dist/github-nippou_${{ needs.tagpr.outputs.tagpr-tag }}_checksums.txt
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ needs.tagpr.outputs.tagpr-tag }}
+          CASK_PATH: Casks/github-nippou.rb
   pushover:
     name: pushover if failure
     if: failure()
-    needs: [release]
+    needs: [build, publish]
     uses: masutaka/actions/.github/workflows/pushover.yml@main
     permissions: {}
     secrets:
