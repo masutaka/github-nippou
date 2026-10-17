@@ -81,19 +81,18 @@ The following command will be executed.
 
 func setAccessToken(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 2/3] GitHub personal access token ==
+== [Step: 2/3] GitHub access token ==
 
-To get new token with ` + "`repo`" + ` and ` + "`gist`" + ` scope, visit
-https://github.com/settings/tokens/new
+If you are logged in to GitHub CLI, its token (` + "`gh auth token`" + `) is used.
+Otherwise, to get new personal access token with ` + "`repo`" + ` and ` + "`gist`" + `
+scope, visit https://github.com/settings/tokens/new
 
 `)
-
-	var msg string
 
 	accessToken, err := getAccessToken()
 
 	if err == nil {
-		msg = "Already initialized."
+		fmt.Print("Already initialized.\n")
 	} else {
 		var answer string = "Y"
 
@@ -120,15 +119,13 @@ The following command will be executed.
 				return err
 			}
 
-			msg = "Thanks!"
-		}
-	}
-
-	fmt.Printf(`%s You can get it with the following command.
+			fmt.Print(`Thanks! You can get it with the following command.
 
     $ git config --global github-nippou.token
 
-`, msg)
+`)
+		}
+	}
 
 	client, err := getClient(ctx, accessToken)
 	if err != nil {
@@ -143,9 +140,13 @@ The following command will be executed.
 	if !isValidScopes(scopes) {
 		return errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
 
-You need personal access token which has ` + "`repo`" + ` and ` + "`gist`" + `
-scopes. Please add these scopes to your personal access
-token, visit https://github.com/settings/tokens
+If you use the token of GitHub CLI, add these scopes with
+the following command.
+
+    $ gh auth refresh -s repo,gist
+
+If you use personal access token, add these scopes to it,
+visit https://github.com/settings/tokens
 
 `)
 

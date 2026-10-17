@@ -92,8 +92,15 @@ func getAccessToken() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub Personal access token required. Please execute the following command. !!!!
+	output, _ = exec.Command("gh", "auth", "token").Output()
 
+	if len(output) >= 1 {
+		return strings.TrimRight(string(output), "\n"), nil
+	}
+
+	errText := `!!!! GitHub access token required. Please execute one of the following commands. !!!!
+
+    $ gh auth login
     $ github-nippou init`
 
 	return "", errors.New(errText)
