@@ -65,8 +65,14 @@ Issued attestations are listed on this repository's [Attestations](https://githu
 The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
 
 1. Add `github-nippou.user`
-2. Add `github-nippou.token`
+2. Add `github-nippou.token` (skipped if you are logged in to [GitHub CLI](https://cli.github.com/))
 3. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
+
+The access token is looked up in the following order.
+
+1. Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN`
+2. `github-nippou.token` in Git configuration
+3. `gh auth token`
 
 ## Usage
 

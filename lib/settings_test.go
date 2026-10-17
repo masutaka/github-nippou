@@ -2,6 +2,8 @@ package lib_test
 
 import (
 	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/masutaka/github-nippou/v4/lib"
@@ -31,6 +33,53 @@ func TestGetAccessToken(t *testing.T) {
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
 	}
+}
+
+func TestGetAccessTokenFromGh(t *testing.T) {
+	isolateGitConfig(t)
+	stubGh(t, "echo gho_1234abcd")
+
+	actual, err := lib.GetAccessToken()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	const expected = "gho_1234abcd"
+	if actual != expected {
+		t.Errorf("expected %s but got %s", expected, actual)
+	}
+}
+
+func TestGetAccessTokenWithoutGhLogin(t *testing.T) {
+	isolateGitConfig(t)
+	stubGh(t, "exit 1")
+
+	_, err := lib.GetAccessToken()
+	if err == nil {
+		t.Fatal("expected an error but got nil")
+	}
+	const expected = "gh auth login"
+	if !strings.Contains(err.Error(), expected) {
+		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+	}
+}
+
+// isolateGitConfig makes git config return nothing for github-nippou.*
+func isolateGitConfig(t *testing.T) {
+	t.Helper()
+	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "")
+	t.Setenv("GIT_CONFIG_GLOBAL", os.DevNull)
+	t.Setenv("GIT_CONFIG_NOSYSTEM", "1")
+}
+
+// stubGh puts a fake gh command running script at the front of PATH
+func stubGh(t *testing.T, script string) {
+	t.Helper()
+	dir := t.TempDir()
+	path := filepath.Join(dir, "gh")
+	if err := os.WriteFile(path, []byte("#!/bin/sh\n"+script+"\n"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("PATH", dir+string(os.PathListSeparator)+os.Getenv("PATH"))
 }
 
 func TestGetGistID(t *testing.T) {
