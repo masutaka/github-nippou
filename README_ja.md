@@ -72,10 +72,10 @@ github-nippou はデフォルトで [GitHub CLI](https://cli.github.com/) のト
 >
 > 詳しくは [#379](https://github.com/masutaka/github-nippou/issues/379) を参照してください。
 
-初期化により [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)が更新されます。
+初期化では次のことを行います。
 
-1. `github-nippou.token` を追加（GitHub CLI にログイン済みなら省略）
-2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
+1. アクセストークンに `repo` と `gist` のスコープがあるか確認
+2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)に追加（任意）
 
 ユーザーとアクセストークンは次の順で探します。
 

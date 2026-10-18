@@ -72,10 +72,10 @@ github-nippou uses the token of [GitHub CLI](https://cli.github.com/) by default
 >
 > See [#379](https://github.com/masutaka/github-nippou/issues/379).
 
-The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
+The initialization does the following.
 
-1. Add `github-nippou.token` (skipped if you are logged in to GitHub CLI)
-2. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
+1. Check that the access token has `repo` and `gist` scopes
+2. Create Gist, and add `github-nippou.settings-gist-id` to your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig) for customizing output format (optional)
 
 The user and the access token are looked up in the following order.
 

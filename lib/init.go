@@ -15,7 +15,7 @@ func Init() error {
 
 	ctx := context.Background()
 
-	if err := setAccessToken(ctx); err != nil {
+	if err := checkAccessToken(ctx); err != nil {
 		return err
 	}
 
@@ -24,57 +24,20 @@ func Init() error {
 	return createAndSetGist(ctx)
 }
 
-func setAccessToken(ctx context.Context) error {
+func checkAccessToken(ctx context.Context) error {
 	fmt.Print(`
 == [Step: 1/2] GitHub access token ==
 
-We recommend logging in to GitHub CLI (` + "`gh auth login`" + `). Its token
-(` + "`gh auth token`" + `) is used.
-
-Personal access token is deprecated and will be removed in v5.0.0.
-See https://github.com/masutaka/github-nippou/issues/379
-If you still use it, get new one with ` + "`repo`" + ` and ` + "`gist`" + ` scope at
-https://github.com/settings/tokens/new
+github-nippou uses the token of GitHub CLI (` + "`gh auth token`" + `) by default.
 
 `)
 
 	accessToken, err := getAccessToken()
-
-	if err == nil {
-		fmt.Print("Already initialized.\n")
-	} else {
-		var answer string = "Y"
-
-		fmt.Print("What's your GitHub personal access token? ")
-		fmt.Scanln(&accessToken)
-
-		if len(accessToken) >= 1 {
-			fmt.Printf(`
-The following command will be executed.
-
-    $ git config --global github-nippou.token %s
-
-`, accessToken)
-
-			fmt.Print("Are you sure? [Y/n] ")
-			fmt.Scanln(&answer)
-
-			if strings.ToUpper(answer[0:1]) != "Y" {
-				return errors.New("Canceled")
-			}
-
-			cmd := exec.Command("git", "config", "--global", "github-nippou.token", accessToken)
-			if err := cmd.Run(); err != nil {
-				return err
-			}
-
-			fmt.Print(`Thanks! You can get it with the following command.
-
-    $ git config --global github-nippou.token
-
-`)
-		}
+	if err != nil {
+		return err
 	}
+
+	fmt.Print("Found the access token.\n")
 
 	client, err := getClient(ctx, accessToken)
 	if err != nil {
@@ -94,8 +57,8 @@ the following command.
 
     $ gh auth refresh -s repo,gist
 
-If you use personal access token, add these scopes to it,
-visit https://github.com/settings/tokens
+If you use personal access token (deprecated), add these scopes
+to it, visit https://github.com/settings/tokens
 
 `)
 
