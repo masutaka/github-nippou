@@ -77,7 +77,9 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 
 	user, _, err := client.Users.Get(ctx, "")
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf(`!!!! Failed to get the owner of the access token. Please check your access token. !!!!
+
+%w`, err)
 	}
 
 	return user.GetLogin(), nil

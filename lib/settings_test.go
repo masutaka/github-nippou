@@ -47,8 +47,13 @@ func TestGetUserWhenAPIFails(t *testing.T) {
 	isolateGitConfig(t)
 	client := stubAPI(t, http.StatusUnauthorized, `{"message": "Bad credentials"}`)
 
-	if _, err := lib.GetUser(context.Background(), client); err == nil {
+	_, err := lib.GetUser(context.Background(), client)
+	if err == nil {
 		t.Fatal("expected an error but got nil")
+	}
+	const expected = "Please check your access token"
+	if !strings.Contains(err.Error(), expected) {
+		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
 	}
 }
 
