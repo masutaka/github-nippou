@@ -107,6 +107,8 @@ func isolateGitConfig(t *testing.T) {
 	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "")
 	t.Setenv("GIT_CONFIG_GLOBAL", os.DevNull)
 	t.Setenv("GIT_CONFIG_NOSYSTEM", "1")
+	// Leave this repository so that its local config is not read
+	t.Chdir(t.TempDir())
 }
 
 // stubGh puts a fake gh command running script at the front of PATH
