@@ -43,7 +43,7 @@ func TestGetUserFromAPI(t *testing.T) {
 	}
 }
 
-func TestGetUserWhenAPIFails(t *testing.T) {
+func TestGetUserWhenUnauthorized(t *testing.T) {
 	isolateGitConfig(t)
 	client := stubAPI(t, http.StatusUnauthorized, `{"message": "Bad credentials"}`)
 
@@ -54,6 +54,20 @@ func TestGetUserWhenAPIFails(t *testing.T) {
 	const expected = "Please check your access token"
 	if !strings.Contains(err.Error(), expected) {
 		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+	}
+}
+
+func TestGetUserWhenAPIIsDown(t *testing.T) {
+	isolateGitConfig(t)
+	client := stubAPI(t, http.StatusServiceUnavailable, `{"message": "Service Unavailable"}`)
+
+	_, err := lib.GetUser(context.Background(), client)
+	if err == nil {
+		t.Fatal("expected an error but got nil")
+	}
+	const unexpected = "Please check your access token"
+	if strings.Contains(err.Error(), unexpected) {
+		t.Errorf("expected error not to contain %q but got %q", unexpected, err.Error())
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
@@ -75,11 +76,14 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	user, _, err := client.Users.Get(ctx, "")
-	if err != nil {
+	user, response, err := client.Users.Get(ctx, "")
+	if response != nil && response.StatusCode == http.StatusUnauthorized {
 		return "", fmt.Errorf(`!!!! Failed to get the owner of the access token. Please check your access token. !!!!
 
 %w`, err)
+	}
+	if err != nil {
+		return "", err
 	}
 
 	return user.GetLogin(), nil
