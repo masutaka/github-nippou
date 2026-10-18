@@ -245,7 +245,7 @@ func (l Lines) Less(i, j int) bool {
 func formatSubject(settings Settings, repoName string) string {
 	formatSubject := convertNamedParameters(settings.Format.Subject)
 
-	m := map[string]interface{}{"subject": repoName}
+	m := map[string]any{"subject": repoName}
 	t := template.Must(template.New("").Parse(formatSubject))
 
 	var rendered bytes.Buffer
@@ -257,7 +257,7 @@ func formatSubject(settings Settings, repoName string) string {
 func formatLine(settings Settings, line Line) string {
 	formatLine := convertNamedParameters(settings.Format.Line)
 
-	m := map[string]interface{}{
+	m := map[string]any{
 		"title":  line.title,
 		"url":    line.url,
 		"user":   line.user,
