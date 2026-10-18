@@ -91,9 +91,6 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 	return user.GetLogin(), nil
 }
 
-// warningWriter is where deprecation warnings are written
-var warningWriter io.Writer = os.Stderr
-
 func getAccessToken() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN") != "" {
 		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", "Run `gh auth login` and unset it. In CI, pass the token via GH_TOKEN.")
@@ -120,6 +117,9 @@ func getAccessToken() (string, error) {
 
 	return "", errors.New(errText)
 }
+
+// warningWriter is where deprecation warnings are written
+var warningWriter io.Writer = os.Stderr
 
 func warnDeprecation(name, migration string) {
 	prefix := "warning:"
