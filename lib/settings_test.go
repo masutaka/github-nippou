@@ -19,24 +19,17 @@ func TestInit(t *testing.T) {
 	t.Skip("This test is pending.")
 }
 
-func TestGetUser(t *testing.T) {
-	t.Setenv("GITHUB_NIPPOU_USER", "taro")
-	captureWarning(t)
-
-	actual, _ := lib.GetUser(context.Background(), nil)
-	const expected = "taro"
-	if actual != expected {
-		t.Errorf("expected %s but got %s", expected, actual)
-	}
-}
-
 func TestGetUserWarnsEnvDeprecation(t *testing.T) {
 	isolateGitConfig(t)
 	t.Setenv("GITHUB_NIPPOU_USER", "taro")
 	warning := captureWarning(t)
 
-	if _, err := lib.GetUser(context.Background(), nil); err != nil {
+	actual, err := lib.GetUser(context.Background(), nil)
+	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "taro" {
+		t.Errorf("expected %s but got %s", "taro", actual)
 	}
 	const expected = "GITHUB_NIPPOU_USER is deprecated"
 	if !strings.Contains(warning.String(), expected) {
@@ -108,24 +101,17 @@ func TestGetUserWhenAPIIsDown(t *testing.T) {
 	}
 }
 
-func TestGetAccessToken(t *testing.T) {
-	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
-	captureWarning(t)
-
-	actual, _ := lib.GetAccessToken()
-	const expected = "1234abcd"
-	if actual != expected {
-		t.Errorf("expected %s but got %s", expected, actual)
-	}
-}
-
 func TestGetAccessTokenWarnsEnvDeprecation(t *testing.T) {
 	isolateGitConfig(t)
 	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
 	warning := captureWarning(t)
 
-	if _, err := lib.GetAccessToken(); err != nil {
+	actual, err := lib.GetAccessToken()
+	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "1234abcd" {
+		t.Errorf("expected %s but got %s", "1234abcd", actual)
 	}
 	const expected = "warning: GITHUB_NIPPOU_ACCESS_TOKEN is deprecated and will be removed in v5.0.0\n" +
 		"  Run `gh auth login` and unset it. In CI, install GitHub CLI and pass the token via GH_TOKEN. See https://github.com/masutaka/github-nippou/issues/379\n"
