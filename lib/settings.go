@@ -93,7 +93,7 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 
 func getAccessToken() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN") != "" {
-		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", "Run `gh auth login` and unset it. In CI, pass the token via GH_TOKEN.")
+		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", "Run `gh auth login` and unset it. In CI, install GitHub CLI and pass the token via GH_TOKEN.")
 		return os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN"), nil
 	}
 

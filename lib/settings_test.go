@@ -130,7 +130,7 @@ func TestGetAccessTokenWarnsEnvDeprecation(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	const expected = "warning: GITHUB_NIPPOU_ACCESS_TOKEN is deprecated and will be removed in v5.0.0\n" +
-		"  Run `gh auth login` and unset it. In CI, pass the token via GH_TOKEN. See https://github.com/masutaka/github-nippou/issues/379\n"
+		"  Run `gh auth login` and unset it. In CI, install GitHub CLI and pass the token via GH_TOKEN. See https://github.com/masutaka/github-nippou/issues/379\n"
 	if warning.String() != expected {
 		t.Errorf("expected warning %q but got %q", expected, warning.String())
 	}
