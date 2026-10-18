@@ -1,5 +1,19 @@
 # Changelog
 
+## [v4.4.0](https://github.com/masutaka/github-nippou/compare/v4.3.3...v4.4.0) - 2026-10-18
+
+### New Features :tada:
+- feat: Fall back to `gh auth token` so a PAT is no longer required by @masutaka in https://github.com/masutaka/github-nippou/pull/378
+- feat: Warn that token and user settings will be removed in v5.0.0 by @masutaka in https://github.com/masutaka/github-nippou/pull/380
+### Maintenance :technologist:
+- chore: Remove ghalint and zizmor configs now provided by masutaka/actions by @masutaka in https://github.com/masutaka/github-nippou/pull/370
+- chore: Bundle dependency licenses as CREDITS in release archives by @masutaka in https://github.com/masutaka/github-nippou/pull/372
+- chore: Migrate to actions/attest as attest-build-provenance is superseded by @masutaka in https://github.com/masutaka/github-nippou/pull/373
+- chore(deps): update go toolchain directive to v1.27.2 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/375
+- chore(deps): update songmu/tagpr action to v1.21.2 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/376
+- Run tests on macOS and Windows by @masutaka in https://github.com/masutaka/github-nippou/pull/381
+- refactor: Replace interface{} with any to follow modern Go style by @masutaka in https://github.com/masutaka/github-nippou/pull/382
+
 ## [v4.3.3](https://github.com/masutaka/github-nippou/compare/v4.3.2...v4.3.3) - 2026-10-04
 
 ### Maintenance :technologist:
