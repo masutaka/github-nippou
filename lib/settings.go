@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -130,9 +131,10 @@ func warnDeprecation(name, migration string) {
 	fmt.Fprintf(warningWriter, "%s %s is deprecated and will be removed in v5.0.0\n  %s See https://github.com/masutaka/github-nippou/issues/379\n", prefix, name, migration)
 }
 
-// isColorTerminal reports whether w is a terminal and NO_COLOR is not set
+// isColorTerminal reports whether w is a terminal that can show colors.
+// Windows is excluded because legacy consoles show escape codes as is.
 func isColorTerminal(w io.Writer) bool {
-	if os.Getenv("NO_COLOR") != "" {
+	if os.Getenv("NO_COLOR") != "" || os.Getenv("TERM") == "dumb" || runtime.GOOS == "windows" {
 		return false
 	}
 	f, ok := w.(*os.File)

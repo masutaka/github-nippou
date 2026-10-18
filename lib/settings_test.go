@@ -298,17 +298,20 @@ func TestIsColorTerminal(t *testing.T) {
 		name     string
 		writer   io.Writer
 		noColor  string
+		term     string
 		expected bool
 	}{
-		{"character device", device, "", true},
-		{"character device with NO_COLOR", device, "1", false},
-		{"regular file", file, "", false},
-		{"buffer", &bytes.Buffer{}, "", false},
+		{"character device", device, "", "xterm-256color", true},
+		{"character device with NO_COLOR", device, "1", "xterm-256color", false},
+		{"character device with TERM=dumb", device, "", "dumb", false},
+		{"regular file", file, "", "xterm-256color", false},
+		{"buffer", &bytes.Buffer{}, "", "xterm-256color", false},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Setenv("NO_COLOR", tt.noColor)
+			t.Setenv("TERM", tt.term)
 			if actual := lib.IsColorTerminal(tt.writer); actual != tt.expected {
 				t.Errorf("expected %v but got %v", tt.expected, actual)
 			}
