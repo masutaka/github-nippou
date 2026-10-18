@@ -13,11 +13,6 @@ import (
 func Init() error {
 	fmt.Print("** github-nippou Initialization **\n")
 
-	if err := setUser(); err != nil {
-		return err
-	}
-
-	time.Sleep(500 * time.Millisecond)
 	ctx := context.Background()
 
 	if err := setAccessToken(ctx); err != nil {
@@ -29,71 +24,23 @@ func Init() error {
 	return createAndSetGist(ctx)
 }
 
-func setUser() error {
-	fmt.Print(`
-== [Step: 1/3] GitHub user ==
-
-`)
-
-	var msg string
-
-	if _, err := getUser(); err == nil {
-		msg = "Already initialized."
-	} else {
-		var user string
-		var answer string = "Y"
-
-		fmt.Print("What's your GitHub account? ")
-		fmt.Scanln(&user)
-
-		if len(user) >= 1 {
-			fmt.Printf(`
-The following command will be executed.
-
-    $ git config --global github-nippou.user %s
-
-`, user)
-
-			fmt.Print("Are you sure? [Y/n] ")
-			fmt.Scanln(&answer)
-
-			if strings.ToUpper(answer[0:1]) != "Y" {
-				return errors.New("Canceled")
-			}
-
-			cmd := exec.Command("git", "config", "--global", "github-nippou.user", user)
-			if err := cmd.Run(); err != nil {
-				return err
-			}
-
-			msg = "Thanks!"
-		}
-	}
-
-	fmt.Printf(`%s You can get it with the following command.
-
-    $ git config --global github-nippou.user
-
-`, msg)
-
-	return nil
-}
-
 func setAccessToken(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 2/3] GitHub personal access token ==
+== [Step: 1/2] GitHub access token ==
 
-To get new token with ` + "`repo`" + ` and ` + "`gist`" + ` scope, visit
-https://github.com/settings/tokens/new
+We recommend logging in to GitHub CLI (` + "`gh auth login`" + `). Its token
+(` + "`gh auth token`" + `) is used.
+
+Personal access token is also supported, but not recommended because
+it is stored in plain text in git config. To get new one with ` + "`repo`" + `
+and ` + "`gist`" + ` scope, visit https://github.com/settings/tokens/new
 
 `)
-
-	var msg string
 
 	accessToken, err := getAccessToken()
 
 	if err == nil {
-		msg = "Already initialized."
+		fmt.Print("Already initialized.\n")
 	} else {
 		var answer string = "Y"
 
@@ -120,15 +67,13 @@ The following command will be executed.
 				return err
 			}
 
-			msg = "Thanks!"
-		}
-	}
-
-	fmt.Printf(`%s You can get it with the following command.
+			fmt.Print(`Thanks! You can get it with the following command.
 
     $ git config --global github-nippou.token
 
-`, msg)
+`)
+		}
+	}
 
 	client, err := getClient(ctx, accessToken)
 	if err != nil {
@@ -143,9 +88,13 @@ The following command will be executed.
 	if !isValidScopes(scopes) {
 		return errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
 
-You need personal access token which has ` + "`repo`" + ` and ` + "`gist`" + `
-scopes. Please add these scopes to your personal access
-token, visit https://github.com/settings/tokens
+If you use the token of GitHub CLI, add these scopes with
+the following command.
+
+    $ gh auth refresh -s repo,gist
+
+If you use personal access token, add these scopes to it,
+visit https://github.com/settings/tokens
 
 `)
 
@@ -172,7 +121,7 @@ func isValidScopes(scopes []string) bool {
 
 func createAndSetGist(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 3/3] Gist (optional) ==
+== [Step: 2/2] Gist (optional) ==
 
 `)
 

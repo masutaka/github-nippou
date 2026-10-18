@@ -60,13 +60,26 @@ Issued attestations are listed on this repository's [Attestations](https://githu
 
 ## Setup
 
+github-nippou uses the token of [GitHub CLI](https://cli.github.com/) by default. Log in to it first, and you don't need a personal access token.
+
+    $ gh auth login
     $ github-nippou init
+
+> [!CAUTION]
+> Personal access token is also supported, but not recommended. It is stored in plain text in Git configuration, and needs to be recreated when it expires.
 
 The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
 
-1. Add `github-nippou.user`
-2. Add `github-nippou.token`
-3. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
+1. Add `github-nippou.token` (skipped if you are logged in to GitHub CLI)
+2. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
+
+The user and the access token are looked up in the following order.
+
+| Order | User | Access token |
+| --- | --- | --- |
+| 1 | Environment variable `GITHUB_NIPPOU_USER` | Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN` |
+| 2 | `github-nippou.user` in Git configuration | `github-nippou.token` in Git configuration |
+| 3 | Owner of the access token | `gh auth token --hostname github.com` |
 
 ## Usage
 

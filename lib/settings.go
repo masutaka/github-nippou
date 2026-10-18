@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
@@ -63,7 +64,8 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 	return yaml.Unmarshal([]byte(content), s)
 }
 
-func getUser() (string, error) {
+// getUser falls back to the owner of the client's access token
+func getUser(ctx context.Context, client *github.Client) (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {
 		return os.Getenv("GITHUB_NIPPOU_USER"), nil
 	}
@@ -74,11 +76,17 @@ func getUser() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub User required. Please execute the following command. !!!!
+	user, response, err := client.Users.Get(ctx, "")
+	if response != nil && response.StatusCode == http.StatusUnauthorized {
+		return "", fmt.Errorf(`!!!! Failed to get the owner of the access token. Please check your access token. !!!!
 
-    $ github-nippou init`
+%w`, err)
+	}
+	if err != nil {
+		return "", err
+	}
 
-	return "", errors.New(errText)
+	return user.GetLogin(), nil
 }
 
 func getAccessToken() (string, error) {
@@ -92,8 +100,15 @@ func getAccessToken() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub Personal access token required. Please execute the following command. !!!!
+	output, err := exec.Command("gh", "auth", "token", "--hostname", "github.com").Output()
 
+	if err == nil && len(output) >= 1 {
+		return strings.TrimRight(string(output), "\n"), nil
+	}
+
+	errText := `!!!! GitHub access token required. Please execute one of the following commands. !!!!
+
+    $ gh auth login
     $ github-nippou init`
 
 	return "", errors.New(errText)
@@ -136,7 +151,10 @@ func getClient(ctx context.Context, accessToken string) (*github.Client, error) 
 
 func getClientScopes(ctx context.Context, client *github.Client) ([]string, error) {
 	_, response, err := client.Users.Get(ctx, "")
-	return strings.Split(response.Header.Get("X-OAuth-Scopes"), ", "), err
+	if err != nil {
+		return nil, err
+	}
+	return strings.Split(response.Header.Get("X-OAuth-Scopes"), ", "), nil
 }
 
 func createGist(ctx context.Context, client *github.Client) (*github.Gist, *github.Response, error) {

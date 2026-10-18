@@ -60,13 +60,26 @@ $ gh attestation verify github-nippou_<version>_<os>_<arch>.zip \
 
 ## セットアップ
 
+github-nippou はデフォルトで [GitHub CLI](https://cli.github.com/) のトークンを使用します。先に GitHub CLI へログインしておけば、personal access token は必要ありません。
+
+    $ gh auth login
     $ github-nippou init
+
+> [!CAUTION]
+> personal access token も使えますが、おすすめしません。Git 設定に平文で保存されるうえ、期限が切れるたびに作り直す必要があるためです。
 
 初期化により [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)が更新されます。
 
-1. `github-nippou.user` を追加
-2. `github-nippou.token` を追加
-3. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
+1. `github-nippou.token` を追加（GitHub CLI にログイン済みなら省略）
+2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
+
+ユーザーとアクセストークンは次の順で探します。
+
+| 順番 | ユーザー | アクセストークン |
+| --- | --- | --- |
+| 1 | 環境変数 `GITHUB_NIPPOU_USER` | 環境変数 `GITHUB_NIPPOU_ACCESS_TOKEN` |
+| 2 | Git 設定の `github-nippou.user` | Git 設定の `github-nippou.token` |
+| 3 | アクセストークンの持ち主 | `gh auth token --hostname github.com` |
 
 ## 使い方
 

@@ -30,13 +30,18 @@ func NewList(sinceDate, untilDate, user, accessToken, settingsGistID string, deb
 	}
 }
 
-// NewListFromCLI returns a new List from environment variables or git config.
+// NewListFromCLI returns a new List from environment variables, git config, or GitHub CLI.
 func NewListFromCLI(sinceDate, untilDate string, debug bool) (*List, error) {
-	user, err := getUser()
+	accessToken, err := getAccessToken()
 	if err != nil {
 		return nil, err
 	}
-	accessToken, err := getAccessToken()
+	ctx := context.Background()
+	client, err := getClient(ctx, accessToken)
+	if err != nil {
+		return nil, err
+	}
+	user, err := getUser(ctx, client)
 	if err != nil {
 		return nil, err
 	}
