@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/google/go-github/v92/github"
 )
 
 // Init initializes github-nippou settings
@@ -15,17 +17,17 @@ func Init() error {
 
 	ctx := context.Background()
 
-	accessToken, err := checkAccessToken(ctx)
+	client, err := checkAccessToken(ctx)
 	if err != nil {
 		return err
 	}
 
 	time.Sleep(500 * time.Millisecond)
 
-	return createAndSetGist(ctx, accessToken)
+	return createAndSetGist(ctx, client)
 }
 
-func checkAccessToken(ctx context.Context) (string, error) {
+func checkAccessToken(ctx context.Context) (*github.Client, error) {
 	fmt.Print(`
 == [Step: 1/2] GitHub access token ==
 
@@ -35,23 +37,23 @@ github-nippou uses the token of GitHub CLI (` + "`gh auth token`" + `) by defaul
 
 	accessToken, err := getAccessToken()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	fmt.Print("Found the access token.\n")
 
 	client, err := getClient(ctx, accessToken)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	scopes, err := getClientScopes(ctx, client)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	if !isValidScopes(scopes) {
-		return "", errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
+		return nil, errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
 
 If you use the token of GitHub CLI, add these scopes with
 the following command.
@@ -65,7 +67,7 @@ to it, visit https://github.com/settings/tokens
 
 	}
 
-	return accessToken, nil
+	return client, nil
 }
 
 func isValidScopes(scopes []string) bool {
@@ -84,7 +86,7 @@ func isValidScopes(scopes []string) bool {
 	return found1 && found2
 }
 
-func createAndSetGist(ctx context.Context, accessToken string) error {
+func createAndSetGist(ctx context.Context, client *github.Client) error {
 	fmt.Print(`
 == [Step: 2/2] Gist (optional) ==
 
@@ -109,11 +111,6 @@ func createAndSetGist(ctx context.Context, accessToken string) error {
 
 		if strings.ToUpper(answer[0:1]) == "N" {
 			return nil
-		}
-
-		client, err := getClient(ctx, accessToken)
-		if err != nil {
-			return err
 		}
 
 		gist, _, err := createGist(ctx, client)
