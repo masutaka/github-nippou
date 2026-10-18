@@ -28,9 +28,12 @@ func setAccessToken(ctx context.Context) error {
 	fmt.Print(`
 == [Step: 1/2] GitHub access token ==
 
-If you are logged in to GitHub CLI, its token (` + "`gh auth token`" + `) is used.
-Otherwise, to get new personal access token with ` + "`repo`" + ` and ` + "`gist`" + `
-scope, visit https://github.com/settings/tokens/new
+We recommend logging in to GitHub CLI (` + "`gh auth login`" + `). Its token
+(` + "`gh auth token`" + `) is used.
+
+Personal access token is also supported, but not recommended because
+it is stored in plain text in git config. To get new one with ` + "`repo`" + `
+and ` + "`gist`" + ` scope, visit https://github.com/settings/tokens/new
 
 `)
 
