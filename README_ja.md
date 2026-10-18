@@ -65,8 +65,7 @@ $ gh attestation verify github-nippou_<version>_<os>_<arch>.zip \
 初期化により [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)が更新されます。
 
 1. `github-nippou.token` を追加（[GitHub CLI](https://cli.github.com/) にログイン済みなら省略）
-2. `github-nippou.user` を追加（アクセストークンの持ち主を使うため省略）
-3. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
+2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
 
 ユーザーとアクセストークンは次の順で探します。
 

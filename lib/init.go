@@ -21,18 +21,12 @@ func Init() error {
 
 	time.Sleep(500 * time.Millisecond)
 
-	if err := setUser(ctx); err != nil {
-		return err
-	}
-
-	time.Sleep(500 * time.Millisecond)
-
 	return createAndSetGist(ctx)
 }
 
 func setAccessToken(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 1/3] GitHub access token ==
+== [Step: 1/2] GitHub access token ==
 
 If you are logged in to GitHub CLI, its token (` + "`gh auth token`" + `) is used.
 Otherwise, to get new personal access token with ` + "`repo`" + ` and ` + "`gist`" + `
@@ -122,67 +116,9 @@ func isValidScopes(scopes []string) bool {
 	return found1 && found2
 }
 
-func setUser(ctx context.Context) error {
-	fmt.Print(`
-== [Step: 2/3] GitHub user ==
-
-If not set, the owner of the access token is used.
-
-`)
-
-	accessToken, err := getAccessToken()
-	if err != nil {
-		return err
-	}
-
-	client, err := getClient(ctx, accessToken)
-	if err != nil {
-		return err
-	}
-
-	if _, err := getUser(ctx, client); err == nil {
-		fmt.Print("Already initialized.\n")
-	} else {
-		var user string
-		var answer string = "Y"
-
-		fmt.Print("What's your GitHub account? ")
-		fmt.Scanln(&user)
-
-		if len(user) >= 1 {
-			fmt.Printf(`
-The following command will be executed.
-
-    $ git config --global github-nippou.user %s
-
-`, user)
-
-			fmt.Print("Are you sure? [Y/n] ")
-			fmt.Scanln(&answer)
-
-			if strings.ToUpper(answer[0:1]) != "Y" {
-				return errors.New("Canceled")
-			}
-
-			cmd := exec.Command("git", "config", "--global", "github-nippou.user", user)
-			if err := cmd.Run(); err != nil {
-				return err
-			}
-
-			fmt.Print(`Thanks! You can get it with the following command.
-
-    $ git config --global github-nippou.user
-
-`)
-		}
-	}
-
-	return nil
-}
-
 func createAndSetGist(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 3/3] Gist (optional) ==
+== [Step: 2/2] Gist (optional) ==
 
 `)
 
