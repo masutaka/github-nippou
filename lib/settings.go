@@ -111,7 +111,9 @@ func getAccessToken() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub access token required. Please execute the following command. !!!!
+	errText := `!!!! GitHub access token required. Please log in to GitHub CLI. !!!!
+
+Install it from https://cli.github.com/ if needed, and execute the following command.
 
     $ gh auth login`
 

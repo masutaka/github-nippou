@@ -187,9 +187,10 @@ func TestGetAccessTokenWithoutGhLogin(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected an error but got nil")
 	}
-	const expected = "gh auth login"
-	if !strings.Contains(err.Error(), expected) {
-		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+	for _, expected := range []string{"https://cli.github.com/", "gh auth login"} {
+		if !strings.Contains(err.Error(), expected) {
+			t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+		}
 	}
 }
 
