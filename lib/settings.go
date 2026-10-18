@@ -74,8 +74,15 @@ func getUser() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub User required. Please execute the following command. !!!!
+	output, _ = exec.Command("gh", "api", "user", "--jq", ".login").Output()
 
+	if len(output) >= 1 {
+		return strings.TrimRight(string(output), "\n"), nil
+	}
+
+	errText := `!!!! GitHub User required. Please execute one of the following commands. !!!!
+
+    $ gh auth login
     $ github-nippou init`
 
 	return "", errors.New(errText)

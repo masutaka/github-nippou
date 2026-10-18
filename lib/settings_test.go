@@ -24,6 +24,34 @@ func TestGetUser(t *testing.T) {
 	}
 }
 
+func TestGetUserFromGh(t *testing.T) {
+	isolateGitConfig(t)
+	stubGh(t, `[ "$*" = "api user --jq .login" ] && echo taro`)
+
+	actual, err := lib.GetUser()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	const expected = "taro"
+	if actual != expected {
+		t.Errorf("expected %s but got %s", expected, actual)
+	}
+}
+
+func TestGetUserWithoutGhLogin(t *testing.T) {
+	isolateGitConfig(t)
+	stubGh(t, "exit 1")
+
+	_, err := lib.GetUser()
+	if err == nil {
+		t.Fatal("expected an error but got nil")
+	}
+	const expected = "gh auth login"
+	if !strings.Contains(err.Error(), expected) {
+		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+	}
+}
+
 func TestGetAccessToken(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
 	defer os.Unsetenv("GITHUB_NIPPOU_ACCESS_TOKEN")
@@ -66,6 +94,7 @@ func TestGetAccessTokenWithoutGhLogin(t *testing.T) {
 // isolateGitConfig makes git config return nothing for github-nippou.*
 func isolateGitConfig(t *testing.T) {
 	t.Helper()
+	t.Setenv("GITHUB_NIPPOU_USER", "")
 	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "")
 	t.Setenv("GIT_CONFIG_GLOBAL", os.DevNull)
 	t.Setenv("GIT_CONFIG_NOSYSTEM", "1")

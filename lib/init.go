@@ -33,12 +33,12 @@ func setUser() error {
 	fmt.Print(`
 == [Step: 1/3] GitHub user ==
 
+If you are logged in to GitHub CLI, its user (` + "`gh api user`" + `) is used.
+
 `)
 
-	var msg string
-
 	if _, err := getUser(); err == nil {
-		msg = "Already initialized."
+		fmt.Print("Already initialized.\n")
 	} else {
 		var user string
 		var answer string = "Y"
@@ -66,15 +66,13 @@ The following command will be executed.
 				return err
 			}
 
-			msg = "Thanks!"
-		}
-	}
-
-	fmt.Printf(`%s You can get it with the following command.
+			fmt.Print(`Thanks! You can get it with the following command.
 
     $ git config --global github-nippou.user
 
-`, msg)
+`)
+		}
+	}
 
 	return nil
 }

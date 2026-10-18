@@ -64,15 +64,17 @@ Issued attestations are listed on this repository's [Attestations](https://githu
 
 The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
 
-1. Add `github-nippou.user`
-2. Add `github-nippou.token` (skipped if you are logged in to [GitHub CLI](https://cli.github.com/))
+1. Add `github-nippou.user` (skipped if you are logged in to [GitHub CLI](https://cli.github.com/))
+2. Add `github-nippou.token` (skipped if you are logged in to GitHub CLI)
 3. Create Gist, and add `github-nippou.settings-gist-id` for customizing output format (optional)
 
-The access token is looked up in the following order.
+The user and the access token are looked up in the following order.
 
-1. Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN`
-2. `github-nippou.token` in Git configuration
-3. `gh auth token`
+| Order | User | Access token |
+| --- | --- | --- |
+| 1 | Environment variable `GITHUB_NIPPOU_USER` | Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN` |
+| 2 | `github-nippou.user` in Git configuration | `github-nippou.token` in Git configuration |
+| 3 | `gh api user --jq .login` | `gh auth token` |
 
 ## Usage
 
