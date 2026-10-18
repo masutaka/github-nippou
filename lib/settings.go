@@ -145,7 +145,10 @@ func getClient(ctx context.Context, accessToken string) (*github.Client, error) 
 
 func getClientScopes(ctx context.Context, client *github.Client) ([]string, error) {
 	_, response, err := client.Users.Get(ctx, "")
-	return strings.Split(response.Header.Get("X-OAuth-Scopes"), ", "), err
+	if err != nil {
+		return nil, err
+	}
+	return strings.Split(response.Header.Get("X-OAuth-Scopes"), ", "), nil
 }
 
 func createGist(ctx context.Context, client *github.Client) (*github.Gist, *github.Response, error) {

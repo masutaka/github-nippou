@@ -165,6 +165,20 @@ func TestGetParallelNum(t *testing.T) {
 	}
 }
 
+func TestGetClientScopesWhenUnreachable(t *testing.T) {
+	server := httptest.NewServer(http.NotFoundHandler())
+	url := server.URL + "/"
+	server.Close()
+	client, err := github.NewClient(github.WithURLs(&url, &url))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if _, err := lib.GetClientScopes(context.Background(), client); err == nil {
+		t.Fatal("expected an error but got nil")
+	}
+}
+
 func TestGetDefaultSettingsURL(t *testing.T) {
 	actual := lib.GetDefaultSettingsURL()
 	const expected = "https://github.com/masutaka/github-nippou/blob/v" + lib.Version + "/config/settings.yml"
