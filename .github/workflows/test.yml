@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   gh_action_lint:
     uses: masutaka/actions/.github/workflows/gh_action_lint.yml@main
@@ -19,8 +23,12 @@ jobs:
       security-events: write
     uses: masutaka/actions/.github/workflows/codeql.yml@main
   test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     permissions:
       contents: read
     steps:
