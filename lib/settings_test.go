@@ -20,8 +20,7 @@ func TestInit(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_USER", "taro")
-	defer os.Unsetenv("GITHUB_NIPPOU_USER")
+	t.Setenv("GITHUB_NIPPOU_USER", "taro")
 	captureWarning(t)
 
 	actual, _ := lib.GetUser(context.Background(), nil)
@@ -110,8 +109,7 @@ func TestGetUserWhenAPIIsDown(t *testing.T) {
 }
 
 func TestGetAccessToken(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
-	defer os.Unsetenv("GITHUB_NIPPOU_ACCESS_TOKEN")
+	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
 	captureWarning(t)
 
 	actual, _ := lib.GetAccessToken()
@@ -259,8 +257,7 @@ func stubAPI(t *testing.T, status int, body string) *github.Client {
 }
 
 func TestGetGistID(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
-	defer os.Unsetenv("GITHUB_NIPPOU_SETTINGS_GIST_ID")
+	t.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
 
 	actual := lib.GetGistID()
 	const expected = "0123456789"
@@ -270,8 +267,7 @@ func TestGetGistID(t *testing.T) {
 }
 
 func TestGetParallelNum(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
-	defer os.Unsetenv("GITHUB_NIPPOU_THREAD_NUM")
+	t.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
 
 	actual, _ := lib.GetParallelNum()
 	const expected = 10
