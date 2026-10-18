@@ -129,9 +129,10 @@ func TestGetAccessTokenWarnsEnvDeprecation(t *testing.T) {
 	if _, err := lib.GetAccessToken(); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	const expected = "GITHUB_NIPPOU_ACCESS_TOKEN is deprecated"
-	if !strings.Contains(warning.String(), expected) {
-		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	const expected = "warning: GITHUB_NIPPOU_ACCESS_TOKEN is deprecated and will be removed in v5.0.0\n" +
+		"  Run `gh auth login` and unset it. In CI, pass the token via GH_TOKEN. See https://github.com/masutaka/github-nippou/issues/379\n"
+	if warning.String() != expected {
+		t.Errorf("expected warning %q but got %q", expected, warning.String())
 	}
 }
 
@@ -276,6 +277,42 @@ func TestGetParallelNum(t *testing.T) {
 	const expected = 10
 	if actual != expected {
 		t.Errorf("expected %d but got %d", expected, actual)
+	}
+}
+
+func TestIsColorTerminal(t *testing.T) {
+	// /dev/null is a character device like a terminal
+	device, err := os.Open(os.DevNull)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { device.Close() })
+
+	file, err := os.Create(filepath.Join(t.TempDir(), "file"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { file.Close() })
+
+	tests := []struct {
+		name     string
+		writer   io.Writer
+		noColor  string
+		expected bool
+	}{
+		{"character device", device, "", true},
+		{"character device with NO_COLOR", device, "1", false},
+		{"regular file", file, "", false},
+		{"buffer", &bytes.Buffer{}, "", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Setenv("NO_COLOR", tt.noColor)
+			if actual := lib.IsColorTerminal(tt.writer); actual != tt.expected {
+				t.Errorf("expected %v but got %v", tt.expected, actual)
+			}
+		})
 	}
 }
 

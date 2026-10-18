@@ -67,16 +67,14 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 // getUser falls back to the owner of the client's access token
 func getUser(ctx context.Context, client *github.Client) (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {
-		warnDeprecation("GITHUB_NIPPOU_USER", "Unset GITHUB_NIPPOU_USER. The owner of the access token is used instead.")
+		warnDeprecation("GITHUB_NIPPOU_USER", "Unset it to use the owner of the access token.")
 		return os.Getenv("GITHUB_NIPPOU_USER"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.user").Output()
 
 	if len(output) >= 1 {
-		warnDeprecation("github-nippou.user", `Remove github-nippou.user. The owner of the access token is used instead.
-
-    $ git config --global --unset github-nippou.user`)
+		warnDeprecation("github-nippou.user", "Run `git config --global --unset github-nippou.user` to use the owner of the access token.")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -98,21 +96,14 @@ var warningWriter io.Writer = os.Stderr
 
 func getAccessToken() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN") != "" {
-		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", `Log in to GitHub CLI, and unset GITHUB_NIPPOU_ACCESS_TOKEN.
-
-    $ gh auth login
-
-In CI or cron, install GitHub CLI and pass the token via GH_TOKEN instead.`)
+		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", "Run `gh auth login` and unset it. In CI, pass the token via GH_TOKEN.")
 		return os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.token").Output()
 
 	if len(output) >= 1 {
-		warnDeprecation("github-nippou.token", `Log in to GitHub CLI, and remove github-nippou.token.
-
-    $ gh auth login
-    $ git config --global --unset github-nippou.token`)
+		warnDeprecation("github-nippou.token", "Run `gh auth login` and `git config --global --unset github-nippou.token`.")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -131,13 +122,25 @@ In CI or cron, install GitHub CLI and pass the token via GH_TOKEN instead.`)
 }
 
 func warnDeprecation(name, migration string) {
-	fmt.Fprintf(warningWriter, `!!!! %s is deprecated and will be removed in v5.0.0. !!!!
+	prefix := "warning:"
+	if isColorTerminal(warningWriter) {
+		// Yellow
+		prefix = "\x1b[33m" + prefix + "\x1b[0m"
+	}
+	fmt.Fprintf(warningWriter, "%s %s is deprecated and will be removed in v5.0.0\n  %s See https://github.com/masutaka/github-nippou/issues/379\n", prefix, name, migration)
+}
 
-%s
-
-See https://github.com/masutaka/github-nippou/issues/379
-
-`, name, migration)
+// isColorTerminal reports whether w is a terminal and NO_COLOR is not set
+func isColorTerminal(w io.Writer) bool {
+	if os.Getenv("NO_COLOR") != "" {
+		return false
+	}
+	f, ok := w.(*os.File)
+	if !ok {
+		return false
+	}
+	info, err := f.Stat()
+	return err == nil && info.Mode()&os.ModeCharDevice != 0
 }
 
 func getGistID() string {
