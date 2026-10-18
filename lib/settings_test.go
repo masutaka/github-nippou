@@ -65,7 +65,7 @@ func TestGetAccessToken(t *testing.T) {
 
 func TestGetAccessTokenFromGh(t *testing.T) {
 	isolateGitConfig(t)
-	stubGh(t, "echo gho_1234abcd")
+	stubGh(t, `[ "$*" = "auth token --hostname github.com" ] && echo gho_1234abcd`)
 
 	actual, err := lib.GetAccessToken()
 	if err != nil {
@@ -74,6 +74,15 @@ func TestGetAccessTokenFromGh(t *testing.T) {
 	const expected = "gho_1234abcd"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
+	}
+}
+
+func TestGetAccessTokenWhenGhFails(t *testing.T) {
+	isolateGitConfig(t)
+	stubGh(t, `echo '{"message": "Bad credentials"}'; exit 1`)
+
+	if _, err := lib.GetAccessToken(); err == nil {
+		t.Fatal("expected an error but got nil")
 	}
 }
 

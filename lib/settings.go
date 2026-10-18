@@ -99,9 +99,9 @@ func getAccessToken() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	output, _ = exec.Command("gh", "auth", "token").Output()
+	output, err := exec.Command("gh", "auth", "token", "--hostname", "github.com").Output()
 
-	if len(output) >= 1 {
+	if err == nil && len(output) >= 1 {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
