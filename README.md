@@ -66,7 +66,11 @@ github-nippou uses the token of [GitHub CLI](https://cli.github.com/) by default
     $ github-nippou init
 
 > [!CAUTION]
-> Personal access token is also supported, but not recommended. It is stored in plain text in Git configuration, and needs to be recreated when it expires.
+> Personal access token settings (`GITHUB_NIPPOU_ACCESS_TOKEN` and `github-nippou.token`) are deprecated and will be removed in v5.0.0. A token in Git configuration is stored in plain text, and needs to be recreated when it expires.
+>
+> The user settings (`GITHUB_NIPPOU_USER` and `github-nippou.user`) are also deprecated and will be removed in v5.0.0. The owner of the access token is used instead.
+>
+> See [#379](https://github.com/masutaka/github-nippou/issues/379).
 
 The initialization will be update your [Git global configuration file](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig).
 
@@ -77,8 +81,8 @@ The user and the access token are looked up in the following order.
 
 | Order | User | Access token |
 | --- | --- | --- |
-| 1 | Environment variable `GITHUB_NIPPOU_USER` | Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN` |
-| 2 | `github-nippou.user` in Git configuration | `github-nippou.token` in Git configuration |
+| 1 | Environment variable `GITHUB_NIPPOU_USER` (deprecated) | Environment variable `GITHUB_NIPPOU_ACCESS_TOKEN` (deprecated) |
+| 2 | `github-nippou.user` in Git configuration (deprecated) | `github-nippou.token` in Git configuration (deprecated) |
 | 3 | Owner of the access token | `gh auth token --hostname github.com` |
 
 ## Usage

@@ -67,12 +67,16 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 // getUser falls back to the owner of the client's access token
 func getUser(ctx context.Context, client *github.Client) (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {
+		warnDeprecation("GITHUB_NIPPOU_USER", "Unset GITHUB_NIPPOU_USER. The owner of the access token is used instead.")
 		return os.Getenv("GITHUB_NIPPOU_USER"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.user").Output()
 
 	if len(output) >= 1 {
+		warnDeprecation("github-nippou.user", `Remove github-nippou.user. The owner of the access token is used instead.
+
+    $ git config --global --unset github-nippou.user`)
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -89,14 +93,26 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 	return user.GetLogin(), nil
 }
 
+// warningWriter is where deprecation warnings are written
+var warningWriter io.Writer = os.Stderr
+
 func getAccessToken() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN") != "" {
+		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", `Log in to GitHub CLI, and unset GITHUB_NIPPOU_ACCESS_TOKEN.
+
+    $ gh auth login
+
+In CI or cron, install GitHub CLI and pass the token via GH_TOKEN instead.`)
 		return os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.token").Output()
 
 	if len(output) >= 1 {
+		warnDeprecation("github-nippou.token", `Log in to GitHub CLI, and remove github-nippou.token.
+
+    $ gh auth login
+    $ git config --global --unset github-nippou.token`)
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -112,6 +128,16 @@ func getAccessToken() (string, error) {
     $ github-nippou init`
 
 	return "", errors.New(errText)
+}
+
+func warnDeprecation(name, migration string) {
+	fmt.Fprintf(warningWriter, `!!!! %s is deprecated and will be removed in v5.0.0. !!!!
+
+%s
+
+See https://github.com/masutaka/github-nippou/issues/379
+
+`, name, migration)
 }
 
 func getGistID() string {

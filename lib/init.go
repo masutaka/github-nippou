@@ -31,9 +31,10 @@ func setAccessToken(ctx context.Context) error {
 We recommend logging in to GitHub CLI (` + "`gh auth login`" + `). Its token
 (` + "`gh auth token`" + `) is used.
 
-Personal access token is also supported, but not recommended because
-it is stored in plain text in git config. To get new one with ` + "`repo`" + `
-and ` + "`gist`" + ` scope, visit https://github.com/settings/tokens/new
+Personal access token is deprecated and will be removed in v5.0.0.
+See https://github.com/masutaka/github-nippou/issues/379
+If you still use it, get new one with ` + "`repo`" + ` and ` + "`gist`" + ` scope at
+https://github.com/settings/tokens/new
 
 `)
 

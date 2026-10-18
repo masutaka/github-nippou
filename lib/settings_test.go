@@ -1,6 +1,7 @@
 package lib_test
 
 import (
+	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -21,6 +22,7 @@ func TestInit(t *testing.T) {
 func TestGetUser(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_USER", "taro")
 	defer os.Unsetenv("GITHUB_NIPPOU_USER")
+	captureWarning(t)
 
 	actual, _ := lib.GetUser(context.Background(), nil)
 	const expected = "taro"
@@ -29,9 +31,42 @@ func TestGetUser(t *testing.T) {
 	}
 }
 
+func TestGetUserWarnsEnvDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	t.Setenv("GITHUB_NIPPOU_USER", "taro")
+	warning := captureWarning(t)
+
+	if _, err := lib.GetUser(context.Background(), nil); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	const expected = "GITHUB_NIPPOU_USER is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	}
+}
+
+func TestGetUserWarnsGitConfigDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	setGitConfig(t, "[github-nippou]\n\tuser = taro\n")
+	warning := captureWarning(t)
+
+	actual, err := lib.GetUser(context.Background(), nil)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "taro" {
+		t.Errorf("expected %s but got %s", "taro", actual)
+	}
+	const expected = "github-nippou.user is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	}
+}
+
 func TestGetUserFromAPI(t *testing.T) {
 	isolateGitConfig(t)
 	client := stubAPI(t, http.StatusOK, `{"login": "taro"}`)
+	warning := captureWarning(t)
 
 	actual, err := lib.GetUser(context.Background(), client)
 	if err != nil {
@@ -40,6 +75,9 @@ func TestGetUserFromAPI(t *testing.T) {
 	const expected = "taro"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
+	}
+	if warning.Len() != 0 {
+		t.Errorf("expected no warning but got %q", warning.String())
 	}
 }
 
@@ -74,6 +112,7 @@ func TestGetUserWhenAPIIsDown(t *testing.T) {
 func TestGetAccessToken(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
 	defer os.Unsetenv("GITHUB_NIPPOU_ACCESS_TOKEN")
+	captureWarning(t)
 
 	actual, _ := lib.GetAccessToken()
 	const expected = "1234abcd"
@@ -82,9 +121,42 @@ func TestGetAccessToken(t *testing.T) {
 	}
 }
 
+func TestGetAccessTokenWarnsEnvDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
+	warning := captureWarning(t)
+
+	if _, err := lib.GetAccessToken(); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	const expected = "GITHUB_NIPPOU_ACCESS_TOKEN is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	}
+}
+
+func TestGetAccessTokenWarnsGitConfigDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	setGitConfig(t, "[github-nippou]\n\ttoken = 1234abcd\n")
+	warning := captureWarning(t)
+
+	actual, err := lib.GetAccessToken()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "1234abcd" {
+		t.Errorf("expected %s but got %s", "1234abcd", actual)
+	}
+	const expected = "github-nippou.token is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	}
+}
+
 func TestGetAccessTokenFromGh(t *testing.T) {
 	isolateGitConfig(t)
 	stubGh(t, `[ "$*" = "auth token --hostname github.com" ] && echo gho_1234abcd`)
+	warning := captureWarning(t)
 
 	actual, err := lib.GetAccessToken()
 	if err != nil {
@@ -93,6 +165,9 @@ func TestGetAccessTokenFromGh(t *testing.T) {
 	const expected = "gho_1234abcd"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
+	}
+	if warning.Len() != 0 {
+		t.Errorf("expected no warning but got %q", warning.String())
 	}
 }
 
@@ -130,6 +205,16 @@ func isolateGitConfig(t *testing.T) {
 	t.Chdir(t.TempDir())
 }
 
+// setGitConfig makes git config read content as the global config
+func setGitConfig(t *testing.T, content string) {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "gitconfig")
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("GIT_CONFIG_GLOBAL", path)
+}
+
 // stubGh puts a fake gh command running script at the front of PATH
 func stubGh(t *testing.T, script string) {
 	t.Helper()
@@ -139,6 +224,16 @@ func stubGh(t *testing.T, script string) {
 		t.Fatal(err)
 	}
 	t.Setenv("PATH", dir+string(os.PathListSeparator)+os.Getenv("PATH"))
+}
+
+// captureWarning returns a buffer that receives warnings instead of stderr
+func captureWarning(t *testing.T) *bytes.Buffer {
+	t.Helper()
+	var buf bytes.Buffer
+	original := *lib.WarningWriter
+	*lib.WarningWriter = &buf
+	t.Cleanup(func() { *lib.WarningWriter = original })
+	return &buf
 }
 
 // stubAPI returns a client whose GET /user responds with status and body
