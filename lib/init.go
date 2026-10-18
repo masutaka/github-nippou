@@ -15,16 +15,17 @@ func Init() error {
 
 	ctx := context.Background()
 
-	if err := checkAccessToken(ctx); err != nil {
+	accessToken, err := checkAccessToken(ctx)
+	if err != nil {
 		return err
 	}
 
 	time.Sleep(500 * time.Millisecond)
 
-	return createAndSetGist(ctx)
+	return createAndSetGist(ctx, accessToken)
 }
 
-func checkAccessToken(ctx context.Context) error {
+func checkAccessToken(ctx context.Context) (string, error) {
 	fmt.Print(`
 == [Step: 1/2] GitHub access token ==
 
@@ -34,23 +35,23 @@ github-nippou uses the token of GitHub CLI (` + "`gh auth token`" + `) by defaul
 
 	accessToken, err := getAccessToken()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	fmt.Print("Found the access token.\n")
 
 	client, err := getClient(ctx, accessToken)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	scopes, err := getClientScopes(ctx, client)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if !isValidScopes(scopes) {
-		return errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
+		return "", errors.New(`!!!! ` + "`repo`" + ` and ` + "`gist`" + ` scopes are required. !!!!
 
 If you use the token of GitHub CLI, add these scopes with
 the following command.
@@ -64,7 +65,7 @@ to it, visit https://github.com/settings/tokens
 
 	}
 
-	return nil
+	return accessToken, nil
 }
 
 func isValidScopes(scopes []string) bool {
@@ -83,7 +84,7 @@ func isValidScopes(scopes []string) bool {
 	return found1 && found2
 }
 
-func createAndSetGist(ctx context.Context) error {
+func createAndSetGist(ctx context.Context, accessToken string) error {
 	fmt.Print(`
 == [Step: 2/2] Gist (optional) ==
 
@@ -108,11 +109,6 @@ func createAndSetGist(ctx context.Context) error {
 
 		if strings.ToUpper(answer[0:1]) == "N" {
 			return nil
-		}
-
-		accessToken, err := getAccessToken()
-		if err != nil {
-			return err
 		}
 
 		client, err := getClient(ctx, accessToken)
