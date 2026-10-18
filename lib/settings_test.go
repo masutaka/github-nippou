@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -204,6 +205,9 @@ func setGitConfig(t *testing.T, content string) {
 // stubGh puts a fake gh command running script at the front of PATH
 func stubGh(t *testing.T, script string) {
 	t.Helper()
+	if runtime.GOOS == "windows" {
+		t.Skip("The fake gh command is a shell script")
+	}
 	dir := t.TempDir()
 	path := filepath.Join(dir, "gh")
 	if err := os.WriteFile(path, []byte("#!/bin/sh\n"+script+"\n"), 0o755); err != nil {
@@ -295,8 +299,10 @@ func TestIsColorTerminal(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Setenv("NO_COLOR", tt.noColor)
 			t.Setenv("TERM", tt.term)
-			if actual := lib.IsColorTerminal(tt.writer); actual != tt.expected {
-				t.Errorf("expected %v but got %v", tt.expected, actual)
+			// Windows never shows colors
+			expected := tt.expected && runtime.GOOS != "windows"
+			if actual := lib.IsColorTerminal(tt.writer); actual != expected {
+				t.Errorf("expected %v but got %v", expected, actual)
 			}
 		})
 	}
