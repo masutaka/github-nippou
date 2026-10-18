@@ -13,11 +13,6 @@ import (
 func Init() error {
 	fmt.Print("** github-nippou Initialization **\n")
 
-	if err := setUser(); err != nil {
-		return err
-	}
-
-	time.Sleep(500 * time.Millisecond)
 	ctx := context.Background()
 
 	if err := setAccessToken(ctx); err != nil {
@@ -26,18 +21,34 @@ func Init() error {
 
 	time.Sleep(500 * time.Millisecond)
 
+	if err := setUser(ctx); err != nil {
+		return err
+	}
+
+	time.Sleep(500 * time.Millisecond)
+
 	return createAndSetGist(ctx)
 }
 
-func setUser() error {
+func setUser(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 1/3] GitHub user ==
+== [Step: 2/3] GitHub user ==
 
-If you are logged in to GitHub CLI, its user (` + "`gh api user`" + `) is used.
+If not set, the owner of the access token is used.
 
 `)
 
-	if _, err := getUser(); err == nil {
+	accessToken, err := getAccessToken()
+	if err != nil {
+		return err
+	}
+
+	client, err := getClient(ctx, accessToken)
+	if err != nil {
+		return err
+	}
+
+	if _, err := getUser(ctx, client); err == nil {
 		fmt.Print("Already initialized.\n")
 	} else {
 		var user string
@@ -79,7 +90,7 @@ The following command will be executed.
 
 func setAccessToken(ctx context.Context) error {
 	fmt.Print(`
-== [Step: 2/3] GitHub access token ==
+== [Step: 1/3] GitHub access token ==
 
 If you are logged in to GitHub CLI, its token (` + "`gh auth token`" + `) is used.
 Otherwise, to get new personal access token with ` + "`repo`" + ` and ` + "`gist`" + `

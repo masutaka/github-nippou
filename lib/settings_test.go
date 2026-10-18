@@ -1,11 +1,16 @@
 package lib_test
 
 import (
+	"context"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
+	"github.com/google/go-github/v92/github"
 	"github.com/masutaka/github-nippou/v4/lib"
 )
 
@@ -17,18 +22,18 @@ func TestGetUser(t *testing.T) {
 	os.Setenv("GITHUB_NIPPOU_USER", "taro")
 	defer os.Unsetenv("GITHUB_NIPPOU_USER")
 
-	actual, _ := lib.GetUser()
+	actual, _ := lib.GetUser(context.Background(), nil)
 	const expected = "taro"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
 	}
 }
 
-func TestGetUserFromGh(t *testing.T) {
+func TestGetUserFromAPI(t *testing.T) {
 	isolateGitConfig(t)
-	stubGh(t, `[ "$*" = "api user --jq .login" ] && echo taro`)
+	client := stubAPI(t, http.StatusOK, `{"login": "taro"}`)
 
-	actual, err := lib.GetUser()
+	actual, err := lib.GetUser(context.Background(), client)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -38,17 +43,12 @@ func TestGetUserFromGh(t *testing.T) {
 	}
 }
 
-func TestGetUserWithoutGhLogin(t *testing.T) {
+func TestGetUserWhenAPIFails(t *testing.T) {
 	isolateGitConfig(t)
-	stubGh(t, "exit 1")
+	client := stubAPI(t, http.StatusUnauthorized, `{"message": "Bad credentials"}`)
 
-	_, err := lib.GetUser()
-	if err == nil {
+	if _, err := lib.GetUser(context.Background(), client); err == nil {
 		t.Fatal("expected an error but got nil")
-	}
-	const expected = "gh auth login"
-	if !strings.Contains(err.Error(), expected) {
-		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
 	}
 }
 
@@ -118,6 +118,27 @@ func stubGh(t *testing.T, script string) {
 		t.Fatal(err)
 	}
 	t.Setenv("PATH", dir+string(os.PathListSeparator)+os.Getenv("PATH"))
+}
+
+// stubAPI returns a client whose GET /user responds with status and body
+func stubAPI(t *testing.T, status int, body string) *github.Client {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/user" {
+			http.NotFound(w, r)
+			return
+		}
+		w.WriteHeader(status)
+		io.WriteString(w, body)
+	}))
+	t.Cleanup(server.Close)
+
+	url := server.URL + "/"
+	client, err := github.NewClient(github.WithURLs(&url, &url))
+	if err != nil {
+		t.Fatal(err)
+	}
+	return client
 }
 
 func TestGetGistID(t *testing.T) {

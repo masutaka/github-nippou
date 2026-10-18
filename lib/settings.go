@@ -63,7 +63,8 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 	return yaml.Unmarshal([]byte(content), s)
 }
 
-func getUser() (string, error) {
+// getUser falls back to the owner of the client's access token
+func getUser(ctx context.Context, client *github.Client) (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {
 		return os.Getenv("GITHUB_NIPPOU_USER"), nil
 	}
@@ -74,18 +75,12 @@ func getUser() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	output, _ = exec.Command("gh", "api", "user", "--jq", ".login").Output()
-
-	if len(output) >= 1 {
-		return strings.TrimRight(string(output), "\n"), nil
+	user, _, err := client.Users.Get(ctx, "")
+	if err != nil {
+		return "", err
 	}
 
-	errText := `!!!! GitHub User required. Please execute one of the following commands. !!!!
-
-    $ gh auth login
-    $ github-nippou init`
-
-	return "", errors.New(errText)
+	return user.GetLogin(), nil
 }
 
 func getAccessToken() (string, error) {
