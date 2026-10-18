@@ -66,19 +66,23 @@ github-nippou はデフォルトで [GitHub CLI](https://cli.github.com/) のト
     $ github-nippou init
 
 > [!CAUTION]
-> personal access token も使えますが、おすすめしません。Git 設定に平文で保存されるうえ、期限が切れるたびに作り直す必要があるためです。
+> personal access token の設定（`GITHUB_NIPPOU_ACCESS_TOKEN` と `github-nippou.token`）は非推奨で、v5.0.0 で削除します。Git 設定に平文で保存されるうえ、期限が切れるたびに作り直す必要があるためです。
+>
+> ユーザーの設定（`GITHUB_NIPPOU_USER` と `github-nippou.user`）も非推奨で、v5.0.0 で削除します。代わりにアクセストークンの持ち主を使用します。
+>
+> 詳しくは [#379](https://github.com/masutaka/github-nippou/issues/379) を参照してください。
 
-初期化により [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)が更新されます。
+初期化では次のことを行います。
 
-1. `github-nippou.token` を追加（GitHub CLI にログイン済みなら省略）
-2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を追加（任意）
+1. アクセストークンに `repo` と `gist` のスコープがあるか確認
+2. Gist を作成し、出力形式をカスタマイズするための `github-nippou.settings-gist-id` を [Git グローバル設定ファイル](https://git-scm.com/docs/git-config#Documentation/git-config.txt-XDGCONFIGHOMEgitconfig)に追加（任意）
 
 ユーザーとアクセストークンは次の順で探します。
 
 | 順番 | ユーザー | アクセストークン |
 | --- | --- | --- |
-| 1 | 環境変数 `GITHUB_NIPPOU_USER` | 環境変数 `GITHUB_NIPPOU_ACCESS_TOKEN` |
-| 2 | Git 設定の `github-nippou.user` | Git 設定の `github-nippou.token` |
+| 1 | 環境変数 `GITHUB_NIPPOU_USER`（非推奨） | 環境変数 `GITHUB_NIPPOU_ACCESS_TOKEN`（非推奨） |
+| 2 | Git 設定の `github-nippou.user`（非推奨） | Git 設定の `github-nippou.token`（非推奨） |
 | 3 | アクセストークンの持ち主 | `gh auth token --hostname github.com` |
 
 ## 使い方

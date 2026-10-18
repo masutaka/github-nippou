@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -67,12 +68,14 @@ func (s *Settings) Init(gistID string, accessToken string) error {
 // getUser falls back to the owner of the client's access token
 func getUser(ctx context.Context, client *github.Client) (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_USER") != "" {
+		warnDeprecation("GITHUB_NIPPOU_USER", "Unset it to use the owner of the access token.")
 		return os.Getenv("GITHUB_NIPPOU_USER"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.user").Output()
 
 	if len(output) >= 1 {
+		warnDeprecation("github-nippou.user", "Run `git config --global --unset github-nippou.user` to use the owner of the access token.")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -91,12 +94,14 @@ func getUser(ctx context.Context, client *github.Client) (string, error) {
 
 func getAccessToken() (string, error) {
 	if os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN") != "" {
+		warnDeprecation("GITHUB_NIPPOU_ACCESS_TOKEN", "Run `gh auth login` and unset it. In CI, install GitHub CLI and pass the token via GH_TOKEN.")
 		return os.Getenv("GITHUB_NIPPOU_ACCESS_TOKEN"), nil
 	}
 
 	output, _ := exec.Command("git", "config", "github-nippou.token").Output()
 
 	if len(output) >= 1 {
+		warnDeprecation("github-nippou.token", "Run `gh auth login` and `git config --global --unset github-nippou.token`.")
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
@@ -106,12 +111,39 @@ func getAccessToken() (string, error) {
 		return strings.TrimRight(string(output), "\n"), nil
 	}
 
-	errText := `!!!! GitHub access token required. Please execute one of the following commands. !!!!
+	errText := `!!!! GitHub access token required. Please log in to GitHub CLI. !!!!
 
-    $ gh auth login
-    $ github-nippou init`
+Install it from https://cli.github.com/ if needed, and execute the following command.
+
+    $ gh auth login`
 
 	return "", errors.New(errText)
+}
+
+// warningWriter is where deprecation warnings are written
+var warningWriter io.Writer = os.Stderr
+
+func warnDeprecation(name, migration string) {
+	prefix := "warning:"
+	if isColorTerminal(warningWriter) {
+		// Yellow
+		prefix = "\x1b[33m" + prefix + "\x1b[0m"
+	}
+	fmt.Fprintf(warningWriter, "%s %s is deprecated and will be removed in v5.0.0\n  %s See https://github.com/masutaka/github-nippou/issues/379\n", prefix, name, migration)
+}
+
+// isColorTerminal reports whether w is a terminal that can show colors.
+// Windows is excluded because legacy consoles show escape codes as is.
+func isColorTerminal(w io.Writer) bool {
+	if os.Getenv("NO_COLOR") != "" || os.Getenv("TERM") == "dumb" || runtime.GOOS == "windows" {
+		return false
+	}
+	f, ok := w.(*os.File)
+	if !ok {
+		return false
+	}
+	info, err := f.Stat()
+	return err == nil && info.Mode()&os.ModeCharDevice != 0
 }
 
 func getGistID() string {

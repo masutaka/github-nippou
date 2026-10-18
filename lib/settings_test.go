@@ -1,6 +1,7 @@
 package lib_test
 
 import (
+	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -18,20 +19,46 @@ func TestInit(t *testing.T) {
 	t.Skip("This test is pending.")
 }
 
-func TestGetUser(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_USER", "taro")
-	defer os.Unsetenv("GITHUB_NIPPOU_USER")
+func TestGetUserWarnsEnvDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	t.Setenv("GITHUB_NIPPOU_USER", "taro")
+	warning := captureWarning(t)
 
-	actual, _ := lib.GetUser(context.Background(), nil)
-	const expected = "taro"
-	if actual != expected {
-		t.Errorf("expected %s but got %s", expected, actual)
+	actual, err := lib.GetUser(context.Background(), nil)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "taro" {
+		t.Errorf("expected %s but got %s", "taro", actual)
+	}
+	const expected = "GITHUB_NIPPOU_USER is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
+	}
+}
+
+func TestGetUserWarnsGitConfigDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	setGitConfig(t, "[github-nippou]\n\tuser = taro\n")
+	warning := captureWarning(t)
+
+	actual, err := lib.GetUser(context.Background(), nil)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "taro" {
+		t.Errorf("expected %s but got %s", "taro", actual)
+	}
+	const expected = "github-nippou.user is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
 	}
 }
 
 func TestGetUserFromAPI(t *testing.T) {
 	isolateGitConfig(t)
 	client := stubAPI(t, http.StatusOK, `{"login": "taro"}`)
+	warning := captureWarning(t)
 
 	actual, err := lib.GetUser(context.Background(), client)
 	if err != nil {
@@ -40,6 +67,9 @@ func TestGetUserFromAPI(t *testing.T) {
 	const expected = "taro"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
+	}
+	if warning.Len() != 0 {
+		t.Errorf("expected no warning but got %q", warning.String())
 	}
 }
 
@@ -71,20 +101,47 @@ func TestGetUserWhenAPIIsDown(t *testing.T) {
 	}
 }
 
-func TestGetAccessToken(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
-	defer os.Unsetenv("GITHUB_NIPPOU_ACCESS_TOKEN")
+func TestGetAccessTokenWarnsEnvDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	t.Setenv("GITHUB_NIPPOU_ACCESS_TOKEN", "1234abcd")
+	warning := captureWarning(t)
 
-	actual, _ := lib.GetAccessToken()
-	const expected = "1234abcd"
-	if actual != expected {
-		t.Errorf("expected %s but got %s", expected, actual)
+	actual, err := lib.GetAccessToken()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "1234abcd" {
+		t.Errorf("expected %s but got %s", "1234abcd", actual)
+	}
+	const expected = "warning: GITHUB_NIPPOU_ACCESS_TOKEN is deprecated and will be removed in v5.0.0\n" +
+		"  Run `gh auth login` and unset it. In CI, install GitHub CLI and pass the token via GH_TOKEN. See https://github.com/masutaka/github-nippou/issues/379\n"
+	if warning.String() != expected {
+		t.Errorf("expected warning %q but got %q", expected, warning.String())
+	}
+}
+
+func TestGetAccessTokenWarnsGitConfigDeprecation(t *testing.T) {
+	isolateGitConfig(t)
+	setGitConfig(t, "[github-nippou]\n\ttoken = 1234abcd\n")
+	warning := captureWarning(t)
+
+	actual, err := lib.GetAccessToken()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if actual != "1234abcd" {
+		t.Errorf("expected %s but got %s", "1234abcd", actual)
+	}
+	const expected = "github-nippou.token is deprecated"
+	if !strings.Contains(warning.String(), expected) {
+		t.Errorf("expected warning to contain %q but got %q", expected, warning.String())
 	}
 }
 
 func TestGetAccessTokenFromGh(t *testing.T) {
 	isolateGitConfig(t)
 	stubGh(t, `[ "$*" = "auth token --hostname github.com" ] && echo gho_1234abcd`)
+	warning := captureWarning(t)
 
 	actual, err := lib.GetAccessToken()
 	if err != nil {
@@ -93,6 +150,9 @@ func TestGetAccessTokenFromGh(t *testing.T) {
 	const expected = "gho_1234abcd"
 	if actual != expected {
 		t.Errorf("expected %s but got %s", expected, actual)
+	}
+	if warning.Len() != 0 {
+		t.Errorf("expected no warning but got %q", warning.String())
 	}
 }
 
@@ -113,9 +173,10 @@ func TestGetAccessTokenWithoutGhLogin(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected an error but got nil")
 	}
-	const expected = "gh auth login"
-	if !strings.Contains(err.Error(), expected) {
-		t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+	for _, expected := range []string{"https://cli.github.com/", "gh auth login"} {
+		if !strings.Contains(err.Error(), expected) {
+			t.Errorf("expected error to contain %q but got %q", expected, err.Error())
+		}
 	}
 }
 
@@ -130,6 +191,16 @@ func isolateGitConfig(t *testing.T) {
 	t.Chdir(t.TempDir())
 }
 
+// setGitConfig makes git config read content as the global config
+func setGitConfig(t *testing.T, content string) {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "gitconfig")
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("GIT_CONFIG_GLOBAL", path)
+}
+
 // stubGh puts a fake gh command running script at the front of PATH
 func stubGh(t *testing.T, script string) {
 	t.Helper()
@@ -139,6 +210,16 @@ func stubGh(t *testing.T, script string) {
 		t.Fatal(err)
 	}
 	t.Setenv("PATH", dir+string(os.PathListSeparator)+os.Getenv("PATH"))
+}
+
+// captureWarning returns a buffer that receives warnings instead of stderr
+func captureWarning(t *testing.T) *bytes.Buffer {
+	t.Helper()
+	var buf bytes.Buffer
+	original := *lib.WarningWriter
+	*lib.WarningWriter = &buf
+	t.Cleanup(func() { *lib.WarningWriter = original })
+	return &buf
 }
 
 // stubAPI returns a client whose GET /user responds with status and body
@@ -163,8 +244,7 @@ func stubAPI(t *testing.T, status int, body string) *github.Client {
 }
 
 func TestGetGistID(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
-	defer os.Unsetenv("GITHUB_NIPPOU_SETTINGS_GIST_ID")
+	t.Setenv("GITHUB_NIPPOU_SETTINGS_GIST_ID", "0123456789")
 
 	actual := lib.GetGistID()
 	const expected = "0123456789"
@@ -174,13 +254,51 @@ func TestGetGistID(t *testing.T) {
 }
 
 func TestGetParallelNum(t *testing.T) {
-	os.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
-	defer os.Unsetenv("GITHUB_NIPPOU_THREAD_NUM")
+	t.Setenv("GITHUB_NIPPOU_THREAD_NUM", "10")
 
 	actual, _ := lib.GetParallelNum()
 	const expected = 10
 	if actual != expected {
 		t.Errorf("expected %d but got %d", expected, actual)
+	}
+}
+
+func TestIsColorTerminal(t *testing.T) {
+	// /dev/null is a character device like a terminal
+	device, err := os.Open(os.DevNull)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { device.Close() })
+
+	file, err := os.Create(filepath.Join(t.TempDir(), "file"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { file.Close() })
+
+	tests := []struct {
+		name     string
+		writer   io.Writer
+		noColor  string
+		term     string
+		expected bool
+	}{
+		{"character device", device, "", "xterm-256color", true},
+		{"character device with NO_COLOR", device, "1", "xterm-256color", false},
+		{"character device with TERM=dumb", device, "", "dumb", false},
+		{"regular file", file, "", "xterm-256color", false},
+		{"buffer", &bytes.Buffer{}, "", "xterm-256color", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Setenv("NO_COLOR", tt.noColor)
+			t.Setenv("TERM", tt.term)
+			if actual := lib.IsColorTerminal(tt.writer); actual != tt.expected {
+				t.Errorf("expected %v but got %v", tt.expected, actual)
+			}
+		})
 	}
 }
 

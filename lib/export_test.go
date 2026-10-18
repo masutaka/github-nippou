@@ -6,3 +6,5 @@ var GetGistID = getGistID
 var GetParallelNum = getParallelNum
 var GetClientScopes = getClientScopes
 var GetDefaultSettingsURL = getDefaultSettingsURL
+var WarningWriter = &warningWriter
+var IsColorTerminal = isColorTerminal
