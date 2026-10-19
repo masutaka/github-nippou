@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.4.1](https://github.com/masutaka/github-nippou/compare/v4.4.0...v4.4.1) - 2026-10-19
+
+### Maintenance :technologist:
+- chore: Grant permissions on the job so that later jobs do not inherit pull-requests: write by @masutaka in https://github.com/masutaka/github-nippou/pull/384
+- feat: Review dependency update PRs automatically with Claude to make them easier to check by @masutaka in https://github.com/masutaka/github-nippou/pull/383
+- refactor: Follow the secret rename in the reusable workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/386
+- feat: Write the dependency update PR review in English by @masutaka in https://github.com/masutaka/github-nippou/pull/387
+
 ## [v4.4.0](https://github.com/masutaka/github-nippou/compare/v4.3.3...v4.4.0) - 2026-10-18
 
 ### New Features :tada:
