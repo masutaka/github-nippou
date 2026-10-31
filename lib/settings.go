@@ -15,7 +15,7 @@ import (
 	// Import ./config/*
 	_ "github.com/masutaka/github-nippou/v4/statik"
 
-	"github.com/google/go-github/v92/github"
+	"github.com/google/go-github/v93/github"
 	"github.com/rakyll/statik/fs"
 	"go.yaml.in/yaml/v3"
 	"golang.org/x/oauth2"
