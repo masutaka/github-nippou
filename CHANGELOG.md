@@ -1,5 +1,19 @@
 # Changelog
 
+## [v4.4.1](https://github.com/masutaka/github-nippou/compare/v4.4.0...v4.4.1) - 2026-11-01
+
+### Maintenance :technologist:
+- chore: Grant permissions on the job so that later jobs do not inherit pull-requests: write by @masutaka in https://github.com/masutaka/github-nippou/pull/384
+- feat: Review dependency update PRs automatically with Claude to make them easier to check by @masutaka in https://github.com/masutaka/github-nippou/pull/383
+- refactor: Follow the secret rename in the reusable workflow by @masutaka in https://github.com/masutaka/github-nippou/pull/386
+- feat: Write the dependency update PR review in English by @masutaka in https://github.com/masutaka/github-nippou/pull/387
+- chore(deps): update actions/create-github-app-token action to v3.3.0 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/391
+- chore(deps): update songmu/tagpr action to v1.21.4 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/390
+- chore(deps): update go toolchain directive to v1.27.3 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/389
+- chore(deps): update goreleaser/goreleaser-action action to v7.3.0 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/392
+- chore: Use preflight_steps to silence Homebrew's preflight deprecation warning by @masutaka in https://github.com/masutaka/github-nippou/pull/394
+- fix(deps): update module github.com/google/go-github/v92 to v93 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/393
+
 ## [v4.4.0](https://github.com/masutaka/github-nippou/compare/v4.3.3...v4.4.0) - 2026-10-18
 
 ### New Features :tada:
