@@ -76,9 +76,9 @@ homebrew_casks:
         # be a preflight hook: Homebrew orders cask artifacts by class, and
         # generate_completions_from_executable runs the binary before any
         # postflight hook fires.
-        install: |
-          if OS.mac?
-            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/github-nippou"]
+        install_steps: |
+          on_macos do
+            run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{ .StagedPath }}/github-nippou"]
           end
     generate_completions_from_executable:
       shell_parameter_format: cobra
