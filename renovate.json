@@ -1,10 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "PRs are created at any time on the 1st and 16th of each month",
+  "description": "PRs are created at any time on the 11th of each month",
   "extends": ["config:recommended"],
   "labels": ["dependencies"],
   "timezone": "Asia/Tokyo",
-  "schedule": ["* * 1,16 * *"],
+  "schedule": ["* * 11 * *"],
   "minimumReleaseAge": "7 days",
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
