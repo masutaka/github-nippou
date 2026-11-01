@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.4.2](https://github.com/masutaka/github-nippou/compare/v4.4.1...v4.4.2) - 2026-11-01
+
+### Maintenance :technologist:
+- chore: Move Renovate schedule to the 11th to spread PRs across repos by @masutaka in https://github.com/masutaka/github-nippou/pull/395
+- chore: Move Renovate config to .github/renovate.jsonc by @masutaka in https://github.com/masutaka/github-nippou/pull/397
+
 ## [v4.4.1](https://github.com/masutaka/github-nippou/compare/v4.4.0...v4.4.1) - 2026-11-01
 
 ### Maintenance :technologist:
