@@ -1,5 +1,17 @@
 # Changelog
 
+## [v4.4.2](https://github.com/masutaka/github-nippou/compare/v4.4.1...v4.4.2) - 2026-11-17
+
+### Maintenance :technologist:
+- chore: Move Renovate schedule to the 11th to spread PRs across repos by @masutaka in https://github.com/masutaka/github-nippou/pull/395
+- chore: Move Renovate config to .github/renovate.jsonc by @masutaka in https://github.com/masutaka/github-nippou/pull/397
+- chore: Introduce actions.lock to pin transitive dependencies to commits by @masutaka in https://github.com/masutaka/github-nippou/pull/398
+- chore(deps): update songmu/tagpr action to v1.22.0 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/400
+- fix(deps): update module go.yaml.in/yaml/v3 to v3.0.6 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/399
+- chore: Run dependency updates on the 1st and 16th to avoid piling up monthly updates by @masutaka in https://github.com/masutaka/github-nippou/pull/401
+- fix(deps): update module go.yaml.in/yaml/v3 to v4 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/403
+- fix(deps): update module golang.org/x/oauth2 to v0.38.0 by @renovate[bot] in https://github.com/masutaka/github-nippou/pull/402
+
 ## [v4.4.1](https://github.com/masutaka/github-nippou/compare/v4.4.0...v4.4.1) - 2026-11-01
 
 ### Maintenance :technologist:
