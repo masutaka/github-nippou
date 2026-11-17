@@ -17,7 +17,7 @@ import (
 
 	"github.com/google/go-github/v93/github"
 	"github.com/rakyll/statik/fs"
-	"go.yaml.in/yaml/v3"
+	"go.yaml.in/yaml/v4"
 	"golang.org/x/oauth2"
 )
 
